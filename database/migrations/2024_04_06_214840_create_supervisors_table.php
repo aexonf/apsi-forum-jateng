@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('supervisors', function (Blueprint $table) {
             $table->id();
             $table->string("id_number");
-            $table->string("namme");
+            $table->string("name");
             $table->string("email")->unique();
             $table->string("phone_number")->unique();
             $table->string("label");
