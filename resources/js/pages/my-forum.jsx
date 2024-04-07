@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Eye, Heart, MessageSquare } from "lucide-react";
+import React from "react";
+import { Trash2, PenLine, Eye, Heart, MessageSquare } from "lucide-react";
 import Layout from "@/components/elements/layout";
 import {
     Select,
@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "@inertiajs/inertia-react";
+import { Badge } from "@/components/ui/badge";
 
 const options = [
     {
@@ -24,17 +25,13 @@ const options = [
 ];
 
 export default function Home() {
-    const [selectedOption, setSelectedOption] = useState(options[0]);
     return (
         <Layout>
             <div className="flex items-center justify-between gap-3 my-4">
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                     Forum
                 </h3>
-                <Select
-                    defaultValue={selectedOption.value}
-                    onValueChange={setSelectedOption}
-                >
+                <Select defaultValue={"terbaru"}>
                     <SelectTrigger
                         aria-label="Select status"
                         className="w-max gap-4"
@@ -80,7 +77,10 @@ export default function Home() {
             <div className="w-full flex flex-col gap-y-4">
                 {Array.from({ length: 3 }).map((_, index) => (
                     <Link key={index} href="/post">
-                        <Card className="w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden group">
+                        <Card
+                            key={index}
+                            className="w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden group"
+                        >
                             <div className="md:flex">
                                 <div className="md:flex-shrink-0">
                                     <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
@@ -100,15 +100,38 @@ export default function Home() {
                                             />
                                             <div className="ml-4">
                                                 <div className="uppercase tracking-wide text-sm text-black dark:text-white font-semibold">
-                                                    Eka Prasetyo S.Pd
+                                                    Adi Robi S.Pd
                                                 </div>
                                                 <div className="text-gray-400 dark:text-gray-300">
-                                                    Kepala Sekolah SMK Bintara
+                                                    Kepala Sekolah SD Malangan
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="hidden group-hover:flex items-start gap-2 ">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                asChild
+                                            >
+                                                <Link href="/edit">
+                                                    <PenLine className="w-6 h-6 " />
+                                                </Link>
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                asChild
+                                            >
+                                                <Link
+                                                    href="/delete"
+                                                    method="DELETE"
+                                                >
+                                                    <Trash2 className="w-6 h-6 " />
+                                                </Link>
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <p className="mt-4 text-gray-500 dark:text-gray-300">
+                                    <p className="my-4 text-gray-500 dark:text-gray-300">
                                         Lorem ipsum dolor sit amet consectetur
                                         adipisicing elit. Nobis sed repellendus
                                         necessitatibus libero exercitationem
@@ -117,6 +140,11 @@ export default function Home() {
                                         reiciendis quaerat, assumenda cum
                                         tenetur quasi nostrum. Hic.
                                     </p>
+                                    <Badge variant={"success"}>Disetujui</Badge>
+                                    <Badge variant={"warning"}>Pending</Badge>
+                                    <Badge variant={"destructive"}>
+                                        Ditolak
+                                    </Badge>
                                     <div className="flex mt-6 justify-between items-center">
                                         <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
                                             <div className="flex items-center text-red-500">
