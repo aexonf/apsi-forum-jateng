@@ -20,6 +20,7 @@ Route::controller(AuthController::class)->prefix("/v1/auth")->group(function () 
 Route::prefix("/v1")->group(function () {
 
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
+        Route::get("/", "index");
         Route::post("/", "store");
         Route::get("/{id}", "detail");
         Route::put("/{id}", "update");

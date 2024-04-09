@@ -13,6 +13,48 @@ use Illuminate\Support\Facades\Auth;
 class ForumController extends Controller
 {
 
+    public function index()
+    {
+        try {
+            $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
+
+            $likeCount = Like::where("discussions_id", $discussion->id)->count();
+            $commentCount = DiscussionComments::where("discussion_id", $discussion->id)->count();
+
+
+            $data = [
+                "discussion" => $discussion,
+                "like_count" => $likeCount,
+                "comment_count" => $commentCount,
+                "view_count" => count($discussion->view_count),
+            ];
+
+            // Check if discussion exists
+            if ($discussion) {
+                return response(200)->json([
+                    "status" => "success",
+                    "message" => "Discussion retrieved successfully",
+                    "data" => $data
+                ]);
+            }
+
+            // Return error response if discussion not found
+            return response(500)->json([
+                "status" => "error",
+                "message" => "Discussion not found",
+                "data" => null
+            ]);
+        } catch (\Throwable $th) {
+            // Return error response if an exception occurred during discussion retrieval
+            return response(500)->json([
+                "status" => "error",
+                "message" => "Discussion not found",
+                "data" => null
+            ]);
+        }
+    }
+
+
     /**
      * Store a newly created discussion in the database.
      *
