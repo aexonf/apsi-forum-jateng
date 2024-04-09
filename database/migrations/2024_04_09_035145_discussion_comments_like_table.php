@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('discussion_comments', function (Blueprint $table) {
+        Schema::create('like', function (Blueprint $table) {
             $table->id();
-            $table->longText("content");
 
             $table->unsignedBigInteger('supervisor_id');
             $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade')->onUpdate("cascade");
 
-            $table->unsignedBigInteger('discussion_id');
-            $table->foreign('discussion_id')->references('id')->on('discussions')->onDelete('cascade')->onUpdate("cascade");
+
+            $table->unsignedBigInteger('discussion_comments_id');
+            $table->foreign('discussion_comments_id')->references('id')->on('discussion_comments')->onDelete('cascade')->onUpdate("cascade");
+
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('discussion_comments');
+        //
     }
 };
