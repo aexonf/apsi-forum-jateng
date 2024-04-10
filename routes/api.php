@@ -30,7 +30,8 @@ Route::prefix("/v1")->group(function () {
 
 
     Route::controller(DiscussionCommentController::class)->prefix(("/comment"))->group(function () {
-        Route::post("/{id}", "create"); // id dari discussion nya / blog nya
+        Route::get("/{id}", "detail"); // id  blog nya
+        Route::post("/{id}", "create"); // id dari  blog nya
         Route::put("/{id}", "update"); // id dari comment nya
         Route::delete("/{id}", "destroy"); // id dari comment nya
         Route::post("/{id}", "like"); // id dari comment nya
