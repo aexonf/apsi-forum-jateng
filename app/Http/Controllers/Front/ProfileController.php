@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     public function index() {
-        return response(200)->json([
+        return response()->json([
             "status" => "success",
             "message" => "Success show profile",
             "data" => auth()->user()->supervisor
-        ]);
+        ],200);
     }
 
 

@@ -31,15 +31,17 @@ class AuthController extends Controller
             $passwordCheck = User::where("id", $user->user_id)->first();
 
             if(Hash::check($request->password, $passwordCheck->password)) {
+                $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
+
                 if(!$passwordCheck->is_password_change){
                     return response(301)->json([
-                        "status" => "error",
+                        "status" => "reset-password",
                         "message" => "Password belum di reset",
-                        "data" => null
+                        "token" => $token,
+                        "data" => null,
                     ]);
                 }
 
-                $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
 
                 return response()->json([
                     "status" => "success",

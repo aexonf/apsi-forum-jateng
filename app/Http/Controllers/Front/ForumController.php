@@ -31,26 +31,26 @@ class ForumController extends Controller
 
             // Check if discussion exists
             if ($discussion) {
-                return response(200)->json([
+                return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
                     "data" => $data
-                ]);
+                ], 200);
             }
 
             // Return error response if discussion not found
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 
@@ -89,26 +89,26 @@ class ForumController extends Controller
 
             // Check if discussion creation was successful
             if ($create) {
-                return response(201)->json([
+                return response()->json([
                     "status" => "success",
                     "message" => "Discussion created successfully",
                     "data" => $create
-                ]);
+                ], 201);
             }
 
             // Return error response if discussion creation failed
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion creation failed",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion creation
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion creation failed",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 
@@ -138,26 +138,26 @@ class ForumController extends Controller
 
             // Check if discussion exists
             if ($discussion) {
-                return response(200)->json([
+                return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
                     "data" => $data
-                ]);
+                ], 200);
             }
 
             // Return error response if discussion not found
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 
@@ -188,26 +188,26 @@ class ForumController extends Controller
 
             // Check if discussion update was successful
             if ($update) {
-                return response(201)->json([
+                return response()->json([
                     "status" => "success",
                     "message" => "Discussion updated successfully",
                     "data" => $update
-                ]);
+                ], 201);
             }
 
             // Return error response if discussion update failed
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion update failed",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion update
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion update failed",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 
@@ -233,18 +233,18 @@ class ForumController extends Controller
             }
 
             // Return error response if discussion deletion failed
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion deletion failed",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion deletion
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion deletion failed",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 
@@ -281,18 +281,18 @@ class ForumController extends Controller
             }
 
             // Return error response if discussion like failed
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion like failed",
                 "data" => null
-            ]);
+            ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion like
-            return response(500)->json([
+            return response()->json([
                 "status" => "error",
                 "message" => "Discussion like failed",
                 "data" => null
-            ]);
+            ], 500);
         }
     }
 }
