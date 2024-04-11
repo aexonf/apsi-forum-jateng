@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\DiscussionComments;
 use App\Models\Discussions;
-use App\Models\Like;
+use App\Models\LikeDiscussions;
 use App\Models\Supervisors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class ForumController extends Controller
         try {
             $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
 
-            $likeCount = Like::where("discussions_id", $discussion->id)->count();
+            $likeCount = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $commentCount = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
 
@@ -125,7 +125,7 @@ class ForumController extends Controller
             // Retrieve discussion with associated supervisor and comments
             $discussion = Discussions::with(["supervisor", "comments"])->where("id", $id)->first();
 
-            $likeCount = Like::where("discussions_id", $discussion->id)->count();
+            $likeCount = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $commentCount = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
 
@@ -258,7 +258,7 @@ class ForumController extends Controller
     {
         try {
             // Check if the user has already liked the discussion
-            $likeFind = Like::where("discussions_id", $id)->where("supervisor_id", auth()->user()->supervisor->id)->first();
+            $likeFind = LikeDiscussions::where("discussions_id", $id)->where("supervisor_id", auth()->user()->supervisor->id)->first();
 
             // If user has already liked the discussion, unlike it
             if ($likeFind) {
