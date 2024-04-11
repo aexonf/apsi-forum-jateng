@@ -40,7 +40,7 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
 
     Route::controller(ProfileController::class)->prefix("/user")->group(function() {
         Route::get("/", "index");
-        Route::pit("/", "update");
+        Route::put("/", "update");
     });
 
 });
