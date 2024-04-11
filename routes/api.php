@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Front\DiscussionCommentController;
 use App\Http\Controllers\Front\ForumController;
+use App\Http\Controllers\Front\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,10 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
         Route::delete("/{id}", "destroy"); // id dari comment nya
         Route::post("/{id}", "like"); // id dari comment nya
     });
+
+    Route::controller(ProfileController::class)->prefix("/user")->group(function() {
+        Route::get("/", "index");
+        Route::pit("/", "update");
+    });
+
 });
