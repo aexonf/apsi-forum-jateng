@@ -7,17 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
-});
+    return auth()->user();
+})->middleware("auth:sanctum");
 
 
 Route::controller(AuthController::class)->prefix("/v1/auth")->group(function () {
     Route::post("/login", "login");
-    Route::put("/reset-password/{id}", "resetPassword");
+    Route::put("/reset-password", "resetPassword")->middleware("auth:sanctum");
 });
 
 
-Route::prefix("/v1")->group(function () {
+Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
 
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
         Route::get("/", "index");

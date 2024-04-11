@@ -12,7 +12,8 @@ class AuthController extends Controller
 {
 
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $request->validate([
             "password" => "required"
         ]);
@@ -30,10 +31,10 @@ class AuthController extends Controller
 
             $passwordCheck = User::where("id", $user->user_id)->first();
 
-            if(Hash::check($request->password, $passwordCheck->password)) {
+            if (Hash::check($request->password, $passwordCheck->password)) {
                 $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
 
-                if(!$passwordCheck->is_password_change){
+                if (!$passwordCheck->is_password_change) {
                     return response(301)->json([
                         "status" => "reset-password",
                         "message" => "Password belum di reset",
@@ -67,17 +68,18 @@ class AuthController extends Controller
                 "data" => null
             ]);
         }
+        $token = $user->createToken($user->username)->plainTextToken;
 
         if (Hash::check($request->password, $user->password)) {
             if (!$user->is_password_change) {
                 return response()->json([
                     "status" => "error",
                     "message" => "Password belum di reset",
-                    "data" => null
+                    "data" => null,
+                    "token" => $token
                 ]);
             }
 
-            $token = $user->createToken($user->username)->plainTextToken;
 
             return response()->json([
                 "status" => "success",
@@ -95,30 +97,37 @@ class AuthController extends Controller
     }
 
 
-    public function resetPassword($id, Request $request) {
+    public function resetPassword(Request $request)
+    {
         $request->validate([
             "password" => "required"
         ]);
 
-        $user = User::where("id", $id)->update([
-            "password" => Hash::make($request->password),
-            "is_password_change" => true
-        ]);
+        try {
 
-        if ($user) {
+            $user = User::where("id", auth()->user()->id)->update([
+                "password" => Hash::make($request->password),
+                "is_password_change" => true
+            ]);
+
+            if ($user) {
+                return response()->json([
+                    "status" => "success",
+                    "message" => "password berhasil di reset",
+                    "data" => null
+                ]);
+            }
+        } catch (\Throwable $th) {
             return response()->json([
-                "status" => "success",
-                "message" => "password berhasil di reset",
-                "data" => null
+                "status" => "error",
+                "message" => "password gagal di reset",
+                "data" => $th->getMessage()
             ]);
         }
-
-        return response()->json([
-            "status" => "error",
-            "message" => "password gagal di reset",
-            "data" => null
-        ]);
-
     }
 
+
+    public function index(Request $request)
+    {
+    }
 }
