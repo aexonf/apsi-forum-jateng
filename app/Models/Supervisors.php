@@ -10,6 +10,9 @@ class Supervisors extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+
     public function discussions() : BelongsTo
     {
         return $this->belongsTo(Discussions::class);
