@@ -51,10 +51,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" value="{{ $data->status }}" readonly>
+                                    <input type="text" class="form-control text-white @if($data->status == 'pending') bg-warning @elseif($data->status == 'approved') bg-success @elseif($data->status == 'rejected') bg-danger @endif" id="status" value="{{ $data->status }}" readonly>
                                 </div>
                             </div>
-                            <!-- Tambahkan detail siswa lainnya di sini sesuai kebutuhan -->
                         </div>
                     </div>
                 </div>
@@ -64,12 +63,16 @@
                         <h2>Terima atau Tolak Forum</h2>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <form action="" method="post">
-                                <button type="button" class="btn btn-icon btn-danger mr-2 mb-2"> <i class="fa-solid fa-circle-xmark"></i></button>
+                        <div class="mb-3 d-flex">
+                            <form action="{{ route("admin.forum.rejected", $id) }}" method="post">
+                                @csrf
+                                @method("PUT")
+                                <button type="submit" class="btn btn-icon btn-danger mr-2 mb-2"> <i class="fa-solid fa-circle-xmark"></i></button>
                             </form>
-                            <form action="" method="post">
-                                <button type="button" class="btn btn-icon btn-success mr-2 mb-2"> <i class="fa-solid fa-thumbs-up"></i></button>
+                            <form action="{{ route("admin.forum.approved", $id) }}" method="post">
+                                @csrf
+                                @method("PUT")
+                                <button type="submit" class="btn btn-icon btn-success mr-2 mb-2"> <i class="fa-solid fa-thumbs-up"></i></button>
                             </form>
                         </div>
                         {{-- filter --}}

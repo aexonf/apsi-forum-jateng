@@ -48,10 +48,38 @@
                                             Export</button>
                                     </form>
                                 </div>
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
+                                        data-toggle="collapse" data-target="#section-filter"><i class="fas fa-filter"></i>
+                                        Filter</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="collapse mb-3 pb-3 border-bottom show" id="section-filter">
+                            <form class="needs-validation" novalidate="" method="GET"
+                                action="{{ route("admin.forum.index") }}" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-2">Status</label>
+                                            <select class="form-control select2" id="status" name="status"
+                                                required onchange="handleChangeFilter(this)">
+                                                <option value=""></option>
+                                                <option value="pending" {{ request()->query('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
+                                                <option value="approved" {{ request()->query('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
+                                                <option value="rejected" {{ request()->query('status') === 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route("admin.forum.index") }}" class="btn btn-danger ml-2">Reset</a>
+                                    <button type="submit" class="btn btn-primary ml-2">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
                         <div>
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
@@ -65,7 +93,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($forums as $index => $forum)
-                                    {{ $index }}
                                         <tr>
                                             <td class="text-center">{{ $index + 1 }}</td>
                                             <td>{{ $forum->title }}</td>
@@ -78,20 +105,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex items-center">
-                                                    {{-- <button type="button" class="btn btn-icon btn-primary mr-2 mb-2"
-                                                        data-toggle="modal" data-target="#modal-edit"
-                                                        onclick="
-                                                        $('#modal-edit #form-edit').attr('action', 'forum/{{ $forum->id }}/update');
-                                                        $('#modal-edit #form-edit #id_number').attr('value', '{{ $student->id_number }}');
-                                                        $('#modal-edit #form-edit #name').attr('value', '{{ $student->name }}');
-                                                        $('#modal-edit #form-edit #status').attr('value', '{{ $student->status }}');
-                                                        $('#modal-edit #form-edit #nis').attr('value', '{{ $student->nis }}');
-                                                        $('#modal-edit #form-edit #username').attr('value', '{{ $student->user->username }}');
-                                                        "><i
-                                                            class="fas fa-edit"></i></button> --}}
-                                                            <a href="{{ route("admin.forum.detail", $forum->id) }}"><i class="fas fa-info-circle"></i></a>
-
-
+                                                    <a href="{{ route('admin.forum.detail', $forum->id) }}" class="text-decoration-none"><i class="fas fa-info-circle fa-lg"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -252,4 +266,12 @@
     <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+    <script>
+        const handleChangeFilter = (e) => {
+            const currentURL = new URL(window.location.href);
+            currentURL.searchParams.set(e.name, e.value);
+            window.history.pushState({}, '', currentURL);
+            location.reload();
+        }
+    </script>
 @endpush

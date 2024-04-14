@@ -31,6 +31,7 @@ class ForumController extends Controller
         $formData = Discussions::with(["supervisor", "comments.supervisors"])->find($id);
         return view("pages.forum.detail", [
             "data" => $formData,
+            "id" => $id,
         ]);
     }
 
