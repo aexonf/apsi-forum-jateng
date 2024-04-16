@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Exports\FormatImportSupervissorExport;
 use App\Http\Controllers\Controller;
+use App\Imports\SupervissorImport;
 use App\Models\Supervisors;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -130,9 +132,20 @@ class SupervisorController extends Controller
     }
 
 
-    public function export()
+    public function downloadFormat()
     {
-        // return Excel::download(new ActiveStudentsExport, 'Simaku - Siswa Active Format.xlsx');
+        return Excel::download(new FormatImportSupervissorExport, 'ApsiForumJateng - Pengawas Import Format.xlsx');
     }
 
+    public function import()
+    {
+        try {
+            Excel::import(new SupervissorImport, request()->file('supervissor'));
+
+            return redirect()->back()->with('success', 'Data Pengawas berhasil diimport!');
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', "Data Pengawas gagal diimport!");
+        }
+    }
 }

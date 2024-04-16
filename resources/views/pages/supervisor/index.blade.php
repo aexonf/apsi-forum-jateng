@@ -48,10 +48,40 @@
                                             Export</button>
                                     </form>
                                 </div>
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
+                                        data-toggle="collapse" data-target="#section-filter"><i class="fas fa-filter"></i>
+                                        Filter</button>
                             </div>
                         </div>
                     </div>
+                </div>
                     <div class="card-body">
+                        <div class="collapse mb-3 pb-3 border-bottom show" id="section-filter">
+                            <form class="needs-validation" novalidate="" method="GET"
+                                action="{{ route("admin.supervisor.index") }}" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-2">Level</label>
+                                            <select class="form-control select2" id="level" name="level"
+                                                required onchange="handleChangeFilter(this)">
+                                                <option value=""></option>
+                                                <option value="TK">TK</option>
+                                                <option value="SD">SD</option>
+                                                <option value="SMP">SMP</option>
+                                                <option value="SMA">SMA</option>
+                                                <option value="SMK">SMK</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route("admin.supervisor.index") }}" class="btn btn-danger ml-2">Reset</a>
+                                    <button type="submit" class="btn btn-primary ml-2">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
                         <div>
                             <table class="table table-striped table-bordered" id="datatable">
                                 <thead>
@@ -208,15 +238,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST" action=""
+                    <form class="needs-validation" novalidate="" method="POST" action="{{ route("admin.supervisor.import") }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
-                            <label for="students">File </label>
-                            <input type="file" id="students" class="form-control" name="students" required>
+                            <label for="supervissor">File </label>
+                            <input type="file" id="supervissor" class="form-control" name="supervissor" required>
                         </div>
                         <div>
-                            <a href="" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
+                            <a href="{{ route("admin.supervisor.download.format") }}" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
                                     class="fas fa-download"></i>
                                 Unduh Template</a>
                             {{-- <a href="#" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
@@ -331,4 +361,12 @@
     <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
+    <script>
+        const handleChangeFilter = (e) => {
+            const currentURL = new URL(window.location.href);
+            currentURL.searchParams.set(e.name, e.value);
+            window.history.pushState({}, '', currentURL);
+            location.reload();
+        }
+    </script>
 @endpush
