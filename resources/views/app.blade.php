@@ -13,5 +13,5 @@
 <body>
     @inertia
 </body>
-
+<script> const global = globalThis; </script>
 </html>

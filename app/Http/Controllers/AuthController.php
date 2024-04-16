@@ -26,7 +26,7 @@ class AuthController extends Controller
                     "status" => "error",
                     "message" => "User with the provided ID number not found",
                     "data" => null
-                ]);
+                ], 401);
             }
 
             $passwordCheck = User::where("id", $user->user_id)->first();
@@ -35,12 +35,12 @@ class AuthController extends Controller
                 $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
 
                 if (!$passwordCheck->is_password_change) {
-                    return response(301)->json([
+                    return response()->json([
                         "status" => "reset-password",
                         "message" => "Password belum di reset",
                         "token" => $token,
                         "data" => null,
-                    ]);
+                    ], 301);
                 }
 
 
@@ -49,14 +49,14 @@ class AuthController extends Controller
                     "message" => "Login Success",
                     "token" => $token,
                     "data" => $user
-                ]);
+                ], 200);
             }
 
             return response()->json([
                 "status" => "error",
                 "message" => "Login error",
                 "data" => null
-            ]);
+            ], 500);
         }
 
         $user = User::where("username", $request->username)->first();
@@ -66,18 +66,18 @@ class AuthController extends Controller
                 "status" => "error",
                 "message" => "User with the provided username not found",
                 "data" => null
-            ]);
+            ], 301);
         }
         $token = $user->createToken($user->username)->plainTextToken;
 
         if (Hash::check($request->password, $user->password)) {
             if (!$user->is_password_change) {
                 return response()->json([
-                    "status" => "error",
+                    "status" => "reset-password",
                     "message" => "Password belum di reset",
                     "data" => null,
                     "token" => $token
-                ]);
+                ], 401);
             }
 
 
@@ -86,14 +86,14 @@ class AuthController extends Controller
                 "message" => "Login Success",
                 "token" => $token,
                 "data" => $user,
-            ]);
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => "error",
+                "message" => 'Invalid Credentials',
+                "data" => null
+            ], 401);
         }
-
-        return response()->json([
-            "status" => "error",
-            "message" => "Login error",
-            "data" => null
-        ]);
     }
 
 
@@ -124,6 +124,17 @@ class AuthController extends Controller
                 "data" => $th->getMessage()
             ]);
         }
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+            "status" => "success",
+            "message" => "Logout Success",
+            "data" => null
+        ]);
     }
 
 

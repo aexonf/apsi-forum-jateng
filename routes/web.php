@@ -17,8 +17,10 @@ Route::get('/new', function () {
 Route::get('/edit', function () {
     return Inertia::render('edit');
 });
-Route::get('/post', function () {
-    return Inertia::render('detail');
+Route::get('/post/{id}', function ($id) {
+    return Inertia::render('detail', [
+        'id' => $id
+    ]);
 });
 Route::get('/publikasi', function () {
     return Inertia::render('publication');

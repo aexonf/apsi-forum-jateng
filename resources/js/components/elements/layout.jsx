@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./header";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 function Layout({ children, withHeader = true, className }) {
     return (
@@ -12,6 +13,8 @@ function Layout({ children, withHeader = true, className }) {
                     className
                 )}
             >
+                <Toaster richColors position="top-center" />
+
                 {children}
             </main>
         </>

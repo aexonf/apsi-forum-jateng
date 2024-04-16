@@ -13,12 +13,12 @@ class LikeDiscussions extends Model
     protected $guarded = [];
 
 
-    public function discussions() : BelongsTo
+    public function discussions(): BelongsTo
     {
-        return $this->belongsTo(Discussions::class);
+        return $this->belongsTo(DiscussionComments::class);
     }
 
-    public function supervisors() : BelongsTo
+    public function supervisors(): BelongsTo
     {
         return $this->belongsTo(Supervisors::class);
     }
