@@ -140,7 +140,9 @@ class ForumController extends Controller
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
                     "data" => $discussion,
-                    "comments" => $comments
+                    "comments" => $comments,
+                    "like_count" => $discussion['like_count'],
+                    "comment_count" => $discussion['comment_count'],
                 ], 200);
             }
 

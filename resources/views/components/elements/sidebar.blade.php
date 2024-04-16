@@ -24,5 +24,10 @@
                     <span>Pengawas</span></a>
             </li>
 
+            <li class="{{ request()->path() === 'dashboard/publication' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.publication.index') }}"><i class="fa-solid fa-person-circle-plus"></i></i>
+                    <span>Publication</span></a>
+            </li>
+
     </aside>
 </div>

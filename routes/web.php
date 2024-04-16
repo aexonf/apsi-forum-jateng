@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Back\ForumController;
+use App\Http\Controllers\Back\PublicationController;
 use App\Http\Controllers\Back\SupervisorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,13 @@ Route::prefix("/dashboard")->group(function () {
         Route::get("/download/format", "downloadFormat")->name("admin.supervisor.download.format");
         Route::post("/import", "import")->name("admin.supervisor.import");
         Route::get("/export", "export")->name("admin.supervisor.export");
+    });
+
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function() {
+        Route::get("/", "index")->name("admin.publication.index");
+        Route::post("/", "create")->name("admin.publication.create");
+        Route::put("/update/{id}", "update")->name("admin.publication.update");
+        Route::delete("/delete/{id}", "delete")->name("admin.publication.delete");
     });
 
 
