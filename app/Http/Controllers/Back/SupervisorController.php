@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Exports\FormatImportSupervissorExport;
+use App\Exports\SupervissorExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SupervissorImport;
 use App\Models\Supervisors;
@@ -134,7 +135,7 @@ class SupervisorController extends Controller
 
     public function downloadFormat()
     {
-        return Excel::download(new FormatImportSupervissorExport, 'ApsiForumJateng - Pengawas Import Format.xlsx');
+        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Pengawas Import Format.xlsx');
     }
 
     public function import()
@@ -147,5 +148,10 @@ class SupervisorController extends Controller
             dd($e->getMessage());
             return redirect()->back()->with('error', "Data Pengawas gagal diimport!");
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new SupervissorExport, 'Apsi Forum Jateng - Export Pengawas.xlsx');
     }
 }

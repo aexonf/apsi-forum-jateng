@@ -61,6 +61,7 @@ Route::prefix("/dashboard")->group(function () {
         Route::delete("/{id}/delete", "delete")->name("admin.supervisor.delete");
         Route::get("/download/format", "downloadFormat")->name("admin.supervisor.download.format");
         Route::post("/import", "import")->name("admin.supervisor.import");
+        Route::get("/export", "export")->name("admin.supervisor.export");
     });
 
 
