@@ -18,23 +18,20 @@ class ForumController extends Controller
         try {
             $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
 
-            $likeCount = LikeDiscussions::where("discussions_id", $discussion->id)->count();
-            $commentCount = DiscussionComments::where("discussion_id", $discussion->id)->count();
+            foreach ($discussion as $value) {
+                $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
+                $commentCount = DiscussionComments::where("discussion_id", $value->id)->count();
 
-
-            $data = [
-                "discussion" => $discussion,
-                "like_count" => $likeCount,
-                "comment_count" => $commentCount,
-                "view_count" => count($discussion->view_count),
-            ];
+                $value->like_count = $likeCount;
+                $value->comment_count = $commentCount;
+            }
 
             // Check if discussion exists
             if ($discussion) {
                 return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
-                    "data" => $data
+                    "data" => $discussion
                 ], 200);
             }
 
@@ -49,7 +46,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
-                "data" => null
+                "data" => null,
+                "error" => $th->getMessage()
             ], 500);
         }
     }
@@ -78,7 +76,6 @@ class ForumController extends Controller
                 "title" => $request->title,
                 "content" => $request->content,
                 "view_count" => 0,
-                "like_count" => 0,
                 "status" => "pending",
                 "supervisor_id" => $supervisors->id,
                 "approved_id" => null,
@@ -107,7 +104,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion creation failed",
-                "data" => null
+                "data" => null,
+                "error" => $th->getMessage()
             ], 500);
         }
     }
@@ -123,25 +121,26 @@ class ForumController extends Controller
     {
         try {
             // Retrieve discussion with associated supervisor and comments
-            $discussion = Discussions::with(["supervisor", "comments"])->where("id", $id)->first();
+            $updateView = Discussions::find($id)->update([
+                "view_count" => Discussions::find($id)->view_count + 1,
+            ]);
+            $discussion = Discussions::with(["supervisor:id,name,label"])->where("id", $id)->first();
 
-            $likeCount = LikeDiscussions::where("discussions_id", $discussion->id)->count();
-            $commentCount = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
 
-            $data = [
-                "discussion" => $discussion,
-                "like_count" => $likeCount,
-                "comment_count" => $commentCount,
-                "view_count" => count($discussion->view_count),
-            ];
+            $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
+            $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
+
+            $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
 
             // Check if discussion exists
-            if ($discussion) {
+            if ($discussion && $updateView) {
+
                 return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
-                    "data" => $data
+                    "data" => $discussion,
+                    "comments" => $comments
                 ], 200);
             }
 
@@ -156,7 +155,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion not found",
-                "data" => null
+                "data" => null,
+                "error" => $th->getMessage()
             ], 500);
         }
     }
@@ -266,7 +266,7 @@ class ForumController extends Controller
             }
 
             // Like the discussion
-            $discussionLike =  $likeFind->create([
+            $discussionLike = $likeFind->create([
                 "discussions_id" => $id,
                 "supervisor_id" => auth()->user()->supervisor->id
             ]);
@@ -295,4 +295,40 @@ class ForumController extends Controller
             ], 500);
         }
     }
+
+    public function myForum(Request $request)
+    {
+        try {
+            $user = Supervisors::where("user_id", auth()->user()->id)->first();
+
+            $discussion = Discussions::with("supervisor")->where("supervisor_id", $user->user_id)->orderBy("status")->get();
+
+            foreach ($discussion as $value) {
+                $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
+                $commentCount = DiscussionComments::where("discussion_id", $value->id)->count();
+
+                $value->like_count = $likeCount;
+                $value->comment_count = $commentCount;
+            }
+
+            // Check if discussion exists
+            if ($discussion) {
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Discussion retrieved successfully",
+                    "data" => $discussion
+                ], 200);
+            }
+
+        } catch (\Throwable $th) {
+            // Return error response if an exception occurred during discussion retrieval
+            return response()->json([
+                "status" => "error",
+                "message" => "Discussion not found",
+                "data" => null,
+                "error" => $th->getMessage()
+            ], 404);
+        }
+    }
+
 }

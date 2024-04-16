@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye, Heart, MessageSquare } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import Layout from "@/components/elements/layout";
 import {
     Select,
@@ -52,24 +52,26 @@ export default function Home() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="w-full">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">
-                            1. Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Sint tempora repellat nostrum
-                            minus a dolor esse veniam iure labore. Sunt non,
-                            odit doloremque qui quod consequuntur quasi
-                            laboriosam quae perspiciatis.
-                        </CardTitle>
-                    </CardHeader>
-                    <CardFooter className="w-full justify-end">
-                        <div className="flex items-center text-red-500">
-                            <Eye className="size-5" />
-                            <span className="text-sm ml-1">0</span>
-                        </div>
-                    </CardFooter>
-                </Card>
+            <div className="w-full space-y-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                    <Card key={i}>
+                        <CardHeader>
+                            <CardTitle className="text-lg">
+                                {i + 1}. Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Sint tempora repellat nostrum
+                                minus a dolor esse veniam iure labore. Sunt non,
+                                odit doloremque qui quod consequuntur quasi
+                                laboriosam quae perspiciatis.
+                            </CardTitle>
+                        </CardHeader>
+                        <CardFooter className="w-full justify-end">
+                            <div className="flex items-center text-primary">
+                                <ArrowDownToLine className="size-5" />
+                                <span className="text-sm ml-1">{i + 1}</span>
+                            </div>
+                        </CardFooter>
+                    </Card>
+                ))}
             </div>
         </Layout>
     );

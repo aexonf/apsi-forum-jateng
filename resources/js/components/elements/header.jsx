@@ -1,6 +1,7 @@
+import React, { useEffect } from "react";
 import { Link } from "@inertiajs/inertia-react";
-import React from "react";
-import { AlignJustify } from "lucide-react";
+import { AlignJustify, LogOut } from "lucide-react";
+import axios from "axios";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,8 +13,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Inertia } from "@inertiajs/inertia";
+import { Toaster, toast } from "sonner";
 
 export default function Header() {
+    const token = localStorage.getItem("token");
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post(
+                "/api/v1/auth/logout",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (res) {
+                localStorage.removeItem("token");
+                Inertia.get("/login");
+                toast.success("Berhasil Logout.");
+            }
+        } catch (error) {
+            toast.error("Gagal Logout.");
+        }
+    };
     return (
         <nav className="w-full fixed bg-gradient-to-br from-primary to-[#efe200] shadow z-40">
             <div className="container mx-auto max-w-3xl px-4 py-2">
@@ -24,59 +50,107 @@ export default function Header() {
                     >
                         APSI
                     </Link>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                className="hover:bg-transparent "
+                    {token ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="hover:bg-transparent "
+                                >
+                                    <AlignJustify className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-56"
+                                align="end"
+                                forceMount
                             >
-                                <AlignJustify className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                            className="w-56"
-                            align="end"
-                            forceMount
-                        >
-                            <DropdownMenuLabel className="font-normal">
-                                <div className="flex items-center gap-x-4">
-                                    <Avatar>
-                                        <AvatarImage src="https://github.com/shadcn.png" />
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className="text-sm font-medium leading-none">
-                                            shadcn
-                                        </p>
-                                        <p className="text-xs leading-none text-muted-foreground">
-                                            m@example.com
-                                        </p>
+                                <DropdownMenuLabel className="font-normal">
+                                    <div className="flex items-center gap-x-4">
+                                        <Avatar>
+                                            <AvatarImage src="" />
+                                            <AvatarFallback></AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <p className="text-sm font-medium leading-none"></p>
+                                            <p className="text-xs leading-none text-muted-foreground"></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuGroup>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/profile">Profil</Link>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuGroup>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/profile">Profil</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/forum">Forum</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/publikasi">Publikasi</Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="">
+                                    <Button
+                                        className="w-full gap-2"
+                                        variant="destructive"
+                                        onClick={handleLogout}
+                                    >
+                                        <LogOut className="size-5" />
+                                        Keluar
+                                    </Button>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/forum">Forum</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/publikasi">Publikasi</Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuGroup>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
-                                asChild
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ) : (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="hover:bg-transparent "
+                                >
+                                    <AlignJustify className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-56"
+                                align="end"
+                                forceMount
                             >
-                                <Link href="/logout" method="post">
-                                    Keluar
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                <DropdownMenuLabel className="font-normal">
+                                    <Link
+                                        href="/login"
+                                        className="flex items-center gap-x-4"
+                                    >
+                                        <Avatar>
+                                            <AvatarImage src="" />
+                                            <AvatarFallback></AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <p className="text-sm font-medium leading-none">
+                                                Masuk
+                                            </p>
+                                            <p className="text-xs leading-none text-muted-foreground">
+                                                Untuk melanjutkan
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuGroup>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/login">Masuk</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/forum">Forum</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/publikasi">Publikasi</Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
                 </div>
             </div>
         </nav>

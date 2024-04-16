@@ -51,4 +51,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Supervisors::class);
     }
+    public function supervisor() {
+        return $this->hasOne(Supervisors::class);
+    }
 }

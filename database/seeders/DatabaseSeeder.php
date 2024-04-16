@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
          DB::table('users')->insert([
             'username' => 'admin',
             'password' => Hash::make('password'),
-            'is_password_change' => false,
+            'is_password_change' => true,
             'role' => 'admin',
             'created_at' => now(),
             'updated_at' => now(),
@@ -36,12 +36,12 @@ class DatabaseSeeder extends Seeder
         DB::table('supervisors')->insert([
             'id_number' => '123456',
             'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'email' => 'john@example2.com',
             'phone_number' => '123456789',
             'label' => 'A',
             'img_url' => 'supervisor.jpg',
             'level' => 'SMA',
-            'user_id' => 4,
+            'user_id' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
