@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Back\ForumController;
+use App\Http\Controllers\Back\SupervisorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,7 +37,7 @@ Route::get("/dashboard", function (Request $request) {
     return view("pages.index", [
         "request" => $request
     ]);
-});
+})->name("admin.dashboard");
 
 
 Route::prefix("/dashboard")->group(function () {
@@ -49,5 +50,14 @@ Route::prefix("/dashboard")->group(function () {
         // Delete Comment
         Route::delete("/comment/delete/{id}", "destroyComment")->name("admin.forum.comment.delete");
     });
+
+
+    Route::controller(SupervisorController::class)->prefix("/supervisor")->group(function () {
+        Route::get("/", "index")->name("admin.supervisor.index");
+        Route::post("/", "create")->name("admin.supervisor.create");
+        Route::put("/{id}/update", "update")->name("admin.supervisor.update");
+        Route::delete("/{id}/delete", "delete")->name("admin.supervisor.delete");
+    });
+
 
 });

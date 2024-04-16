@@ -8,8 +8,6 @@
 
 @section('main')
 
-<h5>Hello World</h5>
-
     <div class="main-content mx-auto">
         <section class="section">
             <div class="section-header">
