@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Front\DiscussionCommentController;
 use App\Http\Controllers\Front\ForumController;
 use App\Http\Controllers\Front\ProfileController;
+use App\Http\Controllers\Front\PublicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,4 +50,8 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
         Route::put("/", "update");
     });
 
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
+        Route::get("/", "index");
+        Route::put("/{id}", "download"); // counter download
+    });
 });
