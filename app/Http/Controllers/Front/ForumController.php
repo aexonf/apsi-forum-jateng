@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiscussionCommentLikes;
 use App\Models\DiscussionComments;
 use App\Models\Discussions;
 use App\Models\LikeDiscussions;
@@ -132,6 +133,8 @@ class ForumController extends Controller
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
             $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
+
+            $discussion["like_comment"] = DiscussionCommentLikes::where("discussion_comments_id", $id)->count();
 
             // Check if discussion exists
             if ($discussion && $updateView) {
