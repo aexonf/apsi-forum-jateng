@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Back\ForumController;
+use App\Http\Controllers\Back\PublicationController;
+use App\Http\Controllers\Back\SupervisorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,7 +42,7 @@ Route::get("/dashboard", function (Request $request) {
     return view("pages.index", [
         "request" => $request
     ]);
-});
+})->name("admin.dashboard");
 
 
 Route::prefix("/dashboard")->group(function () {
@@ -53,5 +55,24 @@ Route::prefix("/dashboard")->group(function () {
         // Delete Comment
         Route::delete("/comment/delete/{id}", "destroyComment")->name("admin.forum.comment.delete");
     });
+
+
+    Route::controller(SupervisorController::class)->prefix("/supervisor")->group(function () {
+        Route::get("/", "index")->name("admin.supervisor.index");
+        Route::post("/", "create")->name("admin.supervisor.create");
+        Route::put("/{id}/update", "update")->name("admin.supervisor.update");
+        Route::delete("/{id}/delete", "delete")->name("admin.supervisor.delete");
+        Route::get("/download/format", "downloadFormat")->name("admin.supervisor.download.format");
+        Route::post("/import", "import")->name("admin.supervisor.import");
+        Route::get("/export", "export")->name("admin.supervisor.export");
+    });
+
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function() {
+        Route::get("/", "index")->name("admin.publication.index");
+        Route::post("/", "create")->name("admin.publication.create");
+        Route::put("/update/{id}", "update")->name("admin.publication.update");
+        Route::delete("/delete/{id}", "delete")->name("admin.publication.delete");
+    });
+
 
 });
