@@ -14,8 +14,10 @@ Route::get('/me', function () {
 Route::get('/new', function () {
     return Inertia::render('new');
 });
-Route::get('/edit', function () {
-    return Inertia::render('edit');
+Route::get('/edit/{id}', function ($id) {
+    return Inertia::render('edit', [
+        'id' => $id
+    ]);
 });
 Route::get('/post/{id}', function ($id) {
     return Inertia::render('detail', [

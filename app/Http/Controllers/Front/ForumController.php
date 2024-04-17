@@ -262,13 +262,29 @@ class ForumController extends Controller
 
             // If user has already liked the discussion, unlike it
             if ($likeFind) {
-                $likeFind->delete();
+                $likeDelete = LikeDiscussions::where("discussions_id", $id)->where("supervisor_id", auth()->user()->supervisor->id)->delete();
+
+                // Check if discussion like deletion was successful
+                if ($likeDelete) {
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "Discussion unliked successfully",
+                        "data" => $likeDelete
+                    ]);
+                }
+
+                // Return error response if discussion like deletion failed
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Discussion like deletion failed",
+                    "data" => null
+                ], 500);
             }
 
             // Like the discussion
-            $discussionLike = $likeFind->create([
+            $discussionLike = LikeDiscussions::create([
                 "discussions_id" => $id,
-                "supervisor_id" => auth()->user()->supervisor->id
+                "supervisor_id" => auth()->user()->supervisor->id,
             ]);
 
             // Check if discussion like was successful
@@ -291,7 +307,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion like failed",
-                "data" => null
+                "data" => null,
+                'error' => $th->getMessage()
             ], 500);
         }
     }

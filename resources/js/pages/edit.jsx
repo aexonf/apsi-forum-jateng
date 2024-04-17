@@ -7,23 +7,84 @@ import { Link } from "@inertiajs/inertia-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
+import { EditorState, convertToRaw } from "draft-js";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import draftToHtml from "draftjs-to-html";
 
-const defaultValue = "<p>This is the default value</p>";
-const sanitizedDefaultValue = DOMPurify.sanitize(defaultValue);
+const formSchema = z.object({
+    title: z.string().min(1, "Title harus di isi."),
+    content: z.string().min(1, "Content harus di isi."),
+});
+
 
 export default function CreateForum() {
-    const [value, setValue] = useState(sanitizedDefaultValue);
-
-    const handleInputChange = (value) => {
-        setValue(value);
+    const token = localStorage.getItem("token");
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+        reset,
+        setValue,
+    } = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            title: "",
+            content: "",
+        },
+    });
+    const onEditorStateChange = function (editorState) {
+        setEditorState(editorState);
+        setValue(
+            "content",
+            draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        );
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(value);
+    const uploadCallback = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const url = reader.result;
+                resolve({ data: { link: url } });
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const submit = async (data) => {
+        const { title, content } = data;
+        const fData = new FormData();
+        fData.append("title", title);
+        fData.append("content", content);
+
+        await axios
+            .post(
+                "/api/v1/forum",
+                {
+                    title: title,
+                    content: content,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            .then((res) => {
+                toast.success(res.data.message);
+                reset();
+                setValue("content", "");
+            })
+            .catch((err) => {
+                toast.error(err.response.data.message);
+            });
     };
     return (
         <Layout>

@@ -109,7 +109,7 @@ export default function Home() {
                     </>
                 ) : (
                     data?.map((item) => (
-                        <Link key={item.id} href="/post">
+                        <Link key={item.id} href={`/post/${item.id}`}>
                             <Card className="w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden group">
                                 <div className="md:flex">
                                     <div className="md:flex-shrink-0">
