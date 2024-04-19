@@ -127,9 +127,12 @@ class SupervisorController extends Controller
         }
 
         // Hapus supervisor
-        $supervisor->delete();
+       $deleted =  $supervisor->delete();
 
-        return redirect()->back()->with("success", "Pengawas berhasil dihapus");
+       if($deleted){
+           return redirect()->back()->with("success", "Pengawas berhasil dihapus");
+       }
+       return redirect()->back()->with("eror", "Pengawas gagal dihapus");
     }
 
 
