@@ -73,23 +73,19 @@ class PublicationController extends Controller
 
 
 
-    public function delete($id){
+    public function delete($id)
+    {
         $publication = Publication::findOrFail($id);
 
         if ($publication->file_url) {
             Storage::delete('public/' . $publication->file_url);
         }
 
-        $publication->delete();
+        $deleted = $publication->delete();
 
-        if ($publication) {
+        if ($deleted) {
             return redirect()->back()->with("success", "Berhasil menghapus data publikasi");
         }
         return redirect()->back()->with("error", "Gagal menghapus data publikasi");
     }
-
-
-
-
-
 }

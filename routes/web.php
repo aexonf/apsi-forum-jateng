@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Back\AdminManagementController;
 use App\Http\Controllers\Back\ForumController;
 use App\Http\Controllers\Back\PublicationController;
 use App\Http\Controllers\Back\SupervisorController;
@@ -72,6 +73,16 @@ Route::prefix("/dashboard")->group(function () {
         Route::post("/", "create")->name("admin.publication.create");
         Route::put("/update/{id}", "update")->name("admin.publication.update");
         Route::delete("/delete/{id}", "delete")->name("admin.publication.delete");
+    });
+
+    Route::controller(AdminManagementController::class)->prefix("/admin-management")->group(function() {
+        Route::get("/", "index")->name("admin.admin-management.index");
+        Route::post("/", "create")->name("admin.admin-management.create");
+        Route::put("/{id}/update", "update")->name("admin.admin-management.update");
+        Route::delete("/{id}/delete", "delete")->name("admin.admin-management.delete");
+        Route::get("/download/format", "downloadFormat")->name("admin..admin-management.download.format");
+        Route::post("/import", "import")->name("admin..admin-management.import");
+        Route::get("/export", "export")->name("admin..admin-management.export");
     });
 
 
