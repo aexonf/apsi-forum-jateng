@@ -1,4 +1,4 @@
-import {toast} from "sonner"
+import { toast } from "sonner";
 import axios from "axios";
 import Layout from "@/components/elements/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,10 +10,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@inertiajs/inertia-react";
 import draftToHtml from "draftjs-to-html";
-import {
-    EditorState,
-    convertToRaw
-} from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import {
     BoldIcon,
     ChevronLeft,
@@ -28,11 +25,12 @@ import {
     UnderlineIcon,
     UndoIcon,
 } from "lucide-react";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { Inertia } from "@inertiajs/inertia";
 
 const formSchema = z.object({
     title: z.string().min(1, "Title harus di isi."),
@@ -60,9 +58,7 @@ export default function CreateForum() {
         setEditorState(editorState);
         setValue(
             "content",
-            draftToHtml(
-                convertToRaw(editorState.getCurrentContent())
-            )
+            draftToHtml(convertToRaw(editorState.getCurrentContent()))
         );
     };
 
@@ -103,6 +99,7 @@ export default function CreateForum() {
                 toast.success(res.data.message);
                 reset();
                 setValue("content", "");
+                Inertia.get(`/post/${res.data.data.id}`);
             })
             .catch((err) => {
                 toast.error(err.response.data.message);
@@ -164,90 +161,102 @@ export default function CreateForum() {
                             </div>
                             <div className="flex flex-col space-y-2">
                                 <Label htmlFor="content">Konten</Label>
-                                <Editor
-                                    editorState={editorState}
-                                    toolbarClassName="toolbarClassName"
-                                    wrapperClassName="wrapperClassName"
-                                    editorClassName="editorClassName"
-                                    onEditorStateChange={onEditorStateChange}
-                                    value={watch("content")}
-                                    toolbar={{
-                                        options: [
-                                            "history",
-                                            "blockType",
-                                            "textAlign",
-                                            "colorPicker",
-                                            "inline",
-                                            "remove",
-                                            "list",
-                                            "link",
-                                            "image",
-                                            "fontSize",
-                                        ],
-                                        history: {
-                                            undo: { icon: UndoIcon.src },
-                                            redo: { icon: RedoIcon.src },
-                                        },
-                                        textAlign: {
-                                            inDropdown: true,
+                                <div className="bg-muted">
+                                    <Editor
+                                        editorState={editorState}
+                                        toolbarClassName="toolbarClassName"
+                                        wrapperClassName="wrapperClassName"
+                                        editorClassName="editorClassName"
+                                        onEditorStateChange={
+                                            onEditorStateChange
+                                        }
+                                        value={watch("content")}
+                                        toolbar={{
                                             options: [
-                                                "left",
-                                                "center",
-                                                "right",
-                                                "justify",
+                                                "history",
+                                                "blockType",
+                                                "textAlign",
+                                                "colorPicker",
+                                                "inline",
+                                                "remove",
+                                                "list",
+                                                "link",
+                                                "image",
+                                                "fontSize",
                                             ],
-                                        },
-                                        inline: {
-                                            className: "inline-wrapper",
-                                            options: [
-                                                "bold",
-                                                "italic",
-                                                "underline",
-                                                "strikethrough",
-                                                "monospace",
-                                            ],
-                                            bold: { icon: BoldIcon.src },
-                                            italic: { icon: ItalicIcon.src },
-                                            underline: {
-                                                icon: UnderlineIcon.src,
+                                            history: {
+                                                undo: { icon: UndoIcon.src },
+                                                redo: { icon: RedoIcon.src },
                                             },
-                                            strikethrough: {
-                                                icon: StrikethroughIcon.src,
+                                            textAlign: {
+                                                inDropdown: true,
+                                                options: [
+                                                    "left",
+                                                    "center",
+                                                    "right",
+                                                    "justify",
+                                                ],
                                             },
-                                        },
-                                        remove: {
-                                            icon: RemoveFormattingIcon.src,
-                                        },
-                                        list: {
-                                            options: ["unordered", "ordered"],
-                                            unordered: {
-                                                icon: List.src,
+                                            inline: {
+                                                className: "inline-wrapper",
+                                                options: [
+                                                    "bold",
+                                                    "italic",
+                                                    "underline",
+                                                    "strikethrough",
+                                                    "monospace",
+                                                ],
+                                                bold: { icon: BoldIcon.src },
+                                                italic: {
+                                                    icon: ItalicIcon.src,
+                                                },
+                                                underline: {
+                                                    icon: UnderlineIcon.src,
+                                                },
+                                                strikethrough: {
+                                                    icon: StrikethroughIcon.src,
+                                                },
                                             },
-                                            ordered: { icon: ListOrdered.src },
-                                        },
-                                        link: {
-                                            defaultTargetOption: "_self",
-                                            options: ["link"],
-                                            link: { icon: LinkIcon.src },
-                                        },
+                                            remove: {
+                                                icon: RemoveFormattingIcon.src,
+                                            },
+                                            list: {
+                                                options: [
+                                                    "unordered",
+                                                    "ordered",
+                                                ],
+                                                unordered: {
+                                                    icon: List.src,
+                                                },
+                                                ordered: {
+                                                    icon: ListOrdered.src,
+                                                },
+                                            },
+                                            link: {
+                                                defaultTargetOption: "_self",
+                                                options: ["link"],
+                                                link: { icon: LinkIcon.src },
+                                            },
 
-                                        image: {
-                                            uploadCallback: uploadCallback,
-                                            alt: {
-                                                present: true,
-                                                mandatory: false,
+                                            image: {
+                                                uploadCallback: uploadCallback,
+                                                alt: {
+                                                    present: true,
+                                                    mandatory: false,
+                                                },
+                                                previewImage: true,
+                                                icon: ImageIcon.src,
                                             },
-                                            previewImage: true,
-                                            icon: ImageIcon.src,
-                                        },
-                                        fontSize: {
-                                            options: [
-                                                8, 9, 10, 11, 12, 14, 16, 18,
-                                                24, 30, 36, 48, 60, 72, 96,
-                                            ],
-                                        },
-                                    }}
-                                />
+                                            fontSize: {
+                                                options: [
+                                                    8, 9, 10, 11, 12, 14, 16,
+                                                    18, 24, 30, 36, 48, 60, 72,
+                                                    96,
+                                                ],
+                                            },
+                                        }}
+                                    />
+                                </div>
                                 {errors.content && (
                                     <p className="text-red-500">
                                         {errors.content?.message}

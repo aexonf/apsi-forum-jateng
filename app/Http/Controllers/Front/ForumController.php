@@ -14,10 +14,17 @@ use Illuminate\Support\Facades\Auth;
 class ForumController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
+            $sort = $request->sort;
+            if ($sort == "newest") {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->orderBy("created_at", "desc")->get();
+            } elseif ($sort == "oldest") {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->orderBy("created_at", "asc")->get();
+            } else {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
+            }
 
             foreach ($discussion as $value) {
                 $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
@@ -127,14 +134,10 @@ class ForumController extends Controller
             ]);
             $discussion = Discussions::with(["supervisor:id,name,label"])->where("id", $id)->first();
 
-
-
             $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
             $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
-
-            $discussion["like_comment"] = DiscussionCommentLikes::where("discussion_comments_id", $id)->count();
 
             // Check if discussion exists
             if ($discussion && $updateView) {
@@ -188,6 +191,7 @@ class ForumController extends Controller
 
             // Update discussion
             $update = Discussions::find($id)->update($data);
+            $update = Discussions::find($id);
 
             // Check if discussion update was successful
             if ($update) {
@@ -224,7 +228,8 @@ class ForumController extends Controller
     {
         try {
             // Delete discussion
-            $delete = Discussions::find($id)->delete();
+            $discussion = Discussions::findOrFail($id);
+            $delete = $discussion->delete();
 
             // Check if discussion deletion was successful
             if ($delete) {
@@ -246,7 +251,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion deletion failed",
-                "data" => null
+                "data" => null,
+                "error" => $th->getMessage()
             ], 500);
         }
     }
@@ -319,9 +325,30 @@ class ForumController extends Controller
     public function myForum(Request $request)
     {
         try {
+            $sort = $request->sort;
             $user = Supervisors::where("user_id", auth()->user()->id)->first();
+            $discussion = [];
 
-            $discussion = Discussions::with("supervisor")->where("supervisor_id", $user->user_id)->orderBy("status")->get();
+            if ($sort == "newest") {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("created_at", "desc")
+                    ->get()
+                ;
+            } elseif ($sort == "latest") {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("created_at", "asc")
+                    ->get()
+                ;
+            } else {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("status")
+                    ->get()
+                ;
+            }
+
 
             foreach ($discussion as $value) {
                 $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
@@ -336,7 +363,8 @@ class ForumController extends Controller
                 return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
-                    "data" => $discussion
+                    "data" => $discussion ?? [],
+                    "sort" => $sort
                 ], 200);
             }
 

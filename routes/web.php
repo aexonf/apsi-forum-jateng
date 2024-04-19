@@ -67,7 +67,7 @@ Route::prefix("/dashboard")->group(function () {
         Route::get("/export", "export")->name("admin.supervisor.export");
     });
 
-    Route::controller(PublicationController::class)->prefix("/publication")->group(function() {
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
         Route::get("/", "index")->name("admin.publication.index");
         Route::post("/", "create")->name("admin.publication.create");
         Route::put("/update/{id}", "update")->name("admin.publication.update");

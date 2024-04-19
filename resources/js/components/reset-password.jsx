@@ -68,7 +68,11 @@ export default function ResetPassword({ openModal, setOpenModal }) {
                 }
             })
             .catch((err) => {
-                console.log(err.response);
+                if (err.response.status == 401) {
+                    toast.error("Token tidak valid.");
+                } else {
+                    toast.error("Kata sandi gagal diubah.");
+                }
             });
     };
 

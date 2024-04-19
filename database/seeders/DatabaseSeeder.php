@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Publication;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        Publication::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -23,27 +25,27 @@ class DatabaseSeeder extends Seeder
         // ]);
 
          // Seed Users table
-         DB::table('users')->insert([
-            'username' => 'admin',
-            'password' => Hash::make('password'),
-            'is_password_change' => true,
-            'role' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        //  DB::table('users')->insert([
+        //     'username' => 'admin',
+        //     'password' => Hash::make('password'),
+        //     'is_password_change' => true,
+        //     'role' => 'admin',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
         // Seed Supervisors table
-        DB::table('supervisors')->insert([
-            'id_number' => '123456',
-            'name' => 'John Doe',
-            'email' => 'john@example2.com',
-            'phone_number' => '123456789',
-            'label' => 'A',
-            'img_url' => 'supervisor.jpg',
-            'level' => 'SMA',
-            'user_id' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // DB::table('supervisors')->insert([
+        //     'id_number' => '123456',
+        //     'name' => 'John Doe',
+        //     'email' => 'john@example2.com',
+        //     'phone_number' => '123456789',
+        //     'label' => 'A',
+        //     'img_url' => 'supervisor.jpg',
+        //     'level' => 'SMA',
+        //     'user_id' => 1,
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
     }
 }

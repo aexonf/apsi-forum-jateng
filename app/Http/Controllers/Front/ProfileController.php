@@ -9,10 +9,18 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     public function index() {
+        $user = auth()->user();
+        $supervisor = $user->supervisor;
+        $data = [
+            'name' => $supervisor->name,
+            'email' => $supervisor->email,
+            'label' => $supervisor->label,
+            'level' => $supervisor->level,
+        ];
         return response()->json([
             "status" => "success",
             "message" => "Success show profile",
-            "data" => auth()->user()->supervisor
+            "data" => $data
         ],200);
     }
 
