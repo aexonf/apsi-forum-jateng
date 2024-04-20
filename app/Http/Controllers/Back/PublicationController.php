@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class PublicationController extends Controller
 {
@@ -21,14 +23,16 @@ class PublicationController extends Controller
     {
 
         $file = $request->file('file');
-        $fileName = 'file-' . time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public', $fileName);
 
-        $filename = $fileName;
+        $fileExtension = $file->getClientOriginalExtension();
+
+        $fileName = 'file-' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '-' . time() . '.' . $fileExtension;
+
+        $file->storeAs('public', $fileName);
 
         $publication = Publication::create([
             "title" => $request->title,
-            "file_url" => $filename,
+            "file_url" => $fileName,
             "download_count" => 0
         ]);
 
@@ -44,11 +48,15 @@ class PublicationController extends Controller
 
         $newFile = null;
 
-        if ($request->hasFile('image')) {
-            Storage::delete($publication->file);
+        if ($request->hasFile('file')) {
+            Storage::delete($publication->file_url);
 
             $file = $request->file('file');
-            $fileName = 'file-' . time() . '.' . $file->getClientOriginalExtension();
+
+            $fileExtension = $file->getClientOriginalExtension();
+
+            $fileName = 'file-' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '-' . time() . '.' . $fileExtension;
+
             $file->storeAs('public', $fileName);
 
             $newFile = $fileName;
@@ -58,7 +66,6 @@ class PublicationController extends Controller
                 "file_url" => $newFile,
             ]);
         } else {
-
             $publication->update([
                 "title" => $request->title,
             ]);

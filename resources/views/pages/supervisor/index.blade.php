@@ -67,11 +67,11 @@
                                             <select class="form-control select2" id="level" name="level"
                                                 required onchange="handleChangeFilter(this)">
                                                 <option value=""></option>
-                                                <option value="TK">TK</option>
-                                                <option value="SD">SD</option>
-                                                <option value="SMP">SMP</option>
-                                                <option value="SMA">SMA</option>
-                                                <option value="SMK">SMK</option>
+                                                <option value="TK" {{ request('level') == 'TK' ? 'selected' : '' }}>TK</option>
+                                                <option value="SD" {{ request('level') == 'SD' ? 'selected' : '' }}>SD</option>
+                                                <option value="SMP" {{ request('level') == 'SMP' ? 'selected' : '' }}>SMP</option>
+                                                <option value="SMA" {{ request('level') == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                                <option value="SMK" {{ request('level') == 'SMK' ? 'selected' : '' }}>SMK</option>
                                             </select>
                                         </div>
                                     </div>
