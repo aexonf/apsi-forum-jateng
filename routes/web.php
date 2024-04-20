@@ -71,8 +71,8 @@ Route::prefix("/dashboard")->group(function () {
     Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
         Route::get("/", "index")->name("admin.publication.index");
         Route::post("/", "create")->name("admin.publication.create");
-        Route::put("/update/{id}", "update")->name("admin.publication.update");
-        Route::delete("/delete/{id}", "delete")->name("admin.publication.delete");
+        Route::put("/{id}/update", "update")->name("admin.publication.update");
+        Route::delete("/{id}/delete", "delete")->name("admin.publication.delete");
     });
 
     Route::controller(AdminManagementController::class)->prefix("/admin-management")->group(function() {

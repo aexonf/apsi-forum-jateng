@@ -17,10 +17,10 @@ class AdminImport implements  ToModel, WithStartRow
         if ( $row[0] === 'Username' &&  $row[1] === 'Password' ) {
             return null;
         }
-
        User::create([
             "username" => $row[0],
             "password" => Hash::make($row[1]),
+            "role" => "admin",
        ]);
     }
     public function startRow(): int

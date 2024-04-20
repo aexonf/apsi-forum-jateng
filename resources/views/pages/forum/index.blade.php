@@ -34,21 +34,6 @@
                         <div class="w-100">
                             <div class="d-flex justify-content-between flex-wrap">
                                 <div class="d-flex align-items-center flex-wrap">
-                                    <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
-                                        data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i>
-                                        Tambah</button>
-                                    <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
-                                        data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
-                                        Import</button>
-                                    <form action="" method="get">
-                                        @csrf
-                                        @method('GET')
-                                        <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"><i
-                                                class="fas fa-download"></i>
-                                            Export</button>
-                                    </form>
-                                </div>
-                                <div class="d-flex align-items-center flex-wrap">
                                     <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
                                         data-toggle="collapse" data-target="#section-filter"><i class="fas fa-filter"></i>
                                         Filter</button>

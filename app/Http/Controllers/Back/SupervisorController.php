@@ -65,7 +65,7 @@ class SupervisorController extends Controller
             "label" => $request->label,
             "level" => $request->level,
             "user_id" => $user->id,
-            "img_url" => $nameImage ?? " ",
+            "img_url" => $nameImage,
         ]);
 
         if ($supervisor){
@@ -76,22 +76,10 @@ class SupervisorController extends Controller
 
     public function update(Request $request, $id) {
         $supervisor = Supervisors::findOrFail($id);
-
-        $request->validate([
-            "id_number" => "required",
-            "name" => "required",
-            "phone_number" => "required",
-            "level" => "required",
-            "label" => "required",
-            "email" => "required",
-            "username" => "required",
-            "password" => "required"
-        ]);
-
         $newImage = null;
 
         if ($request->hasFile('image')) {
-            Storage::delete($supervisor->image);
+            Storage::delete($supervisor->img_url);
 
             $image = $request->file('image');
             $imageName = 'image-' . time() . '.' . $image->getClientOriginalExtension();
