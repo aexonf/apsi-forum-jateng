@@ -19,20 +19,24 @@
                     <span>Forum</span></a>
             </li>
 
-            <li class="{{ request()->path() === 'dashboard/supervisor' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.supervisor.index') }}"><i class="fa-solid fa-person-circle-plus"></i></i>
-                    <span>Pengawas Management</span></a>
-            </li>
+            {{-- @if (auth()->user()->role == 'SUPERADMIN') --}}
+                <li class="{{ request()->path() === 'dashboard/supervisor' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.supervisor.index') }}"><i
+                            class="fa-solid fa-person-circle-plus"></i></i>
+                        <span>Pengawas Management</span></a>
+                </li>
 
-            <li class="{{ request()->path() === 'dashboard/admin-management' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="fa-solid fa-person-circle-plus"></i></i>
-                    <span>Admin Management</span></a>
-            </li>
+                <li class="{{ request()->path() === 'dashboard/admin-management' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i
+                            class="fa-solid fa-person-circle-plus"></i></i>
+                        <span>Admin Management</span></a>
+                </li>
 
-            <li class="{{ request()->path() === 'dashboard/publication' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.publication.index') }}"><i class="fa-solid fa-file"></i></i>
-                    <span>Publication</span></a>
-            </li>
-
+                <li class="{{ request()->path() === 'dashboard/publication' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.publication.index') }}"><i
+                            class="fa-solid fa-file"></i></i>
+                        <span>Publication</span></a>
+                </li>
+            {{-- @endif --}}
     </aside>
 </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Back\AdminManagementController;
 use App\Http\Controllers\Back\ForumController;
 use App\Http\Controllers\Back\PublicationController;
 use App\Http\Controllers\Back\SupervisorController;
+use App\Http\Middleware\SuperAdminMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
