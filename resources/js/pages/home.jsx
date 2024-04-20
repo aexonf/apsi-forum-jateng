@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "@inertiajs/inertia-react";
@@ -125,16 +126,12 @@ export default function Home() {
                                     <div className="p-8 w-full">
                                         <div className="flex items-start justify-between">
                                             <div className="flex items-start">
-                                                <img
-                                                    alt="pp"
-                                                    className="rounded-full"
-                                                    height="40"
-                                                    style={{
-                                                        aspectRatio: "40/40",
-                                                        objectFit: "cover",
-                                                    }}
-                                                    width="40"
-                                                />
+                                                <Avatar>
+                                                    <AvatarImage
+                                                        src={`/storage/${item?.supervisor?.img_url}`}
+                                                    />
+                                                    <AvatarFallback></AvatarFallback>
+                                                </Avatar>
                                                 <div className="ml-4">
                                                     <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                         {item?.supervisor?.name}

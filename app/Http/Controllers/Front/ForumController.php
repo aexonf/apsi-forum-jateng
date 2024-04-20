@@ -132,7 +132,7 @@ class ForumController extends Controller
             $updateView = Discussions::find($id)->update([
                 "view_count" => Discussions::find($id)->view_count + 1,
             ]);
-            $discussion = Discussions::with(["supervisor:id,name,label"])->where("id", $id)->first();
+            $discussion = Discussions::with(["supervisor:id,name,label,img_url"])->where("id", $id)->first();
 
             $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();

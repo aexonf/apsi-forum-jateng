@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import React, { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { ArrowDownToLine } from "lucide-react";
 import Layout from "@/components/elements/layout";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -36,6 +37,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(options[0].value);
     async function fetchData() {
         setLoading(true);
         await axios
@@ -57,7 +59,25 @@ export default function Home() {
         fetchData();
     }, []);
 
+    async function fetchDataByOption() {
+        try {
+            setLoading(true);
+            const response = await axios.get(
+                `/api/v1/publication?sort=${selectedOption}`
+            );
+            setData(response.data.data);
+            setLoading(false);
+        } catch (e) {
+            toast.error("Ada yang salah.");
+        }
+    }
+
+    useEffect(() => {
+        fetchDataByOption();
+    }, [selectedOption]);
+
     const handleDownload = async (id) => {
+        setLoading(true);
         await axios
             .put(
                 `/api/v1/publication/${id}`,
@@ -71,9 +91,11 @@ export default function Home() {
             .then((res) => {
                 toast.success("Berhasil mendownload");
                 fetchData();
+                setLoading(false);
             })
             .catch((e) => {
                 toast.error("Ada yang salah");
+                setLoading(false);
             });
     };
 
@@ -83,7 +105,11 @@ export default function Home() {
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                     Publikasi
                 </h3>
-                <Select defaultValue={"terbaru"}>
+
+                <Select
+                    defaultValue={options[0].value}
+                    onValueChange={setSelectedOption}
+                >
                     <SelectTrigger
                         aria-label="Select status"
                         className="w-max gap-4"
@@ -102,14 +128,19 @@ export default function Home() {
             <div className="w-full flex flex-col gap-4">
                 {data ? (
                     data.map((item, i) => (
-                        <Link
-                            href={item.file_url}
+                        <a
+                            href={`/storage/${item.file_url}`}
                             download
                             key={i + 1}
                             target="_blank"
                             onClick={() => {
+                                if (loading) return;
                                 handleDownload(item.id);
                             }}
+                            className={cn(
+                                "",
+                                loading && "pointer-events-none cursor-default"
+                            )}
                         >
                             <Card>
                                 <CardHeader>
@@ -126,7 +157,7 @@ export default function Home() {
                                     </div>
                                 </CardFooter>
                             </Card>
-                        </Link>
+                        </a>
                     ))
                 ) : loading ? (
                     <>

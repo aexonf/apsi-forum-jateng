@@ -8,13 +8,23 @@ use Illuminate\Http\Request;
 
 class PublicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $data = null;
+
+        if ($request->sort == "newest") {
+            $data = Publication::orderBy('created_at', 'desc')->get();
+        } elseif ($request->sort == "oldest") {
+            $data = Publication::orderBy('created_at', 'asc')->get();
+        } else {
+            $data = Publication::all();
+        }
+
         try {
             return response()->json([
                 "status" => "success",
                 "message" => "Success show publication",
-                "data" => Publication::all()
+                "data" => $data,
             ]);
         } catch (\Throwable $th) {
             return response()->json([

@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LogOut, Pen } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Home() {
     const token = localStorage.getItem("token");
@@ -18,23 +19,36 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
 
     const fileInputRef = useRef(null);
-    const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
     const handleUploadClick = () => {
         fileInputRef.current.click();
     };
+    const handleImageChange = async (img) => {
+        try {
+            setImagePreview(URL.createObjectURL(img));
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setImageFile(file);
-        setImagePreview(URL.createObjectURL(file));
+            const formData = new FormData();
+            formData.append("image", img);
+
+            const response = await axios.put("/api/v1/user", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response.data.message);
+        }
     };
 
     useEffect(() => {
         async function fetchProfile() {
             setLoading(true);
-            const response = await axios.get("/api/user", {
+            const response = await axios.get("/api/v1/user", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -69,18 +83,24 @@ export default function Home() {
                                             className="size-40 bg-muted rounded-full object-cover"
                                         />
                                     ) : (
-                                        <img
-                                            src=""
-                                            alt="profile"
-                                            id="preview"
-                                            className="size-40 bg-muted rounded-full"
-                                        />
+                                        profile?.img_url && (
+                                            <img
+                                                src={`/storage/${profile?.img_url}`}
+                                                alt="profile"
+                                                id="preview"
+                                                className="size-40 bg-muted rounded-full"
+                                            />
+                                        )
                                     )}
                                     <input
                                         type="file"
                                         className="hidden"
                                         ref={fileInputRef}
-                                        onChange={handleImageChange}
+                                        onChange={(e) => {
+                                            handleImageChange(
+                                                e.target.files[0]
+                                            );
+                                        }}
                                     />
                                     <Button
                                         variant="ghost"
@@ -107,10 +127,10 @@ export default function Home() {
                             ) : (
                                 <>
                                     <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                                        {profile?.supervisor?.name}
+                                        {profile?.name}
                                     </h4>
                                     <h5 className="scroll-m-20 text-lg font-semibold tracking-tight">
-                                        {profile?.supervisor?.label}
+                                        {profile?.label}
                                     </h5>
                                 </>
                             )}
@@ -118,50 +138,50 @@ export default function Home() {
                     </CardContent>
                     <CardFooter className="flex-col items-start">
                         <div className="my-2">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            <h4 className="scroll-m-20 text-xl tracking-tight">
                                 NIP
                             </h4>
                             {loading ? (
                                 <Skeleton className="h-5 w-[250px]" />
                             ) : (
                                 <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
-                                    {profile?.supervisor?.id_number}
+                                    {profile?.id_number}
                                 </h4>
                             )}
                         </div>
                         <div className="my-2">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            <h4 className="scroll-m-20 text-xl tracking-tight">
                                 Email
                             </h4>
                             {loading ? (
                                 <Skeleton className="h-5 w-[250px]" />
                             ) : (
                                 <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
-                                    {profile?.supervisor?.email}
+                                    {profile?.email}
                                 </h4>
                             )}
                         </div>
                         <div className="my-2">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            <h4 className="scroll-m-20 text-xl tracking-tight">
                                 No. HP
                             </h4>
                             {loading ? (
                                 <Skeleton className="h-5 w-[250px]" />
                             ) : (
                                 <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
-                                    {profile?.supervisor?.phone_number}
+                                    {profile?.phone_number}
                                 </h4>
                             )}
                         </div>
                         <div className="my-2">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            <h4 className="scroll-m-20 text-xl tracking-tight">
                                 Tingkat
                             </h4>
                             {loading ? (
                                 <Skeleton className="h-5 w-[250px]" />
                             ) : (
                                 <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
-                                    {profile?.supervisor?.level}
+                                    {profile?.level}
                                 </h4>
                             )}
                         </div>

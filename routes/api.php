@@ -8,12 +8,12 @@ use App\Http\Controllers\Front\PublicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    $user = $request->user()->with('supervisor:id,name,email,label,level')->first();
-    return response()->json([
-        'data' => $user
-    ], 200);
-})->middleware("auth:sanctum");
+// Route::get('/user', function (Request $request) {
+//     $user = $request->user()->with('supervisor:id,name,email,label,level')->first();
+//     return response()->json([
+//         'data' => $user
+//     ], 200);
+// })->middleware("auth:sanctum");
 
 
 Route::controller(AuthController::class)->prefix("/v1/auth")->group(function () {
@@ -26,6 +26,10 @@ Route::prefix("/v1")->group(function () {
     Route::get("/forum", [ForumController::class, "index"]);
     Route::get("/forum/detail/{id}", [ForumController::class, "detail"]);
     Route::get("/comment/{id}", [DiscussionCommentController::class, "detail"]); // id  blog nya
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
+        Route::get("/", "index");
+        Route::put("/{id}", "download"); // counter download
+    });
 });
 
 Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
@@ -50,8 +54,4 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
         Route::put("/", "update");
     });
 
-    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
-        Route::get("/", "index");
-        Route::put("/{id}", "download"); // counter download
-    });
 });

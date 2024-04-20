@@ -8,27 +8,24 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $user = auth()->user();
         $supervisor = $user->supervisor;
-        $data = [
-            'name' => $supervisor->name,
-            'email' => $supervisor->email,
-            'label' => $supervisor->label,
-            'level' => $supervisor->level,
-        ];
+
         return response()->json([
             "status" => "success",
             "message" => "Success show profile",
-            "data" => $data
-        ],200);
+            "data" => $supervisor
+        ], 200);
     }
 
 
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
+        // TODO: FIX request does'not have file
         try {
-
             $supervisor = Supervisors::where("user_id", auth()->user()->id)->first();
             $nameImage = null;
 
@@ -41,25 +38,24 @@ class ProfileController extends Controller
             }
 
             $supervisor->update([
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "label" => $request->label,
-                "img_url" => $nameImage
+                'img_url' => $nameImage,
             ]);
+            $supervisor->save();
 
             return response()->json([
                 "status" => "success",
                 "message" => "Success update profile",
                 "data" => $supervisor
-            ],200);
+            ], 200);
 
 
         } catch (\Throwable $th) {
             return response()->json([
                 "status" => "error",
                 "message" => "Update profile failed",
-                "data" => null
-            ],500);
+                "data" => null,
+                "error" => $th->getMessage()
+            ], 500);
         }
 
     }

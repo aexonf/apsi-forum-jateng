@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Link } from "@inertiajs/inertia-react";
 import axios from "axios";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     ChevronLeft,
     Eye,
@@ -90,6 +91,10 @@ export default function Home({ id }) {
 
     const handleLike = async (e) => {
         e.preventDefault();
+        if (!token) {
+            toast.error("Anda harus login terlebih dahulu.");
+            return;
+        }
         setIsSending(true);
         await axios
             .post(
@@ -198,26 +203,20 @@ export default function Home({ id }) {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <img
-                                                        alt="pp"
-                                                        className="rounded-full"
-                                                        height="40"
-                                                        src={data?.img_url}
-                                                        style={{
-                                                            aspectRatio:
-                                                                "40/40",
-                                                            objectFit: "cover",
-                                                        }}
-                                                        width="40"
-                                                    />
+                                                    <Avatar>
+                                                        <AvatarImage
+                                                            src={`/storage/${data?.supervisor?.img_url}`}
+                                                        />
+                                                        <AvatarFallback></AvatarFallback>
+                                                    </Avatar>
                                                     <div className="ml-4">
-                                                        <div className="uppercase tracking-wide text-sm text-black dark:text-white font-semibold">
+                                                        <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                             {
                                                                 data?.supervisor
                                                                     ?.name
                                                             }
                                                         </div>
-                                                        <div className="text-gray-400 dark:text-gray-300">
+                                                        <div className="text-foreground">
                                                             {
                                                                 data?.supervisor
                                                                     ?.label
@@ -306,9 +305,7 @@ export default function Home({ id }) {
                                 <div className="p-8 w-full">
                                     {token ? (
                                         loading ? (
-                                            <>
-                                                <Skeleton />
-                                            </>
+                                            <Skeleton />
                                         ) : (
                                             <form
                                                 onSubmit={handleSubmit(submit)}
@@ -367,18 +364,12 @@ export default function Home({ id }) {
                                             <div key={item.id}>
                                                 <div className="flex items-start justify-between my-4">
                                                     <div className="flex items-start w-full">
-                                                        <img
-                                                            alt="pp"
-                                                            className="rounded-full"
-                                                            height="40"
-                                                            style={{
-                                                                aspectRatio:
-                                                                    "40/40",
-                                                                objectFit:
-                                                                    "cover",
-                                                            }}
-                                                            width="40"
-                                                        />
+                                                        <Avatar>
+                                                            <AvatarImage
+                                                                src={`/storage/${item?.supervisors?.img_url}`}
+                                                            />
+                                                            <AvatarFallback></AvatarFallback>
+                                                        </Avatar>
                                                         <div className="ml-4 flex justify-between items-center w-full">
                                                             <div>
                                                                 <div className="tracking-wide text-sm text-black dark:text-white font-semibold">

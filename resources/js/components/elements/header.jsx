@@ -33,11 +33,11 @@ export default function Header() {
         }
     }
 
-    if (token) {
-        useEffect(() => {
+    useEffect(() => {
+        if (token) {
             getData();
-        }, []);
-    }
+        }
+    }, []);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -88,7 +88,9 @@ export default function Header() {
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex items-center gap-x-4">
                                         <Avatar>
-                                            <AvatarImage src="" />
+                                            <AvatarImage
+                                                src={`/storage/${data.img_url}`}
+                                            />
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
@@ -107,7 +109,7 @@ export default function Header() {
                                         <Link href="/profile">Profil</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/forum">Forum</Link>
+                                        <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/publikasi">Publikasi</Link>
@@ -166,7 +168,7 @@ export default function Header() {
                                         <Link href="/login">Masuk</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/forum">Forum</Link>
+                                        <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/publikasi">Publikasi</Link>

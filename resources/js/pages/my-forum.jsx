@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Trash2, PenLine, Eye, Heart, MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Layout from "@/components/elements/layout";
 import {
     Select,
@@ -152,18 +153,12 @@ export default function Home() {
                                                         href={`/post/${item.id}`}
                                                         className="flex items-start"
                                                     >
-                                                        <img
-                                                            alt="pp"
-                                                            className="rounded-full"
-                                                            height="40"
-                                                            style={{
-                                                                aspectRatio:
-                                                                    "40/40",
-                                                                objectFit:
-                                                                    "cover",
-                                                            }}
-                                                            width="40"
-                                                        />
+                                                        <Avatar>
+                                                            <AvatarImage
+                                                                src={`/storage/${item?.supervisor?.img_url}`}
+                                                            />
+                                                            <AvatarFallback></AvatarFallback>
+                                                        </Avatar>
                                                         <div className="ml-4">
                                                             <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                                 {
