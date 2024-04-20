@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "@inertiajs/inertia-react";
 import { AlignJustify, LogOut } from "lucide-react";
 import axios from "axios";
@@ -14,10 +14,30 @@ import {
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Inertia } from "@inertiajs/inertia";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 export default function Header() {
     const token = localStorage.getItem("token");
+    const [data, setData] = useState(null);
+
+    async function getData() {
+        try {
+            const response = await axios.get("/api/v1/user", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setData(response.data.data);
+        } catch (error) {
+            toast.error("Gagal mengambil data.");
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            getData();
+        }
+    }, []);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -50,7 +70,7 @@ export default function Header() {
                     >
                         APSI
                     </Link>
-                    {token ? (
+                    {token && data ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
@@ -68,12 +88,18 @@ export default function Header() {
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex items-center gap-x-4">
                                         <Avatar>
-                                            <AvatarImage src="" />
+                                            <AvatarImage
+                                                src={`/storage/${data.img_url}`}
+                                            />
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="text-sm font-medium leading-none"></p>
-                                            <p className="text-xs leading-none text-muted-foreground"></p>
+                                            <p className="text-sm font-medium leading-none">
+                                                {data.name}
+                                            </p>
+                                            <p className="text-xs leading-none text-muted-foreground">
+                                                {data.email}
+                                            </p>
                                         </div>
                                     </div>
                                 </DropdownMenuLabel>
@@ -83,7 +109,7 @@ export default function Header() {
                                         <Link href="/profile">Profil</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/forum">Forum</Link>
+                                        <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/publikasi">Publikasi</Link>
@@ -142,7 +168,7 @@ export default function Header() {
                                         <Link href="/login">Masuk</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/forum">Forum</Link>
+                                        <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/publikasi">Publikasi</Link>

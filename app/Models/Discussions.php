@@ -14,13 +14,13 @@ class Discussions extends Model
     protected $guarded = [];
 
 
-    public function supervisor() : BelongsTo
+    public function supervisor(): BelongsTo
     {
         return $this->belongsTo(Supervisors::class);
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(DiscussionComments::class, 'discussion_id'); 
+        return $this->hasMany(DiscussionComments::class, 'discussion_id');
     }
 }

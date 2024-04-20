@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 class DiscussionCommentController extends Controller
 {
 
-    public function detail($id){
+    public function detail($id)
+    {
         $discussionComments = DiscussionComments::with(["discussions", "supervisors"])->where('discussion_id', $id)->get();
 
         if (!$discussionComments) {
@@ -84,7 +85,8 @@ class DiscussionCommentController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         try {
             $discussionComment = DiscussionComments::find($id);
             $discussionComment->delete();
@@ -107,7 +109,7 @@ class DiscussionCommentController extends Controller
     {
         try {
             // Check if the user has already liked the discussion comment
-            $likeFind = DiscussionCommentLikes::where("discussion_comments_id", $id)->where("supervisor_id", auth()->user()->supervisor->id)->first();
+            $likeFind = DiscussionCommentLikes::where('discussion_comments_id', $id)->where('supervisor_id', auth()->user()->supervisor->id)->first();
 
             // If user has already liked the discussion comment, unlike it
             if ($likeFind) {
@@ -115,7 +117,7 @@ class DiscussionCommentController extends Controller
             }
 
             // Like the discussion comment
-            $discussionLike =  $likeFind->create([
+            $discussionLike = DiscussionCommentLikes::create([
                 "discussion_comments_id" => $id,
                 "supervisor_id" => auth()->user()->supervisor->id
             ]);
@@ -133,14 +135,15 @@ class DiscussionCommentController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion comment like failed",
-                "data" => null
+                "data" => null,
             ], 500);
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion comment like
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion comment like failed",
-                "data" => null
+                "data" => null,
+                'error' => $th->getMessage()
             ], 500);
         }
     }

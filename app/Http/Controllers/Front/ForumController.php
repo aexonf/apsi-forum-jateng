@@ -14,10 +14,17 @@ use Illuminate\Support\Facades\Auth;
 class ForumController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
+            $sort = $request->sort;
+            if ($sort == "newest") {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->orderBy("created_at", "desc")->get();
+            } elseif ($sort == "oldest") {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->orderBy("created_at", "asc")->get();
+            } else {
+                $discussion = Discussions::with(["supervisor", "comments"])->where("status", "approved")->get();
+            }
 
             foreach ($discussion as $value) {
                 $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
@@ -125,16 +132,12 @@ class ForumController extends Controller
             $updateView = Discussions::find($id)->update([
                 "view_count" => Discussions::find($id)->view_count + 1,
             ]);
-            $discussion = Discussions::with(["supervisor:id,name,label"])->where("id", $id)->first();
-
-
+            $discussion = Discussions::with(["supervisor:id,name,label,img_url"])->where("id", $id)->first();
 
             $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
             $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
-
-            $discussion["like_comment"] = DiscussionCommentLikes::where("discussion_comments_id", $id)->count();
 
             // Check if discussion exists
             if ($discussion && $updateView) {
@@ -188,6 +191,7 @@ class ForumController extends Controller
 
             // Update discussion
             $update = Discussions::find($id)->update($data);
+            $update = Discussions::find($id);
 
             // Check if discussion update was successful
             if ($update) {
@@ -224,7 +228,8 @@ class ForumController extends Controller
     {
         try {
             // Delete discussion
-            $delete = Discussions::find($id)->delete();
+            $discussion = Discussions::findOrFail($id);
+            $delete = $discussion->delete();
 
             // Check if discussion deletion was successful
             if ($delete) {
@@ -246,7 +251,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion deletion failed",
-                "data" => null
+                "data" => null,
+                "error" => $th->getMessage()
             ], 500);
         }
     }
@@ -265,13 +271,29 @@ class ForumController extends Controller
 
             // If user has already liked the discussion, unlike it
             if ($likeFind) {
-                $likeFind->delete();
+                $likeDelete = LikeDiscussions::where("discussions_id", $id)->where("supervisor_id", auth()->user()->supervisor->id)->delete();
+
+                // Check if discussion like deletion was successful
+                if ($likeDelete) {
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "Discussion unliked successfully",
+                        "data" => $likeDelete
+                    ]);
+                }
+
+                // Return error response if discussion like deletion failed
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Discussion like deletion failed",
+                    "data" => null
+                ], 500);
             }
 
             // Like the discussion
-            $discussionLike = $likeFind->create([
+            $discussionLike = LikeDiscussions::create([
                 "discussions_id" => $id,
-                "supervisor_id" => auth()->user()->supervisor->id
+                "supervisor_id" => auth()->user()->supervisor->id,
             ]);
 
             // Check if discussion like was successful
@@ -294,7 +316,8 @@ class ForumController extends Controller
             return response()->json([
                 "status" => "error",
                 "message" => "Discussion like failed",
-                "data" => null
+                "data" => null,
+                'error' => $th->getMessage()
             ], 500);
         }
     }
@@ -302,9 +325,30 @@ class ForumController extends Controller
     public function myForum(Request $request)
     {
         try {
+            $sort = $request->sort;
             $user = Supervisors::where("user_id", auth()->user()->id)->first();
+            $discussion = [];
 
-            $discussion = Discussions::with("supervisor")->where("supervisor_id", $user->user_id)->orderBy("status")->get();
+            if ($sort == "newest") {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("created_at", "desc")
+                    ->get()
+                ;
+            } elseif ($sort == "latest") {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("created_at", "asc")
+                    ->get()
+                ;
+            } else {
+                $discussion = Discussions::with("supervisor")
+                    ->where("supervisor_id", $user->user_id)
+                    ->orderBy("status")
+                    ->get()
+                ;
+            }
+
 
             foreach ($discussion as $value) {
                 $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
@@ -319,7 +363,8 @@ class ForumController extends Controller
                 return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
-                    "data" => $discussion
+                    "data" => $discussion ?? [],
+                    "sort" => $sort
                 ], 200);
             }
 

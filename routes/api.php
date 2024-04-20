@@ -8,12 +8,12 @@ use App\Http\Controllers\Front\PublicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    $user = $request->user()->with('supervisor')->first();
-    return response()->json([
-        'data' => $user
-    ]);
-})->middleware("auth:sanctum");
+// Route::get('/user', function (Request $request) {
+//     $user = $request->user()->with('supervisor:id,name,email,label,level')->first();
+//     return response()->json([
+//         'data' => $user
+//     ], 200);
+// })->middleware("auth:sanctum");
 
 
 Route::controller(AuthController::class)->prefix("/v1/auth")->group(function () {
@@ -22,23 +22,27 @@ Route::controller(AuthController::class)->prefix("/v1/auth")->group(function () 
     Route::post("/logout", "logout")->middleware("auth:sanctum");
 });
 
-
-Route::get("/v1/forum", [ForumController::class, "index"]);
+Route::prefix("/v1")->group(function () {
+    Route::get("/forum", [ForumController::class, "index"]);
+    Route::get("/forum/detail/{id}", [ForumController::class, "detail"]);
+    Route::get("/comment/{id}", [DiscussionCommentController::class, "detail"]); // id  blog nya
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
+        Route::get("/", "index");
+        Route::put("/{id}", "download"); // counter download
+    });
+});
 
 Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
 
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
         Route::post("/", "store");
         Route::get("/me", "myForum");
-        Route::get("/{id}", "detail");
         Route::put("/{id}", "update");
-        Route::delete("/{id}", "delete");
+        Route::delete("/delete/{id}", "destroy");
         Route::post("/like/{id}", "like");
     });
 
-
     Route::controller(DiscussionCommentController::class)->prefix("/comment")->group(function () {
-        Route::get("/{id}", "detail"); // id  blog nya
         Route::post("/{id}", "create"); // id dari  blog nya
         Route::put("/{id}", "update"); // id dari comment nya
         Route::delete("/{id}", "destroy"); // id dari comment nya
@@ -50,8 +54,4 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
         Route::put("/", "update");
     });
 
-    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
-        Route::get("/", "index");
-        Route::put("/{id}", "download"); // counter download
-    });
 });

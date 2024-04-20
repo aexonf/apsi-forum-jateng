@@ -56,16 +56,22 @@ export default function LoginPage() {
             .then((res) => {
                 if (res.data.status == "reset-password") {
                     setOpenModal(true);
-                    localStorage.setItem("token", res.data.token)
+                    localStorage.setItem("token", res.data.token);
                 } else {
+                    if (
+                        res.data.data.role === "superadmin" ||
+                        res.data.data.role === "admin"
+                    ) {
+                        window.location.href = "/dashboard";
+                    }
                     localStorage.setItem("token", res.data.token);
                     Inertia.get("/");
-                    toast.success("Berhasil Login.")
+                    toast.success("Berhasil Login.");
                 }
             })
             .catch((err) => {
                 setError(err.response.data.message);
-                toast.error(err.response.data.message)
+                toast.error(err.response.data.message);
                 if (err.response.data.status == "reset-password") {
                     setOpenModal(true);
                     if (err.response.data.token) {

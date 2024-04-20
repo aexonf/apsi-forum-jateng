@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "@inertiajs/inertia-react";
@@ -17,39 +18,44 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const options = [
     {
-        value: "terbaru",
+        value: "newest",
         label: "Terbaru",
     },
     {
-        value: "terlama",
+        value: "oldest",
         label: "Terlama",
     },
 ];
 
 export default function Home() {
     const token = localStorage.getItem("token");
-    const [selectedOption, setSelectedOption] = useState(options[0]);
+    const [selectedOption, setSelectedOption] = useState(options[0].value);
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        async function fetchProfile() {
-            try {
-                setLoading(true);
-                const response = await axios.get("/api/v1/forum", {
+    async function fetchDataByOption() {
+        try {
+            setLoading(true);
+            const response = await axios.get(
+                `/api/v1/forum?sort=${selectedOption}`,
+                {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                });
-                setData(response.data.data);
-                setLoading(false);
-            } catch (e) {
-                toast.error("Ada yang salah.");
-            }
+                }
+            );
+            setData(response.data.data);
+            setLoading(false);
+        } catch (e) {
+            toast.error("Ada yang salah.");
         }
-        fetchProfile();
-    }, []);
+    }
+
+    useEffect(() => {
+        fetchDataByOption();
+    }, [selectedOption]);
+
     return (
         <Layout>
             <div className="flex items-center justify-between gap-3 my-4">
@@ -57,7 +63,7 @@ export default function Home() {
                     Forum
                 </h3>
                 <Select
-                    defaultValue={selectedOption.value}
+                    defaultValue={options[0].value}
                     onValueChange={setSelectedOption}
                 >
                     <SelectTrigger
@@ -120,16 +126,12 @@ export default function Home() {
                                     <div className="p-8 w-full">
                                         <div className="flex items-start justify-between">
                                             <div className="flex items-start">
-                                                <img
-                                                    alt="pp"
-                                                    className="rounded-full"
-                                                    height="40"
-                                                    style={{
-                                                        aspectRatio: "40/40",
-                                                        objectFit: "cover",
-                                                    }}
-                                                    width="40"
-                                                />
+                                                <Avatar>
+                                                    <AvatarImage
+                                                        src={`/storage/${item?.supervisor?.img_url}`}
+                                                    />
+                                                    <AvatarFallback></AvatarFallback>
+                                                </Avatar>
                                                 <div className="ml-4">
                                                     <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                         {item?.supervisor?.name}
@@ -143,7 +145,7 @@ export default function Home() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="mt-4 text-gray-500 dark:text-gray-300 max-h-40 overflow-hidden">
+                                        <div className="my-4 max-h-64 overflow-hidden">
                                             <div
                                                 dangerouslySetInnerHTML={{
                                                     __html: item.content,
