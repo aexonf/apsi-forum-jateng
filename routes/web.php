@@ -39,9 +39,12 @@ Route::get('/login', function () {
 })->name('login');
 
 
-// router untuk login
-Route::controller(AuthController::class)->prefix("/login")->group(function() {
+Route::controller(AuthController::class)->prefix("/login")->group(function () {
     Route::post("/", "login");
+});
+
+Route::controller(AuthController::class)->prefix("/logout")->group(function () {
+    Route::get("/", "logout")->name('logout');
 });
 
 
@@ -73,14 +76,14 @@ Route::prefix("/dashboard")->group(function () {
         Route::get("/export", "export")->name("admin.supervisor.export");
     });
 
-    Route::controller(PublicationController::class)->prefix("/publication")->group(function() {
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
         Route::get("/", "index")->name("admin.publication.index");
         Route::post("/", "create")->name("admin.publication.create");
         Route::put("/{id}/update", "update")->name("admin.publication.update");
         Route::delete("/{id}/delete", "delete")->name("admin.publication.delete");
     });
 
-    Route::controller(AdminManagementController::class)->prefix("/admin-management")->group(function() {
+    Route::controller(AdminManagementController::class)->prefix("/admin-management")->group(function () {
         Route::get("/", "index")->name("admin.admin-management.index");
         Route::post("/", "create")->name("admin.admin-management.create");
         Route::put("/{id}/update", "update")->name("admin.admin-management.update");
@@ -89,6 +92,4 @@ Route::prefix("/dashboard")->group(function () {
         Route::post("/import", "import")->name("admin..admin-management.import");
         Route::get("/export", "export")->name("admin..admin-management.export");
     });
-
-
 })->middleware("auth");
