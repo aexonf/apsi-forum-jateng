@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
 
-            <li class="{{ request()->path() === 'dashboardw' ? 'active' : '' }}">
+            <li class="{{ request()->path() === 'dashboard' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}" id="route-admin"><i class="fas fa-home"></i>
                     <span>Dashboard</span></a>
             </li>
