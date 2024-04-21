@@ -28,7 +28,7 @@ const formSchema = z.object({
     content: z.string().min(1, "Komentar harus di isi."),
 });
 
-export default function Home({ id }) {
+export default function Detail({ id }) {
     const token = localStorage.getItem("token");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -36,8 +36,8 @@ export default function Home({ id }) {
     const [comment, setComment] = useState([]);
     const [isError, setIsError] = useState(false);
     async function getComment() {
-        setLoading(true);
         try {
+            setLoading(true);
             const response = await axios.get(`/api/v1/comment/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -48,10 +48,13 @@ export default function Home({ id }) {
             if (e.response.status == 500) {
                 toast.error("Terjadi kesalahan");
                 setIsError(true);
+                setLoading(false);
                 new Promise((resolve) => setTimeout(resolve, 5000)).then(() => {
                     Inertia.get("/");
                 });
             }
+        } finally {
+            setLoading(false);
         }
     }
     async function fetchForum() {
@@ -95,6 +98,10 @@ export default function Home({ id }) {
             toast.error("Anda harus login terlebih dahulu.");
             return;
         }
+        if (data.status == "pending") {
+            toast.error("Forum belum disetujui.");
+            return;
+        }
         setIsSending(true);
         await axios
             .post(
@@ -113,6 +120,7 @@ export default function Home({ id }) {
             })
             .catch((e) => {
                 toast.error(e.response.data.message);
+                setIsSending(false);
             });
     };
 
@@ -135,6 +143,7 @@ export default function Home({ id }) {
             })
             .catch((e) => {
                 toast.error(e.response.data.message);
+                setIsSending(false);
             });
     };
 
@@ -164,6 +173,7 @@ export default function Home({ id }) {
             })
             .catch((err) => {
                 toast.error(err.response.data.message);
+                setIsSending(false);
             });
     };
 

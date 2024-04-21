@@ -25,7 +25,7 @@ import {
     UnderlineIcon,
     UndoIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useForm } from "react-hook-form";
@@ -39,6 +39,25 @@ const formSchema = z.object({
 
 export default function CreateForum() {
     const token = localStorage.getItem("token");
+    const [data, setData] = useState(null);
+
+    async function getData() {
+        try {
+            const response = await axios.get("/api/v1/user", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setData(response.data.data);
+        } catch (error) {
+            toast.error("Gagal mengambil data.");
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const {
         register,
@@ -124,15 +143,20 @@ export default function CreateForum() {
                     <CardContent>
                         <div className="flex items-center space-x-4 my-4">
                             <Avatar>
-                                <AvatarImage alt="User profile picture" />
-                                <AvatarFallback>EP</AvatarFallback>
+                                {data?.img_url && (
+                                    <AvatarImage
+                                        alt="User profile picture"
+                                        src={`/storage/${data?.img_url}`}
+                                    />
+                                )}
+                                <AvatarFallback></AvatarFallback>
                             </Avatar>
                             <div>
                                 <div className="font-semibold text-lg">
-                                    Eka Prasetyo S.Pd
+                                    {data?.name}
                                 </div>
                                 <div className="text-gray-500">
-                                    Kepala Sekolah SMK Bintara
+                                    {data?.label}
                                 </div>
                             </div>
                         </div>

@@ -10,12 +10,8 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@inertiajs/inertia-react";
 import draftToHtml from "draftjs-to-html";
-import {
-    ContentState,
-    EditorState,
-    convertFromHTML,
-    convertToRaw,
-} from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import { ContentState, EditorState, convertToRaw } from "draft-js";
 import {
     BoldIcon,
     ChevronLeft,
@@ -44,9 +40,28 @@ const formSchema = z.object({
 
 export default function EditForum({ id }) {
     const token = localStorage.getItem("token");
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [data, setData] = useState(null);
+    const [editorState, setEditorState] = useState(null);
+    const [dataProfile, setDataProfile] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    async function getData() {
+        try {
+            const response = await axios.get("/api/v1/user", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setDataProfile(response.data.data);
+        } catch (error) {
+            toast.error("Gagal mengambil data.");
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     const onEditorStateChange = function (editorState) {
         setEditorState(editorState);
         setValue(
@@ -93,12 +108,14 @@ export default function EditForum({ id }) {
             const data = res.data.data;
             setData(data);
             setValue("title", data.title);
-            const htmlToDraftObject = convertFromHTML(data.content);
-            const contentState = ContentState.createFromBlockArray(
-                htmlToDraftObject.contentBlocks
+            const blocksFromHTML = htmlToDraft(data.content);
+            const state = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
             );
-            setValue("content", draftToHtml(convertToRaw(contentState)));
-            setEditorState(EditorState.createWithContent(contentState));
+            const editorState = EditorState.createWithContent(state);
+            setEditorState(editorState);
+            console.log("123", blocksFromHTML);
             setLoading(false);
         } catch (err) {
             setLoading(false);
@@ -148,7 +165,7 @@ export default function EditForum({ id }) {
                     </Link>
                 </Button>
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                    Tambah Forum
+                    Ubah Forum
                 </h3>
                 <span></span>
             </div>
@@ -157,15 +174,20 @@ export default function EditForum({ id }) {
                     <CardContent>
                         <div className="flex items-center space-x-4 my-4">
                             <Avatar>
-                                <AvatarImage alt="User profile picture" />
-                                <AvatarFallback>EP</AvatarFallback>
+                                {dataProfile?.img_url && (
+                                    <AvatarImage
+                                        alt="User profile picture"
+                                        src={`/storage/${dataProfile?.img_url}`}
+                                    />
+                                )}
+                                <AvatarFallback></AvatarFallback>
                             </Avatar>
                             <div>
                                 <div className="font-semibold text-lg">
-                                    Eka Prasetyo S.Pd
+                                    {dataProfile?.name}
                                 </div>
                                 <div className="text-gray-500">
-                                    Kepala Sekolah SMK Bintara
+                                    {dataProfile?.label}
                                 </div>
                             </div>
                         </div>

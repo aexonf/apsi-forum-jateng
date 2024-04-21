@@ -51,7 +51,7 @@ Route::prefix("/v1")->middleware("auth:sanctum")->group(function () {
 
     Route::controller(ProfileController::class)->prefix("/user")->group(function () {
         Route::get("/", "index");
-        Route::put("/", "update");
+        Route::post("/", "update");
     });
 
 });
