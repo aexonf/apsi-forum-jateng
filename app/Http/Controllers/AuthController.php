@@ -18,6 +18,7 @@ class AuthController extends Controller
             "password" => "required"
         ]);
 
+        // login supervisor
         if ($request->has("id_number")) {
             $user = Supervisors::with("user")->where("id_number", $request->id_number)->first();
 
@@ -30,6 +31,7 @@ class AuthController extends Controller
             }
 
             $passwordCheck = User::where("id", $user->user_id)->first();
+            $token = $user->createToken($passwordCheck->username)->plainTextToken;
 
             if (Hash::check($request->password, $passwordCheck->password)) {
                 $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
@@ -39,46 +41,31 @@ class AuthController extends Controller
                 }
 
 
-                return response()->with("success", "Login berhasil");
+                return response()->with("token", $token);
             }
 
             return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
         }
 
+        // login admin / superadmin
         $user = User::where("username", $request->username)->first();
 
         if (!$user) {
-            return response()->json([
-                "status" => "error",
-                "message" => "User with the provided username not found",
-                "data" => null
-            ], 301);
+            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
         }
-        $token = $user->createToken($user->username)->plainTextToken;
 
         if (Hash::check($request->password, $user->password)) {
             if (!$user->is_password_change) {
-                return response()->json([
-                    "status" => "reset-password",
-                    "message" => "Password belum di reset",
-                    "data" => null,
-                    "token" => $token
-                ], 401);
+                return redirect()->back()->with("error", "Kata sandi belum di reset");
             }
 
 
-            return response()->json([
-                "status" => "success",
-                "message" => "Login Success",
-                "token" => $token,
-                "data" => $user,
-            ], 200);
+            if (Auth::attempt(['username' => $user->username])) {
+                return response()->with("success", "Login berhasil");
+            }
+
         } else {
-            return response()->json([
-                "status" => "error",
-                "message" => 'Invalid Credentials',
-                "data" => null
-            ], 401);
+            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
         }
     }
 
@@ -122,6 +109,4 @@ class AuthController extends Controller
             "data" => null
         ]);
     }
-
-
 }
