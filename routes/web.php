@@ -45,25 +45,22 @@ Route::controller(AuthController::class)->prefix("/login")->group(function () {
     Route::post("/", "login");
 });
 
-Route::controller(AuthController::class)->prefix("/logout")->group(function () {
-    Route::get("/", "logout")->name('logout');
-});
-
-
 Route::prefix("/dashboard")->group(function () {
-
     Route::get("/", function (Request $request) {
         return view("pages.index", [
             "request" => $request
         ]);
     })->name("admin.dashboard")->middleware('auth');
 
+    Route::controller(AuthController::class)->prefix("/logout")->group(function () {
+        Route::get("/", "logout")->name('logout');
+    });
+
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
         Route::get("/", "index")->name("admin.forum.index");
         Route::get("/detail/{id}", "detail")->name("admin.forum.detail");
         Route::put("/{id}/approved", "approved")->name("admin.forum.approved");
         Route::put("/{id}/rejected", "rejected")->name("admin.forum.rejected");
-        // Delete Comment
         Route::delete("/comment/delete/{id}", "destroyComment")->name("admin.forum.comment.delete");
     });
 

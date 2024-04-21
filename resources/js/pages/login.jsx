@@ -14,8 +14,9 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Inertia } from "@inertiajs/inertia";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm as reactUseForm } from "react-hook-form";
+import { usePage } from "@inertiajs/inertia-react";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -24,7 +25,10 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+    const { props } = usePage();
+
     const token = localStorage.getItem("token");
+
     const {
         register,
         handleSubmit,
@@ -49,6 +53,10 @@ export default function LoginPage() {
 
         Inertia.post("/login", body);
     };
+
+    useEffect(() => {
+        console.log(props);
+    }, [props]);
 
     return (
         <Layout className={"h-screen"}>
