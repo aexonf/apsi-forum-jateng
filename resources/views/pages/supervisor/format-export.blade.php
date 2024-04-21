@@ -4,8 +4,8 @@
             <th>#</th>
             <th>ID Number</th>
             <th>Nama</th>
-            <th>Nomer Telepone</th>
-            <th>Level</th>
+            <th>Nomer HP</th>
+            <th>Tingkat</th>
             <th>Label</th>
             <th>Email</th>
             <th>Username</th>
@@ -14,7 +14,7 @@
     <tbody>
         @foreach ($data as $index => $item)
             <tr>
-                <td>{{$index + 1}}</td>
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $item->id_number }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->phone_number }}</td>

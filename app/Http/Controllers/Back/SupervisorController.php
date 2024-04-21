@@ -129,7 +129,7 @@ class SupervisorController extends Controller
 
     public function downloadFormat()
     {
-        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Import Format Pengawas.xlsx');
+        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Format Import Pengawas.xlsx');
     }
 
     public function import()

@@ -47,7 +47,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="min-width: 40px;">#</th>
-                                        <th style="min-width: 160px;">Title</th>
+                                        <th style="min-width: 160px;">Judul</th>
                                         <th style="min-width: 160px;">File</th>
                                         <th style="min-width: 160px;">Aksi</th>
                                     </tr>
