@@ -79,6 +79,9 @@ class SupervisorController extends Controller
         $newImage = null;
 
         if ($request->hasFile('image')) {
+            if ($supervisor->img_url) {
+                Storage::delete($supervisor->img_url);
+            }
 
             $image = $request->file('image');
             $imageName = 'image-' . time() . '.' . $image->getClientOriginalExtension();

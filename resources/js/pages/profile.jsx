@@ -190,7 +190,7 @@ export default function Home() {
                                     <Input
                                         id="phone"
                                         defaultValue={editData?.phone_number}
-                                        placeholder="Masukkan nomor telepon anda"
+                                        placeholder="Masukkan Nomor HP anda"
                                         type="number"
                                         onChange={(e) =>
                                             setEditData({
