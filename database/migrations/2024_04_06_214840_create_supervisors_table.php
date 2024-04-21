@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("id_number");
             $table->string("name");
-            $table->string("email")->unique();
-            $table->string("phone_number")->unique();
-            $table->string("label");
-            $table->string("img_url");
+            $table->string("email")->nullable();
+            $table->string("phone_number")->nullable();
+            $table->string("label")->nullable();
+            $table->string("img_url")->nullable();
             $table->enum("level", ["TK", "SD", "SMP", "SMA", "SMK"]);
 
             $table->unsignedBigInteger('user_id');

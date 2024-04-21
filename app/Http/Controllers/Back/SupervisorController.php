@@ -15,7 +15,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SupervisorController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $supervisorQuery = Supervisors::query();
 
         if ($request->has("level")) {
@@ -29,14 +30,12 @@ class SupervisorController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $request->validate([
             "id_number" => "required",
             "name" => "required",
-            "phone_number" => "required",
             "level" => "required",
-            "label" => "required",
-            "email" => "required",
             "username" => "required",
             "password" => "required"
         ]);
@@ -68,18 +67,18 @@ class SupervisorController extends Controller
             "img_url" => $nameImage,
         ]);
 
-        if ($supervisor){
+        if ($supervisor) {
             return redirect()->back()->with("success", "Pengawas berhasil di buat");
         }
         return redirect()->back()->with("error", "Pengawas gagal di buat");
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $supervisor = Supervisors::findOrFail($id);
         $newImage = null;
 
         if ($request->hasFile('image')) {
-            Storage::delete($supervisor->img_url);
 
             $image = $request->file('image');
             $imageName = 'image-' . time() . '.' . $image->getClientOriginalExtension();
@@ -106,7 +105,8 @@ class SupervisorController extends Controller
         return redirect()->back()->with("success", "Informasi Pengawas berhasil diperbarui");
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $supervisor = Supervisors::findOrFail($id);
 
         // Hapus gambar jika ada
@@ -115,18 +115,18 @@ class SupervisorController extends Controller
         }
 
         // Hapus supervisor
-       $deleted =  $supervisor->delete();
+        $deleted =  $supervisor->delete();
 
-       if($deleted){
-           return redirect()->back()->with("success", "Pengawas berhasil dihapus");
-       }
-       return redirect()->back()->with("eror", "Pengawas gagal dihapus");
+        if ($deleted) {
+            return redirect()->back()->with("success", "Pengawas berhasil dihapus");
+        }
+        return redirect()->back()->with("eror", "Pengawas gagal dihapus");
     }
 
 
     public function downloadFormat()
     {
-        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Pengawas Import Format.xlsx');
+        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Import Format Pengawas.xlsx');
     }
 
     public function import()

@@ -36,7 +36,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            'token' => fn () => $request->session()->get('token'),
+            'is_change_password' => fn () => $request->session()->get('is_change_password'),
         ]);
     }
 }

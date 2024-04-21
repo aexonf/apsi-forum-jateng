@@ -40,7 +40,7 @@
                                     <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
                                         data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
                                         Import</button>
-                                    <form action="{{ route("admin.supervisor.export") }}" method="get">
+                                    <form action="{{ route('admin.supervisor.export') }}" method="get">
                                         @csrf
                                         @method('GET')
                                         <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"><i
@@ -52,32 +52,37 @@
                                     <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
                                         data-toggle="collapse" data-target="#section-filter"><i class="fas fa-filter"></i>
                                         Filter</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                     <div class="card-body">
                         <div class="collapse mb-3 pb-3 border-bottom show" id="section-filter">
                             <form class="needs-validation" novalidate="" method="GET"
-                                action="{{ route("admin.supervisor.index") }}" enctype="multipart/form-data">
+                                action="{{ route('admin.supervisor.index') }}" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <div class="form-group mb-2">
                                             <label class="mb-2">Level</label>
-                                            <select class="form-control select2" id="level" name="level"
-                                                required onchange="handleChangeFilter(this)">
+                                            <select class="form-control select2" id="level" name="level" required
+                                                onchange="handleChangeFilter(this)">
                                                 <option value=""></option>
-                                                <option value="TK" {{ request('level') == 'TK' ? 'selected' : '' }}>TK</option>
-                                                <option value="SD" {{ request('level') == 'SD' ? 'selected' : '' }}>SD</option>
-                                                <option value="SMP" {{ request('level') == 'SMP' ? 'selected' : '' }}>SMP</option>
-                                                <option value="SMA" {{ request('level') == 'SMA' ? 'selected' : '' }}>SMA</option>
-                                                <option value="SMK" {{ request('level') == 'SMK' ? 'selected' : '' }}>SMK</option>
+                                                <option value="TK" {{ request('level') == 'TK' ? 'selected' : '' }}>TK
+                                                </option>
+                                                <option value="SD" {{ request('level') == 'SD' ? 'selected' : '' }}>SD
+                                                </option>
+                                                <option value="SMP" {{ request('level') == 'SMP' ? 'selected' : '' }}>
+                                                    SMP</option>
+                                                <option value="SMA" {{ request('level') == 'SMA' ? 'selected' : '' }}>
+                                                    SMA</option>
+                                                <option value="SMK" {{ request('level') == 'SMK' ? 'selected' : '' }}>
+                                                    SMK</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route("admin.supervisor.index") }}" class="btn btn-danger ml-2">Reset</a>
+                                    <a href="{{ route('admin.supervisor.index') }}" class="btn btn-danger ml-2">Reset</a>
                                     <button type="submit" class="btn btn-primary ml-2">Kirim</button>
                                 </div>
                             </form>
@@ -100,11 +105,11 @@
                                             <td>
                                                 <div class="media">
                                                     @if ($supervisor->img_url)
-                                                    <img alt="image" class="mr-3 rounded-circle" width="48"
-                                                         src="{{ asset('storage/' . $supervisor->img_url) }}">
+                                                        <img alt="image" class="mr-3 rounded-circle" width="48"
+                                                            src="{{ asset('storage/' . $supervisor->img_url) }}">
                                                     @else
-                                                    <img alt="image" class="mr-3 rounded-circle" width="48"
-                                                    src="{{  asset('img/avatar/avatar-1.png') }}">
+                                                        <img alt="image" class="mr-3 rounded-circle" width="48"
+                                                            src="{{ asset('img/avatar/avatar-1.png') }}">
                                                     @endif
                                                     <div class="media-body">
                                                         <div class="media-title">
@@ -125,7 +130,7 @@
                                                                 ? 'text-warning'
                                                                 : ($supervisor->level === 'SMA'
                                                                     ? 'text-danger'
-                                                                    : 'text-black'))) }} fw-bold">
+                                                                    : 'text-black'))) }} font-weight-bold">
                                                     {{ $supervisor->level }}
                                                 </div>
                                             </td>
@@ -161,71 +166,72 @@
         </section>
     </div>
 
-{{-- modal create --}}
-<div class="modal fade" id="modal-create" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Pengawas</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="needs-validation" novalidate="" method="POST" action="{{ route("admin.supervisor.create") }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('POST')
-                    <div class="form-group mb-2">
-                        <label for="id_number">Nomor ID<span class="text-danger">*</span></label>
-                        <input type="text" id="id_number" class="form-control" name="id_number" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="name">Nama<span class="text-danger">*</span></label>
-                        <input type="text" id="name" class="form-control" name="name" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="phone_number">Nomor Telepon<span class="text-danger">*</span></label>
-                        <input type="text" id="phone_number" class="form-control" name="phone_number" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="level">Level<span class="text-danger">*</span></label>
-                        <select class="form-control" name="level" id="level">
-                            <option value="TK">TK</option>
-                            <option value="SD">SD</option>
-                            <option value="SMP">SMP</option>
-                            <option value="SMA">SMA</option>
-                            <option value="SMK">SMK</option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="label">Label<span class="text-danger">*</span></label>
-                        <input type="text" id="label" class="form-control" name="label" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="email">Email<span class="text-danger">*</span></label>
-                        <input type="email" id="email" class="form-control" name="email" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="username">Username<span class="text-danger">*</span></label>
-                        <input type="text" id="username" class="form-control" name="username" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="password">Password<span class="text-danger">*</span></label>
-                        <input type="password" id="password" class="form-control" name="password" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="image">Gambar<span class="text-danger">*</span></label>
-                        <input type="file" id="image" class="form-control" name="image" >
-                    </div>
-                    <div class="mt-5 d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
-                        <button type="submit" class="btn btn-primary ml-2">Kirim</button>
-                    </div>
-                </form>
+    {{-- modal create --}}
+    <div class="modal fade" id="modal-create" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Pengawas</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" novalidate="" method="POST"
+                        action="{{ route('admin.supervisor.create') }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <div class="form-group mb-2">
+                            <label for="id_number">Nomor ID<span class="text-danger">*</span></label>
+                            <input type="text" id="id_number" class="form-control" name="id_number" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="name">Nama<span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="phone_number">Nomor Teleponn</label>
+                            <input type="text" id="phone_number" class="form-control" name="phone_number">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="level">Level<span class="text-danger">*</span></label>
+                            <select class="form-control" name="level" id="level">
+                                <option value="TK">TK</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                                <option value="SMK">SMK</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="label">Label</label>
+                            <input type="text" id="label" class="form-control" name="label">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" name="email">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="username">Username<span class="text-danger">*</span></label>
+                            <input type="text" id="username" class="form-control" name="username" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="password">Password<span class="text-danger">*</span></label>
+                            <input type="password" id="password" class="form-control" name="password" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="image">Gambar</label>
+                            <input type="file" id="image" class="form-control" name="image">
+                        </div>
+                        <div class="mt-5 d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
+                            <button type="submit" class="btn btn-primary ml-2">Kirim</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     {{-- modal import --}}
     <div class="modal fade" id="modal-import" data-backdrop="static">
@@ -238,20 +244,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST" action="{{ route("admin.supervisor.import") }}"
-                        enctype="multipart/form-data">
+                    <form class="needs-validation" novalidate="" method="POST"
+                        action="{{ route('admin.supervisor.import') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
                             <label for="supervissor">File </label>
                             <input type="file" id="supervissor" class="form-control" name="supervissor" required>
                         </div>
                         <div>
-                            <a href="{{ route("admin.supervisor.download.format") }}" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
-                                    class="fas fa-download"></i>
+                            <a href="{{ route('admin.supervisor.download.format') }}"
+                                class="btn btn-icon icon-left btn-info mr-2 mb-2"><i class="fas fa-download"></i>
                                 Unduh Template</a>
-                            {{-- <a href="#" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
-                                    class="fas fa-circle-info"></i>
-                                Unduh Instruksi Template</a> --}}
                         </div>
                         <div class="mt-5 d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
@@ -262,71 +265,72 @@
             </div>
         </div>
     </div>
-   {{-- modal edit --}}
-<div class="modal fade" id="modal-edit" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Ubah Pengawas</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="form-edit" class="needs-validation" novalidate="" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group mb-2">
-                        <label for="id_number">Nomor ID<span class="text-danger">*</span></label>
-                        <input type="text" id="id_number" class="form-control" name="id_number" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="name">Nama<span class="text-danger">*</span></label>
-                        <input type="text" id="name" class="form-control" name="name" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="phone_number">Nomor Telepon<span class="text-danger">*</span></label>
-                        <input type="text" id="phone_number" class="form-control" name="phone_number" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="level">Level<span class="text-danger">*</span></label>
-                        <select name="level" class="form-control" id="level">
-                            <option value="TK">TK</option>
-                            <option value="SD">SD</option>
-                            <option value="SMP">SMP</option>
-                            <option value="SMA">SMA</option>
-                            <option value="SMK">SMK</option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="label">Label<span class="text-danger">*</span></label>
-                        <input type="text" id="label" class="form-control" name="label" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="email">Email<span class="text-danger">*</span></label>
-                        <input type="email" id="email" class="form-control" name="email" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="username">Username<span class="text-danger">*</span></label>
-                        <input type="text" id="username" class="form-control" name="username" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" name="password">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="image">Gambar<span class="text-danger">*</span></label>
-                        <input type="file" id="image" class="form-control" name="image">
-                    </div>
-                    <div class="mt-5 d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
-                        <button type="submit" class="btn btn-primary ml-2">Kirim</button>
-                    </div>
-                </form>
+    {{-- modal edit --}}
+    <div class="modal fade" id="modal-edit" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ubah Pengawas</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-edit" class="needs-validation" novalidate="" method="POST" action=""
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group mb-2">
+                            <label for="id_number">Nomor ID<span class="text-danger">*</span></label>
+                            <input type="text" id="id_number" class="form-control" name="id_number" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="name">Nama<span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="phone_number">Nomor Telepon</label>
+                            <input type="text" id="phone_number" class="form-control" name="phone_number">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="level">Level<span class="text-danger">*</span></label>
+                            <select name="level" class="form-control" id="level">
+                                <option value="TK">TK</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                                <option value="SMK">SMK</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="label">Label</label>
+                            <input type="text" id="label" class="form-control" name="label">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" name="email">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="username">Username<span class="text-danger">*</span></label>
+                            <input type="text" id="username" class="form-control" name="username" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" name="password">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="image">Gambar</label>
+                            <input type="file" id="image" class="form-control" name="image">
+                        </div>
+                        <div class="mt-5 d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
+                            <button type="submit" class="btn btn-primary ml-2">Kirim</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     {{-- modal delete --}}
     <div class="modal fade" id="modal-delete" data-backdrop="static">

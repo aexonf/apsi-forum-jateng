@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -16,55 +17,37 @@ class AuthController extends Controller
     {
         $request->validate([
             "username" => "required",
-            "password" => "required"
+            "password" => "required",
         ]);
+        $supervisor = Supervisors::where("id_number", $request->username)->first();
 
-
-        // login supervisor
-        if ($request->has("id_number")) {
-            $user = Supervisors::with("user")->where("id_number", $request->id_number)->first();
-
-            if (!$user) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "User with the provided ID number not found",
-                    "data" => null
-                ], 401);
+        if ($supervisor) {
+            if (!Hash::check($request->password, $supervisor->user->password)) {
+                return redirect()->back()->with("error", "Username atau password salah");
             }
 
-            $passwordCheck = User::where("id", $user->user_id)->first();
-            $token = $user->createToken($passwordCheck->username)->plainTextToken;
-
-            if (Hash::check($request->password, $passwordCheck->password)) {
-                $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
-
-                if (!$passwordCheck->is_password_change) {
-                    return redirect()->back()->with("error", "Kata sandi belum di reset");
-                }
+            $token = $supervisor->user->createToken($supervisor->user->username)->plainTextToken;
 
 
-                return response()->with("token", $token);
-            }
-
-            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
+            return Inertia::render('login', [
+                "token" => $token,
+                "is_password_change" => $supervisor->user->is_password_change,
+            ]);
         }
 
-        // login admin / superadmin
         $user = User::where("username", $request->username)->first();
 
-        if (!$user) {
-            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
-        } else {
-            if (Auth::attempt($request->only('username', 'password'))) {
-                if (!$user->is_password_change) {
-                    return redirect()->back()->with("error", "Kata sandi belum di reset");
-                } else {
-                    return redirect()->route('admin.dashboard')->with("success", "Login berhasil");
-                }
-            } else {
-                return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
+        if ($user) {
+            if (!Hash::check($request->password, $user->password)) {
+                return redirect()->back()->with("error", "Username atau Password Anda salah");
+            }
+
+            if (Auth::attempt($request->only("username", "password"))) {
+                return redirect("/dashboard")->with("success", "Login berhasil");
             }
         }
+
+        return redirect()->back()->with("error", "Gagal melakukan autentikasi");
     }
 
 
