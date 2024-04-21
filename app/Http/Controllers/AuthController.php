@@ -15,8 +15,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
+            "username" => "required",
             "password" => "required"
         ]);
+
 
         // login supervisor
         if ($request->has("id_number")) {
@@ -52,20 +54,16 @@ class AuthController extends Controller
 
         if (!$user) {
             return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
-        }
-
-        if (Hash::check($request->password, $user->password)) {
-            if (!$user->is_password_change) {
-                return redirect()->back()->with("error", "Kata sandi belum di reset");
-            }
-
-
-            if (Auth::attempt(['username' => $user->username])) {
-                return response()->with("success", "Login berhasil");
-            }
-
         } else {
-            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
+            if (Auth::attempt($request->only('username', 'password'))) {
+                if (!$user->is_password_change) {
+                    return redirect()->back()->with("error", "Kata sandi belum di reset");
+                } else {
+                    return redirect()->route('admin.dashboard')->with("success", "Login berhasil");
+                }
+            } else {
+                return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
+            }
         }
     }
 
@@ -101,12 +99,18 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        if (auth()->user()->role !== 'supervisor') {
+            Auth::logout();
 
-        return response()->json([
-            "status" => "success",
-            "message" => "Logout Success",
-            "data" => null
-        ]);
+            return redirect()->route('login');
+        } else {
+            auth()->user()->tokens()->delete();
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Logout Success",
+                "data" => null
+            ]);
+        }
     }
 }

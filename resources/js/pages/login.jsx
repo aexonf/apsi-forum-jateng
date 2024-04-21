@@ -1,5 +1,5 @@
 import Layout from "@/components/elements/layout";
-import React, { useEffect, useState } from "react";
+import ResetPassword from "@/components/reset-password";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -11,14 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm as reactUseForm } from "react-hook-form";
-import axios from "axios";
-import ResetPassword from "@/components/reset-password";
 import { Inertia } from "@inertiajs/inertia";
-import { toast } from "sonner";
+import React, { useState } from "react";
+import { useForm as reactUseForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
     username: z.string().min(1, "NIP / Username harus di isi."),
@@ -44,41 +42,12 @@ export default function LoginPage() {
 
     const submit = async (data) => {
         const { username, password } = data;
-        const fData = new FormData();
-        fData.append("username", username);
-        fData.append("password", password);
+        const body = {
+            username: username,
+            password: password,
+        };
 
-        await axios
-            .post("/api/v1/auth/login", {
-                username: data.username,
-                password: data.password,
-            })
-            .then((res) => {
-                if (res.data.status == "reset-password") {
-                    setOpenModal(true);
-                    localStorage.setItem("token", res.data.token);
-                } else {
-                    if (
-                        res.data.data.role === "superadmin" ||
-                        res.data.data.role === "admin"
-                    ) {
-                        window.location.href = "/dashboard";
-                    }
-                    localStorage.setItem("token", res.data.token);
-                    Inertia.get("/");
-                    toast.success("Berhasil Login.");
-                }
-            })
-            .catch((err) => {
-                setError(err.response.data.message);
-                toast.error(err.response.data.message);
-                if (err.response.data.status == "reset-password") {
-                    setOpenModal(true);
-                    if (err.response.data.token) {
-                        localStorage.setItem("token", err.response.data.token);
-                    }
-                }
-            });
+        Inertia.post("/login", body);
     };
 
     return (

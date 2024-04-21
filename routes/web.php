@@ -41,9 +41,12 @@ Route::get('/login', function () {
 })->name('login');
 
 
-// router untuk login
 Route::controller(AuthController::class)->prefix("/login")->group(function () {
     Route::post("/", "login");
+});
+
+Route::controller(AuthController::class)->prefix("/logout")->group(function () {
+    Route::get("/", "logout")->name('logout');
 });
 
 
@@ -91,6 +94,4 @@ Route::prefix("/dashboard")->group(function () {
         Route::post("/import", "import")->name("admin..admin-management.import");
         Route::get("/export", "export")->name("admin..admin-management.export");
     });
-
-
 })->middleware("auth");

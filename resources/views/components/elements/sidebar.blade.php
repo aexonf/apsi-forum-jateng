@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
 
-            <li class="{{ Request::is('admin.dashboard') ? 'active' : '' }}">
+            <li class="{{ request()->path() === 'dashboardw' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}" id="route-admin"><i class="fas fa-home"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -17,7 +17,7 @@
 
             @auth
 
-                @if (auth()->user()->role == 'SUPERADMIN')
+                @if (auth()->user()->role == 'superadmin')
                     <li class="{{ request()->path() === 'dashboard/supervisor' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.supervisor.index') }}"><i
                                 class="fa-solid fa-person-circle-plus"></i></i>
@@ -35,7 +35,7 @@
                                 class="fa-solid fa-file"></i></i>
                             <span>Publication</span></a>
                     </li>
-                @elseif (auth()->user()->role == 'ADMIN')
+                @elseif (auth()->user()->role == 'admin')
                     <li class="{{ request()->path() === 'dashboard/forum' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.forum.index') }}"><i class="fa-solid fa-table"></i></i>
                             <span>Forum</span></a>
