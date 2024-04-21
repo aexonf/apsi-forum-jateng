@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Back\AdminManagementController;
 use App\Http\Controllers\Back\ForumController;
 use App\Http\Controllers\Back\PublicationController;
@@ -38,14 +39,19 @@ Route::get('/login', function () {
 })->name('login');
 
 
-Route::get("/dashboard", function (Request $request) {
-    return view("pages.index", [
-        "request" => $request
-    ]);
-})->name("admin.dashboard")->middleware("auth");
+// router untuk login
+Route::controller(AuthController::class)->prefix("/login")->group(function() {
+    Route::post("/", "login");
+});
 
 
 Route::prefix("/dashboard")->group(function () {
+
+    Route::get("/", function (Request $request) {
+        return view("pages.index", [
+            "request" => $request
+        ]);
+    })->name("admin.dashboard");
 
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
         Route::get("/", "index")->name("admin.forum.index");
@@ -85,4 +91,4 @@ Route::prefix("/dashboard")->group(function () {
     });
 
 
-});
+})->middleware("auth");
