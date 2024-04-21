@@ -72,7 +72,7 @@ class AdminManagementController extends Controller
 
     public function downloadFormat()
     {
-        return Excel::download(new FormatImportAdminExport, 'Apsi Forum Jateng - Admin Import Format.xlsx');
+        return Excel::download(new FormatImportAdminExport, 'Apsi Forum Jateng - Format Import Admin.xlsx');
     }
 
     public function import()

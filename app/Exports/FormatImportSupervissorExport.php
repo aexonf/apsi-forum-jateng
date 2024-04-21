@@ -13,6 +13,6 @@ class FormatImportSupervissorExport implements FromView, ShouldAutoSize
     */
     public function view(): View
     {
-        return view("pages.admin-management.format-export");
+        return view("pages.supervisor.format-import");
     }
 }

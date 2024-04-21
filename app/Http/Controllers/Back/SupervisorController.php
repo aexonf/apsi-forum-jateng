@@ -79,6 +79,9 @@ class SupervisorController extends Controller
         $newImage = null;
 
         if ($request->hasFile('image')) {
+            if ($supervisor->img_url) {
+                Storage::delete($supervisor->img_url);
+            }
 
             $image = $request->file('image');
             $imageName = 'image-' . time() . '.' . $image->getClientOriginalExtension();
@@ -126,7 +129,7 @@ class SupervisorController extends Controller
 
     public function downloadFormat()
     {
-        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Import Format Pengawas.xlsx');
+        return Excel::download(new FormatImportSupervissorExport, 'Apsi Forum Jateng - Format Import Pengawas.xlsx');
     }
 
     public function import()

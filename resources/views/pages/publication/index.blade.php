@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'Simaku Admin - Publication')
+@section('title', 'Simaku Admin - Publikasi')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -12,7 +12,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Publication</h1>
+                <h1>Publikasi</h1>
             </div>
 
             @if (session('success') || session('error'))
@@ -47,7 +47,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="min-width: 40px;">#</th>
-                                        <th style="min-width: 160px;">Title</th>
+                                        <th style="min-width: 160px;">Judul</th>
                                         <th style="min-width: 160px;">File</th>
                                         <th style="min-width: 160px;">Aksi</th>
                                     </tr>
@@ -90,7 +90,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Publication</h5>
+                    <h5 class="modal-title">Tambah Publikasi</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
@@ -118,47 +118,12 @@
         </div>
     </div>
 
-    {{-- modal import --}}
-    <div class="modal fade" id="modal-import" data-backdrop="static">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Import Publication</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST"
-                        action="{{ route('admin.supervisor.import') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group mb-2">
-                            <label for="supervissor">File </label>
-                            <input type="file" id="supervissor" class="form-control" name="supervissor" required>
-                        </div>
-                        <div>
-                            <a href="{{ route('admin.supervisor.download.format') }}"
-                                class="btn btn-icon icon-left btn-info mr-2 mb-2"><i class="fas fa-download"></i>
-                                Unduh Template</a>
-                            {{-- <a href="#" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
-                                    class="fas fa-circle-info"></i>
-                                Unduh Instruksi Template</a> --}}
-                        </div>
-                        <div class="mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Kembali</button>
-                            <button type="submit" class="btn btn-primary ml-2">Kirim</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     {{-- modal edit --}}
     <div class="modal fade" id="modal-edit" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ubah Publication</h5>
+                    <h5 class="modal-title">Ubah Publikasi</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
@@ -191,7 +156,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Hapus Publication</h5>
+                    <h5 class="modal-title">Hapus Publikasi</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>

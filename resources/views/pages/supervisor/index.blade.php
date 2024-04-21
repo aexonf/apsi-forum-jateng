@@ -63,10 +63,9 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <div class="form-group mb-2">
-                                            <label class="mb-2">Level</label>
+                                            <label class="mb-2">Tingkat</label>
                                             <select class="form-control select2" id="level" name="level" required
                                                 onchange="handleChangeFilter(this)">
-                                                <option value=""></option>
                                                 <option value="TK" {{ request('level') == 'TK' ? 'selected' : '' }}>TK
                                                 </option>
                                                 <option value="SD" {{ request('level') == 'SD' ? 'selected' : '' }}>SD
@@ -94,7 +93,7 @@
                                         <th class="text-center" style="min-width: 40px;">#</th>
                                         <th style="min-width: 240px;">Nomor ID / Nama</th>
                                         <th style="min-width: 160px;">Username</th>
-                                        <th style="min-width: 160px;">Level</th>
+                                        <th style="min-width: 160px;">Tingkat</th>
                                         <th style="min-width: 160px;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -190,11 +189,11 @@
                             <input type="text" id="name" class="form-control" name="name" required>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="phone_number">Nomor Teleponn</label>
+                            <label for="phone_number">Nomor HP</label>
                             <input type="text" id="phone_number" class="form-control" name="phone_number">
                         </div>
                         <div class="form-group mb-2">
-                            <label for="level">Level<span class="text-danger">*</span></label>
+                            <label for="level">Tingkat<span class="text-danger">*</span></label>
                             <select class="form-control" name="level" id="level">
                                 <option value="TK">TK</option>
                                 <option value="SD">SD</option>
@@ -289,11 +288,11 @@
                             <input type="text" id="name" class="form-control" name="name" required>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="phone_number">Nomor Telepon</label>
+                            <label for="phone_number">Nomor HP</label>
                             <input type="text" id="phone_number" class="form-control" name="phone_number">
                         </div>
                         <div class="form-group mb-2">
-                            <label for="level">Level<span class="text-danger">*</span></label>
+                            <label for="level">Tingkat<span class="text-danger">*</span></label>
                             <select name="level" class="form-control" id="level">
                                 <option value="TK">TK</option>
                                 <option value="SD">SD</option>
