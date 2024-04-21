@@ -190,7 +190,7 @@
                             <input type="text" id="name" class="form-control" name="name" required>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="phone_number">Nomor Teleponn</label>
+                            <label for="phone_number">Nomor HP</label>
                             <input type="text" id="phone_number" class="form-control" name="phone_number">
                         </div>
                         <div class="form-group mb-2">
@@ -289,7 +289,7 @@
                             <input type="text" id="name" class="form-control" name="name" required>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="phone_number">Nomor Telepon</label>
+                            <label for="phone_number">Nomor HP</label>
                             <input type="text" id="phone_number" class="form-control" name="phone_number">
                         </div>
                         <div class="form-group mb-2">
