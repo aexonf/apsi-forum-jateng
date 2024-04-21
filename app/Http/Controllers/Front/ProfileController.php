@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Supervisors;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -26,7 +27,7 @@ class ProfileController extends Controller
     {
         try {
             $supervisor = Supervisors::where("user_id", auth()->user()->id)->first();
-            $nameImage = null;
+            $nameImage = $supervisor->img_url;
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -34,12 +35,21 @@ class ProfileController extends Controller
                 $imageName = 'image-' . time() . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('public', $imageName);
                 $nameImage = $imageName;
+                Storage::delete(
+                    "/public/" . $supervisor->img_url
+                );
             }
 
-            $supervisor->update([
+            $data = [
+                'label' => $request->label ? $request->label : $supervisor->label,
                 'img_url' => $nameImage,
-            ]);
-            $supervisor->save();
+                'email' => $request->email ? $request->email : $supervisor->email,
+                'phone_number' => $request->phone_number ? $request->phone_number : $supervisor->phone_number,
+            ];
+
+
+
+            $supervisor->update($data);
 
             return response()->json([
                 "status" => "success",
