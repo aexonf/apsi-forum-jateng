@@ -331,22 +331,19 @@ class ForumController extends Controller
 
             if ($sort == "newest") {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("created_at", "desc")
-                    ->get()
-                ;
+                    ->get();
             } elseif ($sort == "latest") {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("created_at", "asc")
-                    ->get()
-                ;
+                    ->get();
             } else {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("status")
-                    ->get()
-                ;
+                    ->get();
             }
 
 
@@ -367,7 +364,6 @@ class ForumController extends Controller
                     "sort" => $sort
                 ], 200);
             }
-
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
             return response()->json([
@@ -378,5 +374,4 @@ class ForumController extends Controller
             ], 404);
         }
     }
-
 }
