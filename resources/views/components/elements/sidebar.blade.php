@@ -14,12 +14,9 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <li class="{{ request()->path() === 'dashboard/forum' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.forum.index') }}"><i class="fa-solid fa-table"></i></i>
-                    <span>Forum</span></a>
-            </li>
 
-            {{-- @if (auth()->user()->role == 'SUPERADMIN') --}}
+
+            @if (auth()->user()->role == 'SUPERADMIN')
                 <li class="{{ request()->path() === 'dashboard/supervisor' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.supervisor.index') }}"><i
                             class="fa-solid fa-person-circle-plus"></i></i>
@@ -37,6 +34,11 @@
                             class="fa-solid fa-file"></i></i>
                         <span>Publication</span></a>
                 </li>
-            {{-- @endif --}}
+             @elseif (auth()->user()->role == "ADMIN")
+                <li class="{{ request()->path() === 'dashboard/forum' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.forum.index') }}"><i class="fa-solid fa-table"></i></i>
+                        <span>Forum</span></a>
+                </li>
+             @endif
     </aside>
 </div>

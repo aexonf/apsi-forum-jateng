@@ -18,10 +18,8 @@ Route::get('/me', function () {
 Route::get('/new', function () {
     return Inertia::render('new');
 });
-Route::get('/edit/{id}', function ($id) {
-    return Inertia::render('edit', [
-        'id' => $id
-    ]);
+Route::get('/edit', function () {
+    return Inertia::render('edit');
 });
 Route::get('/post/{id}', function ($id) {
     return Inertia::render('detail', [
@@ -44,7 +42,7 @@ Route::get("/dashboard", function (Request $request) {
     return view("pages.index", [
         "request" => $request
     ]);
-})->name("admin.dashboard");
+})->name("admin.dashboard")->middleware("auth");
 
 
 Route::prefix("/dashboard")->group(function () {
@@ -69,7 +67,7 @@ Route::prefix("/dashboard")->group(function () {
         Route::get("/export", "export")->name("admin.supervisor.export");
     });
 
-    Route::controller(PublicationController::class)->prefix("/publication")->group(function () {
+    Route::controller(PublicationController::class)->prefix("/publication")->group(function() {
         Route::get("/", "index")->name("admin.publication.index");
         Route::post("/", "create")->name("admin.publication.create");
         Route::put("/{id}/update", "update")->name("admin.publication.update");

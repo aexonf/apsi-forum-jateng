@@ -38,6 +38,7 @@ class ProfileController extends Controller
             }
 
             $supervisor->update([
+                'label' => $request->label,
                 'img_url' => $nameImage,
             ]);
             $supervisor->save();

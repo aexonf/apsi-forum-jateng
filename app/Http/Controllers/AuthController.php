@@ -35,28 +35,14 @@ class AuthController extends Controller
                 $token = $passwordCheck->createToken($passwordCheck->username)->plainTextToken;
 
                 if (!$passwordCheck->is_password_change) {
-                    return response()->json([
-                        "status" => "reset-password",
-                        "message" => "Password belum di reset",
-                        "token" => $token,
-                        "data" => null,
-                    ], 301);
+                    return redirect()->back()->with("error", "Kata sandi belum di reset");
                 }
 
 
-                return response()->json([
-                    "status" => "success",
-                    "message" => "Login Success",
-                    "token" => $token,
-                    "data" => $user
-                ], 200);
+                return response()->with("success", "Login berhasil");
             }
 
-            return response()->json([
-                "status" => "error",
-                "message" => "Login error",
-                "data" => null
-            ], 500);
+            return redirect()->back()->with("error", "Kata sandi / username / id number yang anda inputkan salah");
         }
 
         $user = User::where("username", $request->username)->first();

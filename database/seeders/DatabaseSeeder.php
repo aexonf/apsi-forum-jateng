@@ -47,5 +47,19 @@ class DatabaseSeeder extends Seeder
         //     'created_at' => now(),
         //     'updated_at' => now(),
         // ]);
+
+        // DB::table("discussions")->insert([
+        //     "title" => "Discussions",
+        //     "content" => "content",
+        //     "view_count" => 0,
+        //     "status" => "pending",
+        //     "supervisor_id" => 1
+        // ]);
+
+        DB::table("discussion_comments")->insert([
+            "supervisor_id" => 1,
+            "discussion_id" => 1,
+            "content" => "content",
+        ]);
     }
 }
