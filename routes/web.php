@@ -53,7 +53,7 @@ Route::prefix("/dashboard")->group(function () {
         return view("pages.index", [
             "request" => $request
         ]);
-    })->name("admin.dashboard");
+    })->name("admin.dashboard")->middleware('auth');
 
     Route::controller(ForumController::class)->prefix("/forum")->group(function () {
         Route::get("/", "index")->name("admin.forum.index");
