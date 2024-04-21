@@ -63,8 +63,10 @@ export default function Home() {
         fileInputRef.current.click();
     };
     const handleSubmit = async () => {
+        setLoading(true);
         if (profile == editData) {
             toast.info("Tidak ada perubahan yang dilakukan.");
+            setLoading(false);
             return;
         }
         try {
@@ -82,11 +84,12 @@ export default function Home() {
                 },
             });
             toast.success(response.data.message);
-            setLoading(true);
+            setLoading(false);
             fetchProfile();
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
+            setLoading(false);
         }
     };
 

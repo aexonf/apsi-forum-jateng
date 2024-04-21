@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Inertia } from "@inertiajs/inertia";
 import React, { useState, useEffect } from "react";
 import { useForm as reactUseForm } from "react-hook-form";
-import { usePage } from "@inertiajs/inertia-react";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -24,11 +24,7 @@ const formSchema = z.object({
     password: z.string().min(1, "Password Harus di isi."),
 });
 
-export default function LoginPage() {
-    const { props } = usePage();
-
-    const token = localStorage.getItem("token");
-
+export default function LoginPage({ token, error, is_password_change }) {
     const {
         register,
         handleSubmit,
@@ -41,7 +37,6 @@ export default function LoginPage() {
             password: "",
         },
     });
-    const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
     const submit = async (data) => {
@@ -55,8 +50,20 @@ export default function LoginPage() {
     };
 
     useEffect(() => {
-        console.log(props);
-    }, [props]);
+        if (error) {
+            toast.error(error);
+        } else if (token) {
+            if (!is_password_change) {
+                setOpenModal(true);
+                toast.warning("Kata sandi belum diubah.");
+                localStorage.setItem("token", token);
+            } else {
+                localStorage.setItem("token", token);
+                toast.success("Berhasil masuk");
+                Inertia.get("/");
+            }
+        }
+    }, [token, error, is_password_change]);
 
     return (
         <Layout className={"h-screen"}>

@@ -43,8 +43,8 @@ class ProfileController extends Controller
             $data = [
                 'label' => $request->label ? $request->label : $supervisor->label,
                 'img_url' => $nameImage,
-                // 'email' => $request->email ? $request->email : $supervisor->email,
-                // 'phone_number' => $request->phone_number ? $request->phone_number : $supervisor->phone_number,
+                'email' => $request->email ? $request->email : $supervisor->email,
+                'phone_number' => $request->phone_number ? $request->phone_number : $supervisor->phone_number,
             ];
 
 
