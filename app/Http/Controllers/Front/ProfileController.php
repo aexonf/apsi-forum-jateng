@@ -24,7 +24,6 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-        // TODO: FIX request does'not have file
         try {
             $supervisor = Supervisors::where("user_id", auth()->user()->id)->first();
             $nameImage = null;

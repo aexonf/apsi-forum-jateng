@@ -30,13 +30,18 @@ export default function Home() {
 
             const formData = new FormData();
             formData.append("image", img);
+            formData.append("test", 123);
 
-            const response = await axios.put("/api/v1/user", formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            const response = await axios.post(
+                "/api/v1/user",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
 
             console.log(response);
         } catch (error) {
