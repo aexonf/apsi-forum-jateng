@@ -215,7 +215,12 @@ export default function Detail({ id }) {
                                                 <>
                                                     <Avatar>
                                                         <AvatarImage
-                                                            src={`/storage/${data?.supervisor?.img_url}`}
+                                                            src={
+                                                                data?.supervisor
+                                                                    ?.img_url
+                                                                    ? `/storage/${data?.supervisor?.img_url}`
+                                                                    : "/img/avatar/avatar-4.png"
+                                                            }
                                                         />
                                                         <AvatarFallback></AvatarFallback>
                                                     </Avatar>
@@ -376,7 +381,13 @@ export default function Detail({ id }) {
                                                     <div className="flex items-start w-full">
                                                         <Avatar>
                                                             <AvatarImage
-                                                                src={`/storage/${item?.supervisors?.img_url}`}
+                                                                src={
+                                                                    item
+                                                                        ?.supervisors
+                                                                        ?.img_url
+                                                                        ? `/storage/${item?.supervisors?.img_url}`
+                                                                        : "/img/avatar/avatar-4.png"
+                                                                }
                                                             />
                                                             <AvatarFallback></AvatarFallback>
                                                         </Avatar>

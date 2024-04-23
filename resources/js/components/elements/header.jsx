@@ -64,20 +64,29 @@ export default function Header() {
         <nav className="w-full fixed bg-gradient-to-br from-primary to-[#efe200] shadow z-40">
             <div className="container mx-auto max-w-3xl px-4 py-2">
                 <div className="flex justify-between items-center">
-                    <Link
-                        href="/"
-                        className="scroll-m-20 text-xl font-semibold tracking-tight"
-                    >
-                        APSI
-                    </Link>
+                    <div className="flex items-center gap-2">
+                        <div>
+                            <img
+                                src="/img/apsi.png"
+                                alt="APSI Jateng"
+                                className="h-8"
+                            />
+                        </div>
+                        <Link
+                            href="/"
+                            className="scroll-m-20 text-xl font-bold tracking-tight"
+                        >
+                            APSI
+                        </Link>
+                    </div>
                     {token && data ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="hover:bg-transparent "
+                                    className="hover:bg-transparent"
                                 >
-                                    <AlignJustify className="h-4 w-4" />
+                                    <AlignJustify className="h-6 w-6" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
@@ -86,15 +95,19 @@ export default function Header() {
                                 forceMount
                             >
                                 <DropdownMenuLabel className="font-normal">
-                                    <div className="flex items-center gap-x-4">
+                                    <div className="flex gap-x-4">
                                         <Avatar>
                                             <AvatarImage
-                                                src={`/storage/${data.img_url}`}
+                                                src={
+                                                    data.img_url
+                                                        ? `/storage/${data.img_url}`
+                                                        : "/img/avatar/avatar-4.png"
+                                                }
                                             />
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="text-sm font-medium leading-none">
+                                            <p className="text-sm font-medium leading-none mb-1">
                                                 {data.name}
                                             </p>
                                             <p className="text-xs leading-none text-muted-foreground">
@@ -153,7 +166,7 @@ export default function Header() {
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="text-sm font-medium leading-none">
+                                            <p className="text-sm font-medium leading-none mb-1">
                                                 Masuk
                                             </p>
                                             <p className="text-xs leading-none text-muted-foreground">

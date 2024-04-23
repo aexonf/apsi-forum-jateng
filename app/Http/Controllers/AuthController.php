@@ -23,7 +23,9 @@ class AuthController extends Controller
 
         if ($supervisor) {
             if (!Hash::check($request->password, $supervisor->user->password)) {
-                return redirect()->back()->with("error", "Username atau password salah");
+                return Inertia::render('login', [
+                    "error" => "Username atau Password Anda salah",
+                ]);
             }
 
             $token = $supervisor->user->createToken($supervisor->user->username)->plainTextToken;
@@ -39,7 +41,15 @@ class AuthController extends Controller
 
         if ($user) {
             if (!Hash::check($request->password, $user->password)) {
-                return redirect()->back()->with("error", "Username atau Password Anda salah");
+                return Inertia::render('login', [
+                    "error" => "Username atau Password Anda salah",
+                ]);
+            }
+
+            if ($user->role == 'supervisor') {
+                return redirect("/")->with([
+                    'success' => 'Berhasil login'
+                ]);
             }
 
             if (Auth::attempt($request->only("username", "password"))) {
@@ -47,7 +57,9 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->back()->with("error", "Gagal melakukan autentikasi");
+        return Inertia::render('login', [
+            "error" => "Username atau Password Anda salah",
+        ]);
     }
 
 

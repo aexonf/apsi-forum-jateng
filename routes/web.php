@@ -6,6 +6,9 @@ use App\Http\Controllers\Back\ForumController;
 use App\Http\Controllers\Back\PublicationController;
 use App\Http\Controllers\Back\SupervisorController;
 use App\Http\Middleware\SuperAdminMiddleware;
+use App\Models\Discussions;
+use App\Models\Publication;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,8 +22,10 @@ Route::get('/me', function () {
 Route::get('/new', function () {
     return Inertia::render('new');
 });
-Route::get('/edit', function () {
-    return Inertia::render('edit');
+Route::get('/edit/{id}', function ($id) {
+    return Inertia::render('edit', [
+        'id' => $id
+    ]);
 });
 Route::get('/post/{id}', function ($id) {
     return Inertia::render('detail', [
@@ -46,7 +51,10 @@ Route::controller(AuthController::class)->prefix("/login")->group(function () {
 Route::prefix("/dashboard")->group(function () {
     Route::get("/", function (Request $request) {
         return view("pages.index", [
-            "request" => $request
+            "request" => $request,
+            'total_supervisor' => User::where('role', 'supervisor')->get()->count(),
+            'total_discussion' => Discussions::all()->count(),
+            'total_publication' => Publication::all()->count(),
         ]);
     })->name("admin.dashboard")->middleware('auth');
 

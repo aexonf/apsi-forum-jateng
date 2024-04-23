@@ -21,8 +21,8 @@ class SupervissorImport implements ToModel, WithStartRow
         if (
             $row[0] === 'ID Number' &&
             $row[1] === 'Nama' &&
-            $row[2] === 'Nomer Telepone' &&
-            $row[3] === 'Level' &&
+            $row[2] === 'Nomer HP' &&
+            $row[3] === 'Tingkat' &&
             $row[4] === 'Label' &&
             $row[5] === 'Email' &&
             $row[6] === 'Username' &&
@@ -50,7 +50,6 @@ class SupervissorImport implements ToModel, WithStartRow
             "img_url" => "",
             "user_id" => $user->id,
         ]);
-
     }
 
     public function startRow(): int

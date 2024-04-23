@@ -26,6 +26,7 @@
                                     <h4>Total Pengawas</h4>
                                 </div>
                                 <div class="card-body">
+                                    {{ $total_supervisor }}
                                 </div>
                             </div>
                         </div>
@@ -40,6 +41,7 @@
                                     <h4>Total Forum</h4>
                                 </div>
                                 <div class="card-body">
+                                    {{ $total_discussion }}
                                 </div>
                             </div>
                         </div>
@@ -51,9 +53,10 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Publication</h4>
+                                    <h4>Total Publikasi</h4>
                                 </div>
                                 <div class="card-body">
+                                    {{ $total_publication }}
                                 </div>
                             </div>
                         </div>

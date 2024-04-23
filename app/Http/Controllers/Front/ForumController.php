@@ -336,17 +336,17 @@ class ForumController extends Controller
 
             if ($sort == "newest") {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("created_at", "desc")
                     ->get();
             } elseif ($sort == "latest") {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("created_at", "asc")
                     ->get();
             } else {
                 $discussion = Discussions::with("supervisor")
-                    ->where("supervisor_id", $user->user_id)
+                    ->where("supervisor_id", $user->id)
                     ->orderBy("status")
                     ->get();
             }

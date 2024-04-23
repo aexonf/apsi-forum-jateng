@@ -44,23 +44,28 @@
                     <div class="card-body">
                         <div class="collapse mb-3 pb-3 border-bottom show" id="section-filter">
                             <form class="needs-validation" novalidate="" method="GET"
-                                action="{{ route("admin.forum.index") }}" enctype="multipart/form-data">
+                                action="{{ route('admin.forum.index') }}" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <div class="form-group mb-2">
                                             <label class="mb-2">Status</label>
-                                            <select class="form-control select2" id="status" name="status"
-                                                required onchange="handleChangeFilter(this)">
-                                                <option value=""></option>
-                                                <option value="pending" {{ request()->query('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
-                                                <option value="approved" {{ request()->query('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
-                                                <option value="rejected" {{ request()->query('status') === 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                                            <select class="form-control select2" id="status" name="status" required
+                                                onchange="handleChangeFilter(this)">
+                                                <option value="pending"
+                                                    {{ request()->query('status') === 'pending' ? 'selected' : '' }}>
+                                                    Menunggu</option>
+                                                <option value="approved"
+                                                    {{ request()->query('status') === 'approved' ? 'selected' : '' }}>
+                                                    Disetujui</option>
+                                                <option value="rejected"
+                                                    {{ request()->query('status') === 'rejected' ? 'selected' : '' }}>
+                                                    Ditolak</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route("admin.forum.index") }}" class="btn btn-danger ml-2">Reset</a>
+                                    <a href="{{ route('admin.forum.index') }}" class="btn btn-danger ml-2">Reset</a>
                                     <button type="submit" class="btn btn-primary ml-2">Kirim</button>
                                 </div>
                             </form>
@@ -70,7 +75,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="min-width: 40px;">#</th>
-                                        <th style="min-width: 240px;">Title</th>
+                                        <th style="min-width: 240px;">Judul</th>
                                         <th style="min-width: 160px;">Pengawas</th>
                                         <th style="min-width: 160px;">Status</th>
                                         <th style="min-width: 160px;">Aksi</th>
@@ -90,7 +95,9 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex items-center">
-                                                    <a href="{{ route('admin.forum.detail', $forum->id) }}" class="text-decoration-none"><i class="fas fa-info-circle fa-lg"></i></a>
+                                                    <a href="{{ route('admin.forum.detail', $forum->id) }}"
+                                                        class="text-decoration-none"><i
+                                                            class="fas fa-info-circle fa-lg"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
