@@ -36,10 +36,13 @@ class ForumController extends Controller
 
             // Check if discussion exists
             if ($discussion) {
+                $likeDiscussion = LikeDiscussions::with(["discussions", "supervisors"])->where("discussions_id", $discussion->id)->get();
+
                 return response()->json([
                     "status" => "success",
                     "message" => "Discussion retrieved successfully",
-                    "data" => $discussion
+                    "data" => $discussion,
+                    "likeDiscussion" => $likeDiscussion
                 ], 200);
             }
 
@@ -137,6 +140,7 @@ class ForumController extends Controller
             $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
+            $likeDiscussion = LikeDiscussions::with(["discussions", "supervisors"])->where("discussions_id", $discussion->id)->get();
             $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
 
             // Check if discussion exists
@@ -147,6 +151,7 @@ class ForumController extends Controller
                     "message" => "Discussion retrieved successfully",
                     "data" => $discussion,
                     "comments" => $comments,
+                    "like_discussion" => $likeDiscussion,
                 ], 200);
             }
 
@@ -333,20 +338,17 @@ class ForumController extends Controller
                 $discussion = Discussions::with("supervisor")
                     ->where("supervisor_id", $user->user_id)
                     ->orderBy("created_at", "desc")
-                    ->get()
-                ;
+                    ->get();
             } elseif ($sort == "latest") {
                 $discussion = Discussions::with("supervisor")
                     ->where("supervisor_id", $user->user_id)
                     ->orderBy("created_at", "asc")
-                    ->get()
-                ;
+                    ->get();
             } else {
                 $discussion = Discussions::with("supervisor")
                     ->where("supervisor_id", $user->user_id)
                     ->orderBy("status")
-                    ->get()
-                ;
+                    ->get();
             }
 
 
@@ -367,7 +369,6 @@ class ForumController extends Controller
                     "sort" => $sort
                 ], 200);
             }
-
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
             return response()->json([
@@ -378,5 +379,4 @@ class ForumController extends Controller
             ], 404);
         }
     }
-
 }
