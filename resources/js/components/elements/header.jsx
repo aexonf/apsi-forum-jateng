@@ -64,20 +64,29 @@ export default function Header() {
         <nav className="w-full fixed bg-gradient-to-br from-primary to-[#efe200] shadow z-40">
             <div className="container mx-auto max-w-3xl px-4 py-2">
                 <div className="flex justify-between items-center">
-                    <Link
-                        href="/"
-                        className="scroll-m-20 text-xl font-semibold tracking-tight"
-                    >
-                        APSI
-                    </Link>
+                    <div className="flex items-center gap-2">
+                        <div>
+                            <img
+                                src="/img/apsi.png"
+                                alt="APSI Jateng"
+                                className="h-8"
+                            />
+                        </div>
+                        <Link
+                            href="/"
+                            className="scroll-m-20 text-xl font-bold tracking-tight"
+                        >
+                            APSI
+                        </Link>
+                    </div>
                     {token && data ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="hover:bg-transparent "
+                                    className="hover:bg-transparent"
                                 >
-                                    <AlignJustify className="h-4 w-4" />
+                                    <AlignJustify className="h-6 w-6" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent

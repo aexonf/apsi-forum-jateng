@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -57,9 +57,12 @@
 
 @layer base {
     * {
-        @apply p-0 m-0 box-border font-inter;
+        @apply p-0 m-0 box-border;
+        @apply text-gray-800;
+        font-family: "Plus Jakarta Sans", sans-serif;
     }
     body {
         @apply bg-background text-foreground;
+        @apply bg-gray-50;
     }
 }

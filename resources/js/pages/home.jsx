@@ -83,32 +83,32 @@ export default function Home() {
             </div>
             {token ? (
                 <>
-                    <div className="flex w-full gap-10 my-4">
+                    <div className="flex w-full my-4">
                         <Button
-                            className="w-full"
-                            variant={
+                            className={`w-1/2 ${
                                 window.location.pathname == "/"
-                                    ? "default"
-                                    : "outline"
-                            }
-                            asChild
+                                    ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
+                                    : "bg-transparent border-b-2 border-gray-400 rounded-none text-gray-400 hover:bg-gray-100"
+                            }`}
                         >
-                            <Link href="/">Publik</Link>
+                            <Link href="/" className="w-full">
+                                Publik
+                            </Link>
                         </Button>
                         <Button
-                            className="w-full"
-                            variant={
+                            className={`w-1/2 ${
                                 window.location.pathname == "/me"
-                                    ? "default"
-                                    : "outline"
-                            }
-                            asChild
+                                    ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
+                                    : "bg-transparent border-b-2 border-gray-400 rounded-none text-gray-400 hover:bg-gray-100"
+                            }`}
                         >
-                            <Link href="/me">Saya</Link>
+                            <Link href="/me" className="w-full">
+                                Saya
+                            </Link>
                         </Button>
                     </div>
                     <div className="flex w-full gap-10 my-4">
-                        <Button className="w-full" variant="secondary" asChild>
+                        <Button className="w-full">
                             <Link href="/new">Tambah Forum</Link>
                         </Button>
                     </div>
