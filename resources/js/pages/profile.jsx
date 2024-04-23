@@ -131,19 +131,28 @@ export default function Home() {
                                             />
                                             <AvatarFallback>PV</AvatarFallback>
                                         </Avatar>
+                                    ) : profile?.img_url ? (
+                                        <Avatar
+                                            className="size-40"
+                                            onClick={handleUploadClick}
+                                        >
+                                            <AvatarImage
+                                                alt="profile"
+                                                src={`/storage/${profile?.img_url}`}
+                                            />
+                                            <AvatarFallback></AvatarFallback>
+                                        </Avatar>
                                     ) : (
-                                        profile?.img_url && (
-                                            <Avatar
-                                                className="size-40"
-                                                onClick={handleUploadClick}
-                                            >
-                                                <AvatarImage
-                                                    alt="profile"
-                                                    src={`/storage/${profile?.img_url}`}
-                                                />
-                                                <AvatarFallback></AvatarFallback>
-                                            </Avatar>
-                                        )
+                                        <Avatar
+                                            className="size-40"
+                                            onClick={handleUploadClick}
+                                        >
+                                            <AvatarImage
+                                                alt="profile"
+                                                src={"/img/avatar/avatar-4.png"}
+                                            />
+                                            <AvatarFallback></AvatarFallback>
+                                        </Avatar>
                                     )}
                                     <input
                                         type="file"
@@ -207,7 +216,7 @@ export default function Home() {
                                     <Label htmlFor="label">Label</Label>
                                     <Input
                                         id="label"
-                                        defaultValue={editData?.phone_number}
+                                        defaultValue={editData?.label}
                                         placeholder="Masukkan label"
                                         type="text"
                                         onChange={(e) =>
@@ -241,15 +250,20 @@ export default function Home() {
                                                 id="preview"
                                                 className="size-40 bg-muted rounded-full object-cover"
                                             />
+                                        ) : profile?.img_url ? (
+                                            <img
+                                                src={`/storage/${profile?.img_url}`}
+                                                alt="profile"
+                                                id="preview"
+                                                className="size-40 bg-muted rounded-full"
+                                            />
                                         ) : (
-                                            profile?.img_url && (
-                                                <img
-                                                    src={`/storage/${profile?.img_url}`}
-                                                    alt="profile"
-                                                    id="preview"
-                                                    className="size-40 bg-muted rounded-full"
-                                                />
-                                            )
+                                            <img
+                                                src={"/img/avatar/avatar-4.png"}
+                                                alt="profile"
+                                                id="preview"
+                                                className="size-40 bg-muted rounded-full"
+                                            />
                                         )}
                                     </>
                                 )}

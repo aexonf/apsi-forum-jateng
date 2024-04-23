@@ -151,7 +151,13 @@ export default function Home() {
                                                     >
                                                         <Avatar>
                                                             <AvatarImage
-                                                                src={`/storage/${item?.supervisor?.img_url}`}
+                                                                src={
+                                                                    item
+                                                                        ?.supervisor
+                                                                        ?.img_url
+                                                                        ? `/storage/${item?.supervisor?.img_url}`
+                                                                        : "/img/avatar/avatar-4.png"
+                                                                }
                                                             />
                                                             <AvatarFallback></AvatarFallback>
                                                         </Avatar>

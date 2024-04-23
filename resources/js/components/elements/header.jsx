@@ -95,15 +95,19 @@ export default function Header() {
                                 forceMount
                             >
                                 <DropdownMenuLabel className="font-normal">
-                                    <div className="flex items-center gap-x-4">
+                                    <div className="flex gap-x-4">
                                         <Avatar>
                                             <AvatarImage
-                                                src={`/storage/${data.img_url}`}
+                                                src={
+                                                    data.img_url
+                                                        ? `/storage/${data.img_url}`
+                                                        : "/img/avatar/avatar-4.png"
+                                                }
                                             />
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="text-sm font-medium leading-none">
+                                            <p className="text-sm font-medium leading-none mb-1">
                                                 {data.name}
                                             </p>
                                             <p className="text-xs leading-none text-muted-foreground">
@@ -162,7 +166,7 @@ export default function Header() {
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="text-sm font-medium leading-none">
+                                            <p className="text-sm font-medium leading-none mb-1">
                                                 Masuk
                                             </p>
                                             <p className="text-xs leading-none text-muted-foreground">

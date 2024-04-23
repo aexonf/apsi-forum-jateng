@@ -146,7 +146,11 @@ export default function CreateForum() {
                                 {data?.img_url && (
                                     <AvatarImage
                                         alt="User profile picture"
-                                        src={`/storage/${data?.img_url}`}
+                                        src={
+                                            data?.img_url
+                                                ? `/storage/${data?.img_url}`
+                                                : "/img/avatar/avatar-4.png"
+                                        }
                                     />
                                 )}
                                 <AvatarFallback></AvatarFallback>
