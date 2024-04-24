@@ -14,6 +14,7 @@ class DiscussionCommentController extends Controller
     public function detail($id)
     {
         $discussionComments = DiscussionComments::with(["discussions", "supervisors"])->where('discussion_id', $id)->get();
+        $likedComment = DiscussionCommentLikes::where('discussion_comments_id', $id)->get();
 
         if (!$discussionComments) {
             return response()->json([
@@ -25,7 +26,8 @@ class DiscussionCommentController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "Discussion comments retrieved successfully",
-            "data" => $discussionComments
+            "data" => $discussionComments,
+            "commentLike" => $likedComment,
         ], 200);
     }
 
@@ -110,26 +112,31 @@ class DiscussionCommentController extends Controller
         try {
             // Check if the user has already liked the discussion comment
             $likeFind = DiscussionCommentLikes::where('discussion_comments_id', $id)->where('supervisor_id', auth()->user()->supervisor->id)->first();
-
             // If user has already liked the discussion comment, unlike it
             if ($likeFind) {
                 $likeFind->delete();
-            }
-
-            // Like the discussion comment
-            $discussionLike = DiscussionCommentLikes::create([
-                "discussion_comments_id" => $id,
-                "supervisor_id" => auth()->user()->supervisor->id
-            ]);
-
-            // Check if discussion comment like was successful
-            if ($discussionLike) {
                 return response()->json([
                     "status" => "success",
-                    "message" => "Discussion comment liked successfully",
-                    "data" => $discussionLike
+                    "message" => "Discussion comment unlike successfully",
+                    "data" => null
                 ], 200);
+            } else {
+                // Like the discussion comment
+                $discussionLike = DiscussionCommentLikes::create([
+                    "discussion_comments_id" => $id,
+                    "supervisor_id" => auth()->user()->supervisor->id
+                ]);
+
+                // Check if discussion comment like was successful
+                if ($discussionLike) {
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "Discussion comment liked successfully",
+                        "data" => $discussionLike
+                    ], 200);
+                }
             }
+
 
             // Return error response if discussion comment like failed
             return response()->json([

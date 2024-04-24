@@ -35,6 +35,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(false);
     const [selectedOption, setSelectedOption] = useState(options[0].value);
+    const [selectedId, setSelectedId] = useState(null);
 
     const [data, setData] = useState([]);
 
@@ -99,6 +100,7 @@ export default function Home() {
                         <>
                             <div className="flex w-full my-4">
                                 <Button
+                                    asChild
                                     className={`w-1/2 ${
                                         window.location.pathname == "/"
                                             ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
@@ -110,6 +112,7 @@ export default function Home() {
                                     </Link>
                                 </Button>
                                 <Button
+                                    asChild
                                     className={`w-1/2 ${
                                         window.location.pathname == "/me"
                                             ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
@@ -122,7 +125,7 @@ export default function Home() {
                                 </Button>
                             </div>
                             <div className="flex w-full gap-10 my-4">
-                                <Button className="w-full">
+                                <Button className="w-full" asChild>
                                     <Link href="/new">Tambah Forum</Link>
                                 </Button>
                             </div>
@@ -195,7 +198,10 @@ export default function Home() {
                                                             size="icon"
                                                             className="z-[1]"
                                                             onClick={(e) => {
-                                                                e.stopPropagation();
+                                                                e.preventDefault();
+                                                                setSelectedId(
+                                                                    item.id
+                                                                );
                                                                 setOpenAlertModal(
                                                                     true
                                                                 );
@@ -268,11 +274,6 @@ export default function Home() {
                                                         )}
                                                     </div>
                                                 </div>
-                                                <DeleteModal
-                                                    id={item.id}
-                                                    open={openAlertModal}
-                                                    setOpen={setOpenAlertModal}
-                                                />
                                             </div>
                                         </div>
                                     </Card>
@@ -288,6 +289,12 @@ export default function Home() {
                     </div>
                 </>
             )}
+            <DeleteModal
+                fetchData={fetchDataByOption}
+                id={selectedId}
+                open={openAlertModal}
+                setOpen={setOpenAlertModal}
+            />
         </Layout>
     );
 }

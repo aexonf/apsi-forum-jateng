@@ -12,19 +12,20 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "sonner";
 
-export default function DeleteModal({ open, setOpen, id }) {
+export default function DeleteModal({ fetchData, open, setOpen, id }) {
     const token = localStorage.getItem("token");
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
         try {
             const response = await axios.delete(`/api/v1/forum/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            toast.success("Berhasil menghapus.");
-        fetchData();
+            toast.success(response.data.message);
+            setOpen(!open);
+            fetchData();
         } catch (e) {
-            toast.error("Ada yang salah.");
+            toast.error(e.response.data.message)
         }
     };
 
@@ -34,7 +35,9 @@ export default function DeleteModal({ open, setOpen, id }) {
                 <DialogHeader>
                     <DialogTitle>Hapus Post</DialogTitle>
                     <DialogDescription>
-                        <p className="text-xl">Apakah anda yakin ingin menghapus post ini?</p>
+                        <p className="text-xl">
+                            Apakah anda yakin ingin menghapus post ini?
+                        </p>
                         <br />
                         <span className="text-destructive">
                             Aksi ini tidak dapat dibatalkan.
@@ -43,7 +46,9 @@ export default function DeleteModal({ open, setOpen, id }) {
                 </DialogHeader>
                 <DialogFooter>
                     <Button variant="outline">Batal</Button>
-                    <Button variant="destructive">Hapus</Button>
+                    <Button variant="destructive" onClick={handleDelete}>
+                        Hapus
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

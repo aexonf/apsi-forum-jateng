@@ -85,6 +85,7 @@ export default function Home() {
                 <>
                     <div className="flex w-full my-4">
                         <Button
+                            asChild
                             className={`w-1/2 ${
                                 window.location.pathname == "/"
                                     ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
@@ -96,6 +97,7 @@ export default function Home() {
                             </Link>
                         </Button>
                         <Button
+                            asChild
                             className={`w-1/2 ${
                                 window.location.pathname == "/me"
                                     ? "bg-transparent border-b-2 border-primary rounded-none text-primary hover:bg-gray-100"
@@ -108,7 +110,7 @@ export default function Home() {
                         </Button>
                     </div>
                     <div className="flex w-full gap-10 my-4">
-                        <Button className="w-full">
+                        <Button className="w-full" asChild>
                             <Link href="/new">Tambah Forum</Link>
                         </Button>
                     </div>

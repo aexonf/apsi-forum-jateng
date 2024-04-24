@@ -35,6 +35,8 @@ export default function Detail({ id }) {
     const [isSending, setIsSending] = useState(false);
     const [comment, setComment] = useState([]);
     const [isError, setIsError] = useState(false);
+    const [isLike, setIsLike] = useState(false);
+    const [likedComment, setLikedComment] = useState([]);
     async function getComment() {
         try {
             setLoading(true);
@@ -44,14 +46,12 @@ export default function Detail({ id }) {
                 },
             });
             setComment(response.data.data);
+            setLikedComment(response.data?.commentLike);
         } catch (e) {
             if (e.response.status == 500) {
                 toast.error("Terjadi kesalahan");
                 setIsError(true);
                 setLoading(false);
-                new Promise((resolve) => setTimeout(resolve, 5000)).then(() => {
-                    Inertia.get("/");
-                });
             }
         } finally {
             setLoading(false);
@@ -66,6 +66,7 @@ export default function Detail({ id }) {
                 },
             });
             setData(response.data.data);
+            setIsLike(response.data.like_discussion);
             setLoading(false);
         } catch (e) {
             if (e.response.status == 500) {
@@ -125,6 +126,7 @@ export default function Detail({ id }) {
     };
 
     const handleLikeComment = async (id) => {
+        if (isSending) return;
         setIsSending(true);
         await axios
             .post(
@@ -276,7 +278,11 @@ export default function Detail({ id }) {
                                                         : handleLike
                                                 }
                                             >
-                                                <Heart className="size-5" />
+                                                {isLike ? (
+                                                    <Heart className="size-5 fill-destructive stroke-destructive" />
+                                                ) : (
+                                                    <Heart className="size-5" />
+                                                )}
                                                 {loading ? (
                                                     <Skeleton className="size-4 ml-1" />
                                                 ) : (
@@ -429,17 +435,23 @@ export default function Detail({ id }) {
                                                 <div className="mt-4 text-gray-500 dark:text-gray-300">
                                                     {item?.content}
                                                 </div>
-                                                <div
-                                                    className="flex justify-end items-center gap-1 text-xs"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handleLikeComment(
-                                                            item.id
-                                                        );
-                                                    }}
-                                                >
-                                                    <HeartIcon className="w-4 h-4 text-rose-500" />
-                                                    <div>likes</div>
+                                                <div className="flex justify-end items-center">
+                                                    <div
+                                                        className="flex items-center gap-1 cursor-pointer"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleLikeComment(
+                                                                item.id
+                                                            );
+                                                        }}
+                                                    >
+                                                        <HeartIcon className="w-4 h-4 stroke-destructive" />
+                                                        {console.log(comment)}
+                                                        {/* {likedComment?.filter((item) =>  ) ? (
+                                                        ) : (
+                                                            <HeartIcon className="w-4 h-4" />
+                                                        )} */}
+                                                    </div>
                                                 </div>
                                                 <Separator className="my-4" />
                                             </div>

@@ -34,24 +34,16 @@ class ForumController extends Controller
                 $value->comment_count = $commentCount;
             }
 
-            // Check if discussion exists
-            if ($discussion) {
-                $likeDiscussion = LikeDiscussions::with(["discussions", "supervisors"])->where("discussions_id", $discussion->id)->get();
+            // $likeDiscussion = LikeDiscussions::where("supervisor_id", $supervisors->id)->get();
 
-                return response()->json([
-                    "status" => "success",
-                    "message" => "Discussion retrieved successfully",
-                    "data" => $discussion,
-                    "likeDiscussion" => $likeDiscussion
-                ], 200);
-            }
-
-            // Return error response if discussion not found
             return response()->json([
-                "status" => "error",
-                "message" => "Discussion not found",
-                "data" => null
-            ], 500);
+                "status" => "success",
+                "message" => "Discussion retrieved successfully",
+                "data" => $discussion,
+                // "likeDiscussion" => $likeDiscussion
+            ], 200);
+
+
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
             return response()->json([
@@ -140,7 +132,7 @@ class ForumController extends Controller
             $discussion['like_count'] = LikeDiscussions::where("discussions_id", $discussion->id)->count();
             $discussion['comment_count'] = DiscussionComments::where("discussion_id", $discussion->id)->count();
 
-            $likeDiscussion = LikeDiscussions::with(["discussions", "supervisors"])->where("discussions_id", $discussion->id)->get();
+            $likeDiscussion = LikeDiscussions::with(["discussions", "supervisors"])->where("discussions_id", $discussion->id)->exists();
             $comments = DiscussionComments::with(["supervisors"])->where("discussion_id", $discussion->id)->get();
 
             // Check if discussion exists

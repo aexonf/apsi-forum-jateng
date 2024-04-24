@@ -12,6 +12,7 @@ class DiscussionCommentLikes extends Model
 
     protected $guarded = [];
 
+    protected $table = "comment_like";
 
     public function discussions() : BelongsTo
     {

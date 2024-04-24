@@ -29,12 +29,12 @@ class DatabaseSeeder extends Seeder
         //     'username' => 'admin',
         //     'password' => Hash::make('password'),
         //     'is_password_change' => true,
-        //     'role' => 'admin',
+        //     'role' => 'supervisor',
         //     'created_at' => now(),
         //     'updated_at' => now(),
         // ]);
 
-        // Seed Supervisors table
+        // // Seed Supervisors table
         // DB::table('supervisors')->insert([
         //     'id_number' => '123456',
         //     'name' => 'John Doe',
@@ -50,16 +50,16 @@ class DatabaseSeeder extends Seeder
 
         // DB::table("discussions")->insert([
         //     "title" => "Discussions",
-        //     "content" => "content",
+        //     "content" => "<p>content</p>",
         //     "view_count" => 0,
-        //     "status" => "pending",
+        //     "status" => "approved",
         //     "supervisor_id" => 1
         // ]);
 
-        DB::table("discussion_comments")->insert([
-            "supervisor_id" => 1,
-            "discussion_id" => 1,
-            "content" => "content",
-        ]);
+        // DB::table("discussion_comments")->insert([
+        //     "supervisor_id" => 1,
+        //     "discussion_id" => 1,
+        //     "content" => "content",
+        // ]);
     }
 }
