@@ -23,6 +23,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Inertia } from "@inertiajs/inertia";
 import Error from "@/components/error";
+import moment from "moment";
 
 const formSchema = z.object({
     content: z.string().min(1, "Komentar harus di isi."),
@@ -189,7 +190,7 @@ export default function Detail({ id }) {
                                 <ChevronLeft />
                             </Link>
                         </Button>
-                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                        <h3 className="scroll-m-20 text-xl -ml-8 font-semibold tracking-tight">
                             Detail Forum
                         </h3>
                         <span></span>
@@ -200,7 +201,7 @@ export default function Detail({ id }) {
                                 <div className="md:flex-shrink-0">
                                     <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
                                 </div>
-                                <div className="p-8 w-full">
+                                <div className="p-4 md:p-8 w-full">
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start">
                                             {loading ? (
@@ -224,14 +225,14 @@ export default function Detail({ id }) {
                                                         />
                                                         <AvatarFallback></AvatarFallback>
                                                     </Avatar>
-                                                    <div className="ml-4">
+                                                    <div className="ml-2">
                                                         <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                             {
                                                                 data?.supervisor
                                                                     ?.name
                                                             }
                                                         </div>
-                                                        <div className="text-foreground">
+                                                        <div className="text-gray-400 dark:text-gray-300 text-xs">
                                                             {
                                                                 data?.supervisor
                                                                     ?.label
@@ -301,13 +302,12 @@ export default function Detail({ id }) {
                                         ) : (
                                             data &&
                                             data.created_at && (
-                                                <div className="text-gray-400 dark:text-gray-300">
-                                                    {new Date(
+                                                <div className="text-gray-400 dark:text-gray-300 text-xs">
+                                                    {moment(
                                                         data.created_at
-                                                    ).toLocaleString("id-ID") ??
-                                                        new Date().toLocaleString(
-                                                            "id-ID"
-                                                        )}
+                                                    ).format(
+                                                        "YYYY-MM-DD HH:mm"
+                                                    )}
                                                 </div>
                                             )
                                         )}
@@ -317,7 +317,7 @@ export default function Detail({ id }) {
                         </Card>
                         <Card className="w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden group">
                             <div className="md:flex">
-                                <div className="p-8 w-full">
+                                <div className="p-4 md:p-8 w-full">
                                     {token ? (
                                         loading ? (
                                             <Skeleton />
@@ -408,38 +408,37 @@ export default function Detail({ id }) {
                                                                     }
                                                                 </div>
                                                             </div>
-                                                            <div>
-                                                                {item &&
-                                                                    item.created_at && (
-                                                                        <div className="text-gray-400 dark:text-gray-300">
-                                                                            {new Date(
-                                                                                item.created_at
-                                                                            ).toLocaleString(
-                                                                                "id-ID"
-                                                                            ) ??
-                                                                                new Date().toLocaleString(
-                                                                                    "id-ID"
-                                                                                )}
-                                                                        </div>
-                                                                    )}
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="mt-4 text-gray-500 dark:text-gray-300">
                                                     {item?.content}
                                                 </div>
-                                                <div
-                                                    className="flex justify-end items-center gap-1 text-xs"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handleLikeComment(
-                                                            item.id
-                                                        );
-                                                    }}
-                                                >
-                                                    <HeartIcon className="w-4 h-4 text-rose-500" />
-                                                    <div>likes</div>
+                                                <div className="flex items-center gap-2 justify-between">
+                                                    <div
+                                                        className="flex justify-end items-center gap-1 text-xs"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleLikeComment(
+                                                                item.id
+                                                            );
+                                                        }}
+                                                    >
+                                                        <HeartIcon className="w-4 h-4 text-rose-500" />
+                                                    </div>
+                                                    {item &&
+                                                        item.created_at && (
+                                                            <div className="text-gray-400 dark:text-gray-300 text-xs">
+                                                                {new Date(
+                                                                    item.created_at
+                                                                ).toLocaleString(
+                                                                    "id-ID"
+                                                                ) ??
+                                                                    new Date().toLocaleString(
+                                                                        "id-ID"
+                                                                    )}
+                                                            </div>
+                                                        )}
                                                 </div>
                                                 <Separator className="my-4" />
                                             </div>

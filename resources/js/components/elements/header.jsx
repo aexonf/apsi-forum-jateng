@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "@inertiajs/inertia-react";
-import { AlignJustify, LogOut } from "lucide-react";
-import axios from "axios";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,10 +7,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/inertia-react";
+import axios from "axios";
+import { AlignJustify, LogOut } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 export default function Header() {
     const token = localStorage.getItem("token");
@@ -95,7 +95,7 @@ export default function Header() {
                                 forceMount
                             >
                                 <DropdownMenuLabel className="font-normal">
-                                    <div className="flex gap-x-4">
+                                    <div className="flex gap-x-2">
                                         <Avatar>
                                             <AvatarImage
                                                 src={
@@ -110,7 +110,7 @@ export default function Header() {
                                             <p className="text-sm font-medium leading-none mb-1">
                                                 {data.name}
                                             </p>
-                                            <p className="text-xs leading-none text-muted-foreground">
+                                            <p className="text-xs leading-none text-gray-400 dark:text-gray-300">
                                                 {data.email}
                                             </p>
                                         </div>
@@ -135,7 +135,10 @@ export default function Header() {
                                         variant="destructive"
                                         onClick={handleLogout}
                                     >
-                                        <LogOut className="size-5" />
+                                        <LogOut
+                                            className="size-5"
+                                            color="#FFFFFF"
+                                        />
                                         Keluar
                                     </Button>
                                 </DropdownMenuItem>
@@ -148,7 +151,7 @@ export default function Header() {
                                     variant="ghost"
                                     className="hover:bg-transparent "
                                 >
-                                    <AlignJustify className="h-4 w-4" />
+                                    <AlignJustify className="h-6 w-6" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
@@ -159,7 +162,7 @@ export default function Header() {
                                 <DropdownMenuLabel className="font-normal">
                                     <Link
                                         href="/login"
-                                        className="flex items-center gap-x-4"
+                                        className="flex items-center gap-x-2"
                                     >
                                         <Avatar>
                                             <AvatarImage src="" />

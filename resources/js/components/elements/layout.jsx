@@ -9,7 +9,7 @@ function Layout({ children, withHeader = true, className }) {
             {withHeader && <Header />}
             <main
                 className={cn(
-                    "container mx-auto max-w-3xl px-4 py-2 pt-[50px]",
+                    "container mx-auto max-w-3xl px-4 py-2 pt-[64px]",
                     className
                 )}
             >

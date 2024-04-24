@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import DeleteModal from "@/components/delete-modal";
 import Error from "@/components/error";
+import moment from "moment";
 
 const options = [
     {
@@ -143,7 +144,7 @@ export default function Home() {
                                             <div className="md:flex-shrink-0">
                                                 <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
                                             </div>
-                                            <div className="p-8 w-full">
+                                            <div className="p-4 md:p-8 w-full">
                                                 <div className="flex items-start justify-between">
                                                     <Link
                                                         href={`/post/${item.id}`}
@@ -161,7 +162,7 @@ export default function Home() {
                                                             />
                                                             <AvatarFallback></AvatarFallback>
                                                         </Avatar>
-                                                        <div className="ml-4">
+                                                        <div className="ml-2">
                                                             <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
                                                                 {
                                                                     item
@@ -169,7 +170,7 @@ export default function Home() {
                                                                         ?.name
                                                                 }
                                                             </div>
-                                                            <div className="text-gray-400 dark:text-gray-300">
+                                                            <div className="text-gray-400 dark:text-gray-300 text-xs">
                                                                 {
                                                                     item
                                                                         ?.supervisor
@@ -260,11 +261,11 @@ export default function Home() {
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div className="text-gray-400 dark:text-gray-300">
-                                                        {new Date(
+                                                    <div className="text-gray-400 dark:text-gray-300 text-xs">
+                                                        {moment(
                                                             item.created_at
-                                                        ).toLocaleString(
-                                                            "id-ID"
+                                                        ).format(
+                                                            "YYYY-MM-DD HH:mm"
                                                         )}
                                                     </div>
                                                 </div>
