@@ -70,7 +70,7 @@ export default function LoginPage({ token, error, is_password_change }) {
             <div className="flex items-center justify-center gap-3 w-full h-full">
                 <form
                     onSubmit={handleSubmit(submit)}
-                    className="w-full max-w-xl"
+                    className="w-full max-w-md"
                 >
                     <Card>
                         <CardHeader className="mb-4">
