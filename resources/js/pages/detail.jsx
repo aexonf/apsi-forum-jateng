@@ -32,12 +32,14 @@ const formSchema = z.object({
 export default function Detail({ id }) {
     const token = localStorage.getItem("token");
     const [data, setData] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [comment, setComment] = useState([]);
     const [isError, setIsError] = useState(false);
     const [isLike, setIsLike] = useState(false);
     const [likedComment, setLikedComment] = useState([]);
+
     async function getComment() {
         try {
             setLoading(true);
@@ -48,6 +50,7 @@ export default function Detail({ id }) {
             });
             setComment(response.data.data);
             setLikedComment(response.data?.commentLike);
+            setUser(response.data.user);
         } catch (e) {
             if (e.response.status == 500) {
                 toast.error("Terjadi kesalahan");
@@ -430,7 +433,47 @@ export default function Detail({ id }) {
                                                             );
                                                         }}
                                                     >
-                                                        <HeartIcon className="w-4 h-4 stroke-destructive" />
+                                                        {Array.isArray(
+                                                            likedComment
+                                                        ) &&
+                                                            likedComment?.map(
+                                                                (lc) =>
+                                                                    lc
+                                                                        .filter(
+                                                                            (
+                                                                                itm,
+                                                                                i
+                                                                            ) => {
+                                                                                return (
+                                                                                    itm?.supervisor_id ===
+                                                                                        user?.id &&
+                                                                                    itm?.discussion_comments_id ===
+                                                                                        item?.id
+                                                                                );
+                                                                            }
+                                                                        )
+                                                                        .map(
+                                                                            (
+                                                                                filteredItem,
+                                                                                i
+                                                                            ) =>
+                                                                                filteredItem ? (
+                                                                                    <HeartIcon
+                                                                                        className="w-4 h-4 stroke-destructive fill-destructive"
+                                                                                        key={
+                                                                                            i
+                                                                                        }
+                                                                                    />
+                                                                                ) : (
+                                                                                    <HeartIcon
+                                                                                        className="w-4 h-4 stroke-destructive"
+                                                                                        key={
+                                                                                            i
+                                                                                        }
+                                                                                    />
+                                                                                )
+                                                                        )
+                                                            )}
                                                     </div>
                                                 </div>
                                                 <Separator className="my-4" />

@@ -14,7 +14,10 @@ class DiscussionCommentController extends Controller
     public function detail($id)
     {
         $discussionComments = DiscussionComments::with(["discussions", "supervisors"])->where('discussion_id', $id)->get();
-        $likedComment = DiscussionCommentLikes::where('discussion_comments_id', $id)->get();
+        $likedComment = [];
+        foreach ($discussionComments as $comment) {
+            $likedComment[] = DiscussionCommentLikes::where('discussion_comments_id', $comment->id)->get();
+        }
 
         if (!$discussionComments) {
             return response()->json([
@@ -28,6 +31,7 @@ class DiscussionCommentController extends Controller
             "message" => "Discussion comments retrieved successfully",
             "data" => $discussionComments,
             "commentLike" => $likedComment,
+            "user" => auth()->guard("sanctum")->user()->supervisor
         ], 200);
     }
 
