@@ -77,21 +77,21 @@ export default function LoginPage({ token, error, is_password_change }) {
                             <div className="mb-2 flex justify-center">
                                 <img
                                     src="/img/apsi.png"
-                                    alt="APSI Jateng"
-                                    className="h-32"
+                                    alt="APSI Forum"
+                                    className="h-28 md:h-32"
                                 />
                             </div>
-                            <CardTitle className="text-2xl text-center font-bold">
-                                APSI Jateng
+                            <CardTitle className="text-xl md:text-2xl text-center font-bold text-gray-800">
+                                APSI Forum
                             </CardTitle>
-                            <CardDescription className="text-base text-center font-normal text-gray-800 opacity-50">
+                            <CardDescription className="text-sm md:text-base text-center font-light text-gray-600">
                                 Silahkan masuk untuk melanjutkan
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="grid gap-4">
                             <div className="grid gap-2">
                                 <Label
-                                    className="text-base font-normal"
+                                    className="text-sm md:text-base font-semibold text-gray-800"
                                     htmlFor="username"
                                 >
                                     NIP / Username
@@ -104,7 +104,6 @@ export default function LoginPage({ token, error, is_password_change }) {
                                     value={watch("username")}
                                     placeholder=""
                                     className={cn(
-                                        "text-lg",
                                         errors.username &&
                                             "text-destructive border-destructive focus-visible:ring-0"
                                     )}
@@ -117,7 +116,7 @@ export default function LoginPage({ token, error, is_password_change }) {
                             </div>
                             <div className="grid gap-2">
                                 <Label
-                                    className="text-base font-normal"
+                                    className="text-sm md:text-base font-semibold text-gray-800"
                                     htmlFor="password"
                                 >
                                     Kata Sandi
@@ -128,7 +127,6 @@ export default function LoginPage({ token, error, is_password_change }) {
                                     type="password"
                                     value={watch("password")}
                                     className={cn(
-                                        "text-lg",
                                         errors.password &&
                                             "text-destructive border-destructive focus-visible:ring-0"
                                     )}

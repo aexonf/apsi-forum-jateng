@@ -61,15 +61,15 @@ export default function Header() {
         }
     };
     return (
-        <nav className="w-full fixed bg-gradient-to-br from-primary to-[#efe200] shadow z-40">
+        <nav className="w-full fixed bg-white shadow z-40">
             <div className="container mx-auto max-w-3xl px-4 py-2">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                         <div>
                             <img
                                 src="/img/apsi.png"
-                                alt="APSI Jateng"
-                                className="h-8"
+                                alt="APSI Forum"
+                                className="h-6 md:h-8"
                             />
                         </div>
                         <Link
@@ -84,7 +84,7 @@ export default function Header() {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="hover:bg-transparent"
+                                    className="h-[32px] hover:bg-transparent"
                                 >
                                     <AlignJustify className="h-6 w-6" />
                                 </Button>
@@ -149,7 +149,7 @@ export default function Header() {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="hover:bg-transparent "
+                                    className="h-[32px] hover:bg-transparent"
                                 >
                                     <AlignJustify className="h-6 w-6" />
                                 </Button>
