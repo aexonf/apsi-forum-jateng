@@ -201,7 +201,7 @@ export default function EditForum({ id }) {
                         >
                             <div className="flex flex-col space-y-2">
                                 <Label
-                                    className="text-sm md:text-base font-medium"
+                                    className="text-sm font-medium"
                                     htmlFor="title"
                                 >
                                     Judul
@@ -228,7 +228,7 @@ export default function EditForum({ id }) {
                             </div>
                             <div className="flex flex-col space-y-2">
                                 <Label
-                                    className="text-sm md:text-base font-medium"
+                                    className="text-sm font-medium"
                                     htmlFor="content"
                                 >
                                     Konten

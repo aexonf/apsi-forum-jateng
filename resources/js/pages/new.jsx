@@ -168,7 +168,7 @@ export default function CreateForum() {
                         >
                             <div className="flex flex-col space-y-2">
                                 <Label
-                                    className="text-sm md:text-base font-medium"
+                                    className="text-sm font-medium"
                                     htmlFor="title"
                                 >
                                     Judul
@@ -179,7 +179,7 @@ export default function CreateForum() {
                                     {...register("title")}
                                     value={watch("title")}
                                     className={cn(
-                                        "text-sm md:text-base ",
+                                        "text-sm ",
                                         errors.title
                                             ? "border-destructive focus-visible:outline-destructive focus-visible:ring-destructive"
                                             : ""
@@ -193,7 +193,7 @@ export default function CreateForum() {
                             </div>
                             <div className="flex flex-col space-y-2">
                                 <Label
-                                    className="text-sm md:text-base font-medium"
+                                    className="text-sm font-medium"
                                     htmlFor="content"
                                 >
                                     Konten

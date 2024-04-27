@@ -182,7 +182,7 @@ export default function Home() {
                                                             </div>
                                                         </div>
                                                     </Link>
-                                                    <div className="hidden group-hover:flex items-start gap-2">
+                                                    <div className=" items-start gap-2">
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"

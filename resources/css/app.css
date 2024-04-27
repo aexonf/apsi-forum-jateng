@@ -65,4 +65,8 @@
         @apply bg-background text-foreground;
         @apply bg-gray-50;
     }
+
+    .editorClassName {
+        padding: 0 8px;
+    }
 }
