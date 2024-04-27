@@ -101,8 +101,8 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="flex items-center justify-between gap-3 my-4">
-                <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+            <div className="flex items-center justify-between gap-3 mt-2 mb-4">
+                <h3 className="scroll-m-20 text-xl md:text-2xl font-semibold ">
                     Publikasi
                 </h3>
 
@@ -143,15 +143,15 @@ export default function Home() {
                             )}
                         >
                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-lg">
+                                <CardHeader className="p-4">
+                                    <CardTitle className="text-sm md:text-base">
                                         {i + 1}. {item.title}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardFooter className="w-full justify-end">
                                     <div className="flex items-center text-primary">
                                         <ArrowDownToLine className="size-5" />
-                                        <span className="text-sm ml-1">
+                                        <span className="text-xs md:text-sm ml-1">
                                             {item.download_count}
                                         </span>
                                     </div>

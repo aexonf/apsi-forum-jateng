@@ -59,7 +59,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="flex items-center justify-between gap-3 my-4">
+            <div className="flex items-center justify-between gap-3 mt-2 mb-4">
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                     Forum
                 </h3>
@@ -121,7 +121,7 @@ export default function Home() {
                 {data.length > 0 ? (
                     data.map((item) => (
                         <Link key={item.id} href={`/post/${item.id}`}>
-                            <Card className="w-full mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden group">
+                            <Card className="w-full mx-auto bg-white rounded-xl shadow-sm overflow-hidden group">
                                 <div className="md:flex">
                                     <div className="md:flex-shrink-0">
                                         <span className="object-cover md:w-48 rounded-md bg-muted w-[192px] h-[192px]" />
@@ -141,7 +141,7 @@ export default function Home() {
                                                     <AvatarFallback></AvatarFallback>
                                                 </Avatar>
                                                 <div className="ml-2">
-                                                    <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
+                                                    <div className="text-sm  dark:text-white font-medium">
                                                         {item?.supervisor?.name}
                                                     </div>
                                                     <div className="text-gray-400 dark:text-gray-300 text-xs">
@@ -155,28 +155,29 @@ export default function Home() {
                                         </div>
                                         <div className="my-4 max-h-64 overflow-hidden">
                                             <div
+                                                className="text-xs md:text-sm"
                                                 dangerouslySetInnerHTML={{
                                                     __html: item.content,
                                                 }}
                                             />
                                         </div>
                                         <div className="flex mt-6 justify-between items-center">
-                                            <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
+                                            <div className="flex space-x-2 text-gray-400 dark:text-gray-300">
                                                 <div className="flex items-center text-red-500">
                                                     <Eye className="size-5" />
-                                                    <span className="text-sm ml-1">
+                                                    <span className="text-xs md:text-sm ml-1">
                                                         {item.view_count}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-green-500">
                                                     <Heart className="size-5" />
-                                                    <span className="text-sm ml-1">
+                                                    <span className="text-xs md:text-sm ml-1">
                                                         {item.like_count}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-blue-500">
                                                     <MessageSquare className="size-5" />
-                                                    <span className="text-sm ml-1">
+                                                    <span className="text-xs md:text-sm ml-1">
                                                         {item.comment_count}
                                                     </span>
                                                 </div>

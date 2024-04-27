@@ -189,7 +189,7 @@ export default function Detail({ id }) {
                 <Error />
             ) : (
                 <>
-                    <div className="flex items-center justify-between gap-3 my-4">
+                    <div className="flex items-center justify-between gap-3 mt-2 mb-4">
                         <Button variant="ghost" size="icon" asChild>
                             <Link href="/">
                                 <ChevronLeft />
@@ -231,7 +231,7 @@ export default function Detail({ id }) {
                                                         <AvatarFallback></AvatarFallback>
                                                     </Avatar>
                                                     <div className="ml-2">
-                                                        <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
+                                                        <div className="text-sm text-black dark:text-white font-semibold">
                                                             {
                                                                 data?.supervisor
                                                                     ?.name
@@ -263,13 +263,13 @@ export default function Detail({ id }) {
                                         </div>
                                     )}
                                     <div className="flex mt-6 justify-between items-center">
-                                        <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
+                                        <div className="flex space-x-2 text-gray-400 dark:text-gray-300">
                                             <div className="flex items-center text-red-500">
                                                 <Eye className="size-5" />
                                                 {loading ? (
                                                     <Skeleton className="size-4 ml-1" />
                                                 ) : (
-                                                    <span className="text-sm ml-1">
+                                                    <span className="text-xs md:text-sm ml-1">
                                                         {data?.view_count}
                                                     </span>
                                                 )}
@@ -335,7 +335,7 @@ export default function Detail({ id }) {
                                                 onSubmit={handleSubmit(submit)}
                                             >
                                                 <div className="w-full flex items-start justify-between mb-4">
-                                                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                                                    <h3 className="scroll-m-20 text-base md:text-xl font-semibold tracking-tight">
                                                         Tanggapan
                                                     </h3>
                                                     <Button
@@ -402,7 +402,7 @@ export default function Detail({ id }) {
                                                         </Avatar>
                                                         <div className="ml-4 flex justify-between items-center w-full">
                                                             <div>
-                                                                <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
+                                                                <div className="text-sm text-black dark:text-white font-semibold">
                                                                     {
                                                                         item
                                                                             ?.supervisors

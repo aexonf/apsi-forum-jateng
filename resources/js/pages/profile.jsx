@@ -99,8 +99,8 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="flex items-center justify-between gap-3 my-4">
-                <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+            <div className="flex items-center justify-between gap-3 mt-2 mb-4">
+                <h3 className="scroll-m-20 text-xl md:text-2xl font-semibold ">
                     Profil
                 </h3>
                 {isEditing ? (
@@ -118,13 +118,13 @@ export default function Home() {
             </div>
             <div className="w-full">
                 {isEditing ? (
-                    <Card>
-                        <CardHeader />
-                        <CardContent className="space-y-4">
+                    <Card className="p-0">
+                        <CardHeader className="py-2" />
+                        <CardContent className="space-y-4 px-4">
                             <div className="flex items-center justify-center gap-4">
                                 <div className="relative">
                                     {imagePreview ? (
-                                        <Avatar className="size-40">
+                                        <Avatar className="size-32 md:size-40">
                                             <AvatarImage
                                                 alt="profile"
                                                 src={imagePreview}
@@ -133,7 +133,7 @@ export default function Home() {
                                         </Avatar>
                                     ) : profile?.img_url ? (
                                         <Avatar
-                                            className="size-40"
+                                            className="size-32 md:size-40"
                                             onClick={handleUploadClick}
                                         >
                                             <AvatarImage
@@ -144,7 +144,7 @@ export default function Home() {
                                         </Avatar>
                                     ) : (
                                         <Avatar
-                                            className="size-40"
+                                            className="size-32 md:size-40"
                                             onClick={handleUploadClick}
                                         >
                                             <AvatarImage
@@ -173,7 +173,7 @@ export default function Home() {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="absolute right-0 bottom-0"
+                                        className="absolute right-0 bottom-0 bg-white rounded-full border-2 border-primary"
                                         onClick={handleUploadClick}
                                     >
                                         <Pen className="text-primary" />
@@ -232,12 +232,12 @@ export default function Home() {
                         <CardFooter></CardFooter>
                     </Card>
                 ) : (
-                    <Card>
-                        <CardHeader>
+                    <Card className="p-0">
+                        <CardHeader className="py-2">
                             <div className="flex justify-end w-full"></div>
                         </CardHeader>
 
-                        <CardContent className="flex justify-center items-center flex-col">
+                        <CardContent className="!p-0 flex justify-center items-center flex-col">
                             <div className="relative flex">
                                 {loading ? (
                                     <Skeleton className="rounded-full size-40" />
@@ -248,21 +248,21 @@ export default function Home() {
                                                 src={imagePreview}
                                                 alt="preview"
                                                 id="preview"
-                                                className="size-40 bg-muted rounded-full object-cover"
+                                                className="size-28 md:size-40 bg-muted rounded-full object-cover"
                                             />
                                         ) : profile?.img_url ? (
                                             <img
                                                 src={`/storage/${profile?.img_url}`}
                                                 alt="profile"
                                                 id="preview"
-                                                className="size-40 bg-muted rounded-full"
+                                                className="size-28 md:size-40 bg-muted rounded-full"
                                             />
                                         ) : (
                                             <img
                                                 src={"/img/avatar/avatar-4.png"}
                                                 alt="profile"
                                                 id="preview"
-                                                className="size-40 bg-muted rounded-full"
+                                                className="size-28 md:size-40 bg-muted rounded-full"
                                             />
                                         )}
                                     </>
@@ -277,74 +277,74 @@ export default function Home() {
                         </CardContent>
 
                         <CardFooter className="flex-col items-start">
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     Nama
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.name}
                                     </h4>
                                 )}
                             </div>
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     Label
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h5 className="scroll-m-20 text-lg font-semibold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.label}
-                                    </h5>
+                                    </h4>
                                 )}
                             </div>
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     NIP
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.id_number}
                                     </h4>
                                 )}
                             </div>
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     Email
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.email}
                                     </h4>
                                 )}
                             </div>
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     No. HP
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.phone_number}
                                     </h4>
                                 )}
                             </div>
-                            <div className="my-2">
-                                <h4 className="scroll-m-20 text-xl tracking-tight">
+                            <div className="mb-2">
+                                <h4 className="scroll-m-20 text-sm md:text-base">
                                     Tingkat
                                 </h4>
                                 {loading ? (
                                     <Skeleton className="h-5 w-[250px]" />
                                 ) : (
-                                    <h4 className="scroll-m-20 text-xl font-bold tracking-tight">
+                                    <h4 className="scroll-m-20 text-base md:text-lg font-medium ">
                                         {profile?.level}
                                     </h4>
                                 )}
@@ -354,12 +354,12 @@ export default function Home() {
                 )}
             </div>
             <Button
-                className="w-full my-4 gap-4"
+                className="w-full my-4 gap-2"
                 variant="destructive"
                 size="lg"
             >
-                <LogOut className="size-5" strokeWidth={3} />
-                <span className="font-semibold">Keluar</span>
+                <LogOut className="size-5" color="#FFFFFF" strokeWidth={3} />
+                <span className="font-semibold text-white">Keluar</span>
             </Button>
         </Layout>
     );

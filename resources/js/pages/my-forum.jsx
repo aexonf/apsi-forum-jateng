@@ -71,7 +71,7 @@ export default function Home() {
                 <Error />
             ) : (
                 <>
-                    <div className="flex items-center justify-between gap-3 my-4">
+                    <div className="flex items-center justify-between gap-3 mt-2 mb-4">
                         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                             Forum
                         </h3>
@@ -166,7 +166,7 @@ export default function Home() {
                                                             <AvatarFallback></AvatarFallback>
                                                         </Avatar>
                                                         <div className="ml-2">
-                                                            <div className="tracking-wide text-sm text-black dark:text-white font-semibold">
+                                                            <div className="text-sm text-black dark:text-white font-medium">
                                                                 {
                                                                     item
                                                                         ?.supervisor
@@ -217,6 +217,7 @@ export default function Home() {
                                                         href={`/post/${item.id}`}
                                                     >
                                                         <div
+                                                            className="text-xs md:text-sm"
                                                             dangerouslySetInnerHTML={{
                                                                 __html: item.content,
                                                             }}
@@ -241,10 +242,10 @@ export default function Home() {
                                                     </Badge>
                                                 )}
                                                 <div className="flex mt-6 justify-between items-center">
-                                                    <div className="flex space-x-4 text-gray-400 dark:text-gray-300">
+                                                    <div className="flex space-x-2 text-gray-400 dark:text-gray-300">
                                                         <div className="flex items-center text-red-500">
                                                             <Eye className="size-5" />
-                                                            <span className="text-sm ml-1">
+                                                            <span className="text-xs md:text-sm ml-1">
                                                                 {
                                                                     item.view_count
                                                                 }

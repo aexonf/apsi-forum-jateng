@@ -158,35 +158,39 @@ export default function EditForum({ id }) {
 
     return (
         <Layout>
-            <div className="flex items-center justify-between gap-3 my-4">
+            <div className="flex items-center justify-between gap-3 mt-2 mb-4">
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="/">
                         <ChevronLeft />
                     </Link>
                 </Button>
-                <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                <h3 className="scroll-m-20 text-xl -ml-12 md:text-2xl font-semibold tracking-tight">
                     Ubah Forum
                 </h3>
                 <span></span>
             </div>
             <div className="w-full flex flex-col gap-y-4">
-                <Card className="w-full bg-white p-4 rounded-lg shadow-md">
-                    <CardContent>
-                        <div className="flex items-center space-x-4 my-4">
+                <Card className="w-full bg-white rounded-lg shadow-md p-0">
+                    <CardContent className="p-4">
+                        <div className="flex items-start mb-4">
                             <Avatar>
                                 {dataProfile?.img_url && (
                                     <AvatarImage
                                         alt="User profile picture"
-                                        src={`/storage/${dataProfile?.img_url}`}
+                                        src={
+                                            dataProfile?.img_url
+                                                ? `/storage/${dataProfile?.img_url}`
+                                                : "/img/avatar/avatar-4.png"
+                                        }
                                     />
                                 )}
                                 <AvatarFallback></AvatarFallback>
                             </Avatar>
-                            <div>
-                                <div className="font-semibold text-lg">
+                            <div className="ml-2">
+                                <div className="text-sm  dark:text-white font-medium">
                                     {dataProfile?.name}
                                 </div>
-                                <div className="text-gray-500">
+                                <div className="text-gray-400 dark:text-gray-300 text-xs">
                                     {dataProfile?.label}
                                 </div>
                             </div>
@@ -196,7 +200,12 @@ export default function EditForum({ id }) {
                             onSubmit={handleSubmit(submit)}
                         >
                             <div className="flex flex-col space-y-2">
-                                <Label htmlFor="title">Judul</Label>
+                                <Label
+                                    className="text-sm md:text-base font-medium"
+                                    htmlFor="title"
+                                >
+                                    Judul
+                                </Label>
                                 <Input
                                     id="title"
                                     disabled={loading}
@@ -218,7 +227,12 @@ export default function EditForum({ id }) {
                                 )}
                             </div>
                             <div className="flex flex-col space-y-2">
-                                <Label htmlFor="content">Konten</Label>
+                                <Label
+                                    className="text-sm md:text-base font-medium"
+                                    htmlFor="content"
+                                >
+                                    Konten
+                                </Label>
                                 <div className="bg-muted">
                                     <Editor
                                         disabled={loading}

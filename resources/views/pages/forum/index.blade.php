@@ -96,8 +96,7 @@
                                             <td>
                                                 <div class="d-flex items-center">
                                                     <a href="{{ route('admin.forum.detail', $forum->id) }}"
-                                                        class="text-decoration-none"><i
-                                                            class="fas fa-info-circle fa-lg"></i></a>
+                                                        class="btn btn-info ml-2">Lihat</a>
                                                 </div>
                                             </td>
                                         </tr>

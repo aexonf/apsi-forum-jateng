@@ -64,7 +64,7 @@ export default function Header() {
         <nav className="w-full fixed bg-white shadow z-40">
             <div className="container mx-auto max-w-3xl px-4 py-2">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2">
                         <div>
                             <img
                                 src="/img/apsi.png"
@@ -72,13 +72,10 @@ export default function Header() {
                                 className="h-6 md:h-8"
                             />
                         </div>
-                        <Link
-                            href="/"
-                            className="scroll-m-20 text-xl font-bold tracking-tight"
-                        >
+                        <h2 className="scroll-m-20 text-xl font-bold tracking-tight">
                             APSI
-                        </Link>
-                    </div>
+                        </h2>
+                    </Link>
                     {token && data ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -117,14 +114,14 @@ export default function Header() {
                                     </div>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuGroup>
-                                    <DropdownMenuItem asChild>
+                                <DropdownMenuGroup className="py-1">
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/profile">Profil</Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/publikasi">Publikasi</Link>
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
@@ -165,7 +162,9 @@ export default function Header() {
                                         className="flex items-center gap-x-2"
                                     >
                                         <Avatar>
-                                            <AvatarImage src="" />
+                                            <AvatarImage
+                                                src={"/img/avatar/avatar-4.png"}
+                                            />
                                             <AvatarFallback></AvatarFallback>
                                         </Avatar>
                                         <div>
@@ -179,14 +178,14 @@ export default function Header() {
                                     </Link>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuGroup>
-                                    <DropdownMenuItem asChild>
+                                <DropdownMenuGroup className="py-1">
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/login">Masuk</Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/">Forum</Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
+                                    <DropdownMenuItem asChild className="py-1">
                                         <Link href="/publikasi">Publikasi</Link>
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
