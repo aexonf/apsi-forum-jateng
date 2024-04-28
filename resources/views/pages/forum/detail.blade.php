@@ -53,7 +53,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <textarea type="text" class="form-control" id="content" readonly><?php echo htmlspecialchars_decode($data->content); ?></textarea>
+                                    <div>
+                                        {!! htmlspecialchars_decode($data->content) !!}
+                                    </div>
                                 </div>
                             </div>
 
