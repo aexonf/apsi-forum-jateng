@@ -21,7 +21,7 @@ class DiscussionCommentController extends Controller
             if ($likedComment) {
                 $comment["comment_like"] = true;
             } else {
-                $comment["commnet_like"] = false;
+                $comment["comment_like"] = false;
             }
         }
 
