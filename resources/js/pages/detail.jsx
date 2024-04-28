@@ -49,7 +49,7 @@ export default function Detail({ id }) {
                 },
             });
             setComment(response.data.data);
-            setLikedComment(response.data?.commentLike);
+            setLikedComment(response.data?.comments);
             setUser(response.data.user);
         } catch (e) {
             if (e.response.status == 500) {
@@ -79,6 +79,7 @@ export default function Detail({ id }) {
             }
         }
     }
+
     useEffect(() => {
         getComment();
         fetchForum();
@@ -409,7 +410,7 @@ export default function Detail({ id }) {
                                                                             ?.name
                                                                     }
                                                                 </div>
-                                                                <div className="text-gray-400 dark:text-gray-300">
+                                                                <div className="text-gray-400 text-sm dark:text-gray-300">
                                                                     {
                                                                         item
                                                                             ?.supervisors
@@ -433,47 +434,11 @@ export default function Detail({ id }) {
                                                             );
                                                         }}
                                                     >
-                                                        {Array.isArray(
-                                                            likedComment
-                                                        ) &&
-                                                            likedComment?.map(
-                                                                (lc) =>
-                                                                    lc
-                                                                        .filter(
-                                                                            (
-                                                                                itm,
-                                                                                i
-                                                                            ) => {
-                                                                                return (
-                                                                                    itm?.supervisor_id ===
-                                                                                        user?.id &&
-                                                                                    itm?.discussion_comments_id ===
-                                                                                        item?.id
-                                                                                );
-                                                                            }
-                                                                        )
-                                                                        .map(
-                                                                            (
-                                                                                filteredItem,
-                                                                                i
-                                                                            ) =>
-                                                                                filteredItem ? (
-                                                                                    <HeartIcon
-                                                                                        className="w-4 h-4 stroke-destructive fill-destructive"
-                                                                                        key={
-                                                                                            i
-                                                                                        }
-                                                                                    />
-                                                                                ) : (
-                                                                                    <HeartIcon
-                                                                                        className="w-4 h-4 stroke-destructive"
-                                                                                        key={
-                                                                                            i
-                                                                                        }
-                                                                                    />
-                                                                                )
-                                                                        )
-                                                            )}
+                                                        {item?.comment_like ? (
+                                                            <HeartIcon className="w-4 h-4 stroke-destructive fill-destructive" />
+                                                        ) : (
+                                                            <HeartIcon className="w-4 h-4 stroke-destructive" />
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <Separator className="my-4" />
