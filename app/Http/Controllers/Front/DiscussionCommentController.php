@@ -136,7 +136,8 @@ class DiscussionCommentController extends Controller
                     return response()->json([
                         "status" => "success",
                         "message" => "Discussion comment liked successfully",
-                        "data" => $discussionLike
+                        "data" => $discussionLike,
+                        "like_discussion" => true
                     ], 200);
                 }
             }
