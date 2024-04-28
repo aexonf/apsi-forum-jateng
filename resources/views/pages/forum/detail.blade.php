@@ -30,13 +30,13 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Informasi Forum</h2>
+                        <h4>Informasi Forum</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="title">Title</label>
+                                    <label for="title">Judul</label>
                                     <input type="text" class="form-control" id="title" value="{{ $data->title }}"
                                         readonly>
                                 </div>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="content">Content</label>
+                                    <label for="content">Konten</label>
                                     <div>
                                         {!! htmlspecialchars_decode($data->content) !!}
                                     </div>
@@ -84,7 +84,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h2>List Komentar</h2>
+                        <h4>List Komentar</h4>
                     </div>
                     <div class="card-body">
                         <div>
@@ -94,7 +94,7 @@
                                         <th class="text-center" style="width: 80px;">#</th>
                                         <th>Tanggal</th>
                                         <th>Pengawas</th>
-                                        <th>Content</th>
+                                        <th>Konten</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -177,7 +177,7 @@
                             <input id="suppervisor" class="form-control" name="suppervisor" readonly>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="content">Content</label>
+                            <label for="content">Konten</label>
                             <textarea id="content" class="form-control" name="content" readonly></textarea>
                         </div>
                         <div class="form-group mb-2">

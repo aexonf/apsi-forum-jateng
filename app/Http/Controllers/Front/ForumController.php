@@ -27,11 +27,17 @@ class ForumController extends Controller
             }
 
             foreach ($discussion as $value) {
-                $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
+                $supervisor = auth()->guard("sanctum")->user()->supervisor;
+                $like = LikeDiscussions::where("discussions_id", $value->id)->where("supervisor_id", $supervisor->id)->get()->first();
                 $commentCount = DiscussionComments::where("discussion_id", $value->id)->count();
 
-                $value->like_count = $likeCount;
+                $value->like_count = $like ? $like->count() : 0;
                 $value->comment_count = $commentCount;
+                if ($like) {
+                    $value->like_discussion = true;
+                } else {
+                    $value->like_discussion = false;
+                }
             }
 
             // $likeDiscussion = LikeDiscussions::where("supervisor_id", $supervisors->id)->get();
@@ -42,8 +48,6 @@ class ForumController extends Controller
                 "data" => $discussion,
                 // "likeDiscussion" => $likeDiscussion
             ], 200);
-
-
         } catch (\Throwable $th) {
             // Return error response if an exception occurred during discussion retrieval
             return response()->json([

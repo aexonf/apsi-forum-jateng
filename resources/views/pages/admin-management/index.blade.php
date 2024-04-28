@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'Dashboard - Admin Management')
+@section('title', 'Dashboard - Daftar Admin')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -12,7 +12,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Admin Management</h1>
+                <h1>Daftar Admin</h1>
             </div>
 
             @if (session('success') || session('error'))

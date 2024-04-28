@@ -1,6 +1,6 @@
 @extends('components.elements.app')
 
-@section('title', 'Simaku Admin - Pengawas')
+@section('title', 'APSI Admin - Pengawas')
 
 @push('style')
     <!-- CSS Libraries -->
