@@ -170,7 +170,11 @@ export default function Home() {
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center text-green-500">
-                                                    <Heart className="size-5" />
+                                                    {item.like_discussion ? (
+                                                        <Heart className="size-5 fill-destructive stroke-destructive" />
+                                                    ) : (
+                                                        <Heart className="size-5" />
+                                                    )}
                                                     <span className="text-xs md:text-sm ml-1">
                                                         {item.like_count}
                                                     </span>

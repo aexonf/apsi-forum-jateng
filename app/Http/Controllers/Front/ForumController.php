@@ -351,9 +351,15 @@ class ForumController extends Controller
             foreach ($discussion as $value) {
                 $likeCount = LikeDiscussions::where("discussions_id", $value->id)->count();
                 $commentCount = DiscussionComments::where("discussion_id", $value->id)->count();
+                $like = LikeDiscussions::where("discussions_id", $value->id)->where("supervisor_id", $user->id)->get()->first();
 
                 $value->like_count = $likeCount;
                 $value->comment_count = $commentCount;
+                if ($like) {
+                    $value->like_discussion = true;
+                } else {
+                    $value->like_discussion = false;
+                }
             }
 
             // Check if discussion exists
